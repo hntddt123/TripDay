@@ -9,3 +9,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;;
 }
+
+@layer components {
+  .button {
+    align-content: center;
+    border-radius: theme('borderRadius.lg');
+    border-width: theme('borderWidth.2');
+    padding: theme('spacing.6');
+    box-shadow: theme('boxShadow.sm');
+  }
+}
