@@ -1,20 +1,30 @@
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <div>
+    <BrowserRouter>
       <header className='text-3xl font-bold'>
-        <p>
-          TripDay
-        </p>
-        <button type='button'>
-          Start New Adventure
-        </button>
-        <button type='button'>
-          View Memories
-        </button>
+        TripDay
       </header>
-    </div>
+      <div>
+        <div>
+          <button type='button'>
+            Start New Adventure
+          </button>
+        </div>
+        <div>
+          <button type='button'>
+            View Memories
+          </button>
+        </div>
+      </div>
+      <Routes>
+        <Route
+          path='/tripboard'
+          element={<div>tripboard</div>}
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
