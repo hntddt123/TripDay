@@ -19,10 +19,10 @@ jobs:
       - run: npm install
       - run: npm run test
       - run: npm run build --if-present
-      - name: Deploy dev to Heroku
-        uses: akhileshns/heroku-deploy@v3.12.12
-        with:
-          # args: deploy --dir=build --prod
-          heroku_api_key: ${{ secrets.HEROKU_TRIP_DAY_API_KEY }}
-          heroku_app_name: 'trip-day-dev'
-          heroku_email: 'nientaiho@gmail.com'
+      # - name: Deploy dev to Heroku
+      #   uses: akhileshns/heroku-deploy@v3.12.12
+      #   with:
+      #     args: deploy --dir=build --prod
+      #     heroku_api_key: ${{ secrets.HEROKU_TRIP_DAY_API_KEY }}
+      #     heroku_app_name: 'trip-day-dev'
+      #     heroku_email: 'nientaiho@gmail.com'
