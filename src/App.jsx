@@ -1,5 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+import Trip from './components/Trip';
+import NewAdventureButton from './components/NewAdventureButton';
+
 function App() {
   return (
     <BrowserRouter>
@@ -11,14 +14,7 @@ function App() {
           path='/'
           element={(
             <div className='grid grid-cols-1 justify-items-center'>
-              <div>
-                <button
-                  type='button'
-                  className='button text-3xl mt-3 bg-amber-300 hover:bg-amber-400'
-                >
-                  New Adventure
-                </button>
-              </div>
+              <NewAdventureButton />
               <div>
                 <button
                   type='button'
@@ -32,7 +28,11 @@ function App() {
         />
         <Route
           path='/tripboard'
-          element={<div>tripboard</div>}
+          element={<Trip />}
+        />
+        <Route
+          path='*'
+          element={<div><h2 className='text-4xl'>Trip not found</h2></div>}
         />
       </Routes>
     </BrowserRouter>
