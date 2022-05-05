@@ -34,6 +34,8 @@ module.exports = {
     'no-return-assign': 'warn',
     'no-unused-vars': 'warn',
     'no-param-reassign': 'warn',
+    'padded-blocks': 'warn',
+    'no-multiple-empty-lines': 'warn',
     'max-len': ['warn', { code: 150 }],
     'jsx-quotes': ['error', 'prefer-single'],
     'react/jsx-filename-extension': 'off',
