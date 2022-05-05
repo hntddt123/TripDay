@@ -1,6 +1,4 @@
 function Trip() {
-
-
   return (
     <div>
       Trips UI Here
