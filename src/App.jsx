@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Trip from './components/Trip';
+import TripBoard from './components/TripBoard';
 import NewAdventureButton from './components/NewAdventureButton';
 
 function App() {
   return (
     <BrowserRouter>
-      <header className='text-5xl text-center mt-5 mb-5 text-amber-400'>
+      <header className='text-4xl text-center mb-5 p-2 bg-amber-400'>
         TripDay
       </header>
       <Routes>
@@ -18,7 +18,7 @@ function App() {
               <div>
                 <button
                   type='button'
-                  className='button text-3xl mt-3 bg-amber-300 hover:bg-amber-400'
+                  className='button text-3xl mt-3'
                 >
                   View Memories
                 </button>
@@ -28,7 +28,7 @@ function App() {
         />
         <Route
           path='/tripboard'
-          element={<Trip />}
+          element={<TripBoard />}
         />
         <Route
           path='*'

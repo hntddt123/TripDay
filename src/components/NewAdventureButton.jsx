@@ -13,7 +13,7 @@ function NewAdventureButton() {
     <div>
       <button
         type='button'
-        className='button text-3xl mt-3 bg-amber-300 hover:bg-amber-400'
+        className='button text-3xl mt-3'
         onClick={newAdventureHandler}
       >
         New Adventure
