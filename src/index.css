@@ -7,7 +7,7 @@ body {
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @layer components {
@@ -16,6 +16,24 @@ body {
     border-radius: theme('borderRadius.lg');
     border-width: theme('borderWidth.2');
     padding: theme('spacing.6');
+    box-shadow: theme('boxShadow.sm');
+    background-color: theme('backgroundColor.amber.300');
+  }
+
+  .button:hover {
+    align-content: center;
+    border-radius: theme('borderRadius.lg');
+    border-width: theme('borderWidth.2');
+    padding: theme('spacing.6');
+    box-shadow: theme('boxShadow.sm');
+    background-color: theme('backgroundColor.amber.400');
+  }
+
+  .card {
+    margin: theme('spacing.4');
+    border-radius: theme('borderRadius.lg');
+    border-width: theme('borderWidth.2');
+    padding: theme('spacing.8');
     box-shadow: theme('boxShadow.sm');
   }
 }
