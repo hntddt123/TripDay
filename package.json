@@ -2,6 +2,9 @@
   "name": "trip-day-client",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=12"
+  },
   "dependencies": {
     "@babel/eslint-parser": "^7.17.0",
     "@testing-library/jest-dom": "^5.16.4",
