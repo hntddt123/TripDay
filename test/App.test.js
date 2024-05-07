@@ -5,8 +5,8 @@ test('Canary Test', () => {
   expect(1).toBe(1);
 });
 
-test('renders learn react link', () => {
+test('renders Trip Day title', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
+  const linkElement = screen.getByText(/TripDay/i);
   expect(linkElement).toBeInTheDocument();
 });

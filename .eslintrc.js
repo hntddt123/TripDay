@@ -2,19 +2,24 @@ module.exports = {
   env: {
     browser: true,
     es6: true,
+    jest: true
   },
+  extends: [
+    'plugin:react/recommended',
+    'airbnb'
+  ],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
-  parser: "@babel/eslint-parser",
+  parser: '@babel/eslint-parser',
   parserOptions: {
     ecmaFeatures: {
-      jsx: true,
+      jsx: true
     },
     ecmaVersion: 2018,
-    "sourceType": "module",
-    "allowImportExportEverywhere": true
+    sourceType: 'module',
+    allowImportExportEverywhere: true
   },
   rules: {
     'import/prefer-default-export': 'off',
@@ -29,7 +34,14 @@ module.exports = {
     'no-return-assign': 'warn',
     'no-unused-vars': 'warn',
     'no-param-reassign': 'warn',
+    'padded-blocks': 'warn',
+    'no-multiple-empty-lines': 'warn',
     'max-len': ['warn', { code: 150 }],
-    'jsx-quotes': ['error', 'prefer-single']
+    'jsx-quotes': ['error', 'prefer-single'],
+    'react/jsx-filename-extension': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    'react/jsx-boolean-value': 'error',
+    'react/jsx-uses-react': 'off',
+    'react/react-in-jsx-scope': 'off'
   }
 };
