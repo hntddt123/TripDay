@@ -1,12 +1,12 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function NewAdventureButton() {
+function NewBarcodeButton() {
   const navigate = useNavigate();
 
-  const newAdventureHandler = useCallback(() => {
-    navigate('/tripboard');
-    // navigate(`/trip/${trip.id}`);
+  const newBarcodeHandler = useCallback(() => {
+    navigate('/barcodes');
+    // navigate(`/barcode/${barcode.id}`);
   });
 
   return (
@@ -14,12 +14,12 @@ function NewAdventureButton() {
       <button
         type='button'
         className='button text-3xl mt-3'
-        onClick={newAdventureHandler}
+        onClick={newBarcodeHandler}
       >
-        New Adventure
+        New Barcodes
       </button>
     </div>
   );
 }
 
-export default NewAdventureButton;
+export default NewBarcodeButton;
