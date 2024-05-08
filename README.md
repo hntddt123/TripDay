@@ -1,11 +1,16 @@
-# TripDay setup
+# GS1 Barcode Generator Project
+This is the project to convert GS1 barcode from 1D format to 2D QR Code format
 
-Install node modules
+# Frontend setup
+
+Install node modules and run this project
 ```
+cd GS1BarcodeGeneratorFrontend
 npm i
 ```
 
-TripDay project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## React Stuff
+GS1 Barcode Generator Frontend project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
@@ -16,7 +21,7 @@ In the project directory, you can run:
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-```npm test```
+```npm run test```
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
