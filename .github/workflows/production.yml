@@ -8,6 +8,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./GS1BarcodeGeneratorFrontend
     steps:
       - name: Checkout code
         uses: actions/checkout@v2

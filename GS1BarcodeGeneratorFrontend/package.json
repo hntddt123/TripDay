@@ -1,9 +1,9 @@
 {
-  "name": "trip-day-client",
+  "name": "gs1-barcode-generator-frontend",
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": ">=12"
+    "node": ">=18"
   },
   "dependencies": {
     "@babel/eslint-parser": "^7.24.1",
