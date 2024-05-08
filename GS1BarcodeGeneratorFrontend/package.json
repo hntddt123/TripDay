@@ -1,12 +1,13 @@
 {
-  "name": "trip-day-client",
+  "name": "gs1-barcode-generator-frontend",
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": ">=12"
+    "node": ">=18"
   },
   "dependencies": {
     "@babel/eslint-parser": "^7.17.0",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^14.1.1",
