@@ -29,7 +29,7 @@
     "dev": "vite",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "test:watch": "jest --watch",
+    "test:watch": "jest --watchAll",
     "eject": "react-scripts eject",
     "lint": "eslint \"**/*.js\""
   },
