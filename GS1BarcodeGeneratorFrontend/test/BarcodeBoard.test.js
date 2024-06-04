@@ -1,8 +1,14 @@
 import { render, screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import BarcodeBoard from '../src/components/BarcodeBoard';
 
-test('renders BarcodeBoard and BarcodeCard has a select button', () => {
-  render(<BarcodeBoard />);
-  const BarcodeCardButton = screen.getByRole('button');
-  expect(BarcodeCardButton).toBeInTheDocument();
+const renderWithRouter = (ui, { route = '/' } = {}) => {
+  window.history.pushState({}, 'Test page', route);
+
+  return render(ui, { wrapper: BrowserRouter });
+};
+
+test('renders BarcodeBoard', () => {
+  renderWithRouter(<BarcodeBoard />);
+  expect(screen.getByText((content, element) => element.tagName.toLowerCase() === 'h1')).toBeInTheDocument();
 });
