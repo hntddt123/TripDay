@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import BarcodeBoard from './components/BarcodeBoard';
-import NewBarcodeButton from './components/NewBarcodeButton';
+import Button from './components/Button';
 
 function App() {
   return (
@@ -13,15 +13,8 @@ function App() {
           path='/'
           element={(
             <div className='grid grid-cols-1 justify-items-center'>
-              <NewBarcodeButton />
-              <div>
-                <button
-                  type='button'
-                  className='button text-3xl mt-3'
-                >
-                  View Barcodes
-                </button>
-              </div>
+              <Button label='New Barcodes' to='/Barcodes' />
+              <Button label='View Barcodes' />
             </div>
           )}
         />
