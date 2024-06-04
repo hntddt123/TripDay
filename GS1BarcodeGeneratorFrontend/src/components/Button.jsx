@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-function Button({ className = '', label, onClick, type, to, ...props }) {
+function Button({ className = 'button text-3xl mt-3', label, onClick, type = 'button', to, ...props }) {
   // If 'to' is provided, render a Link, otherwise render a button
   if (to) {
     return (
@@ -17,13 +17,6 @@ function Button({ className = '', label, onClick, type, to, ...props }) {
     </button>
   );
 }
-
-Button.defaultProps = {
-  onClick: () => { },
-  type: 'button',
-  className: 'button text-3xl mt-3',
-  to: ''
-};
 
 Button.propTypes = {
   label: PropTypes.string.isRequired,
