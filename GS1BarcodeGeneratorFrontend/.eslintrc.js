@@ -44,6 +44,7 @@ module.exports = {
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/button-has-type': 'off',
-    'react/require-default-props': 'off'
+    'react/require-default-props': 'off',
+    'default-param-last': 'off'
   }
 };

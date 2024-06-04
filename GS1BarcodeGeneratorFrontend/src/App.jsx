@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import BarcodeBoard from './components/BarcodeBoard';
 import CustomButton from './components/CustomButton';
+import Counter from './components/Counter';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
             <div className='grid grid-cols-1 text-center ml-40 mr-40'>
               <CustomButton label='New Barcode' to='/newbarcode' />
               <CustomButton label='View Barcodes' to='/barcodes' />
+              <Counter />
             </div>
           )}
         />
