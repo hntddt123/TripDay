@@ -5,7 +5,7 @@ const API_KEY = 'live_KClLuXDbZ6YBUVLl9QyMqqpOJmDJKrgNOg7lKTHOti3KBuuN8LX4EAbTyu
 
 interface Breed {
   id: string;
-  name: string;
+  dogName: string;
   image: {
     url: string
   }
