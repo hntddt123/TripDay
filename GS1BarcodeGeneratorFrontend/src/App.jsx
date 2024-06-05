@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import BarcodeBoard from './components/BarcodeBoard';
 import CustomButton from './components/CustomButton';
 import Counter from './components/Counter';
+import BarcodesList from './components/BarcodesList';
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
         />
         <Route
           path='/barcodes'
-          element={<BarcodeBoard label='History Barcodes' />}
+          element={<BarcodeBoard label='History Barcodes' component={<BarcodesList />} />}
         />
         <Route
           path='*'
