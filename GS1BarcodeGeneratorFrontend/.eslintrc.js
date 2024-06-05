@@ -47,6 +47,7 @@ module.exports = {
     'react/button-has-type': 'off',
     'react/require-default-props': 'off',
     'default-param-last': 'off',
-    'react/jsx-one-expression-per-line': 'off'
+    'react/jsx-one-expression-per-line': 'off',
+    'no-restricted-globals': 'warn'
   }
 };
