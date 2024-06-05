@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { incrementCount, decrementCount } from '../redux/reducers/counterReducer';
+import CustomButton from './CustomButton';
 
 function Counter() {
   const count = useSelector((state) => state.counterReducer.count);
@@ -8,8 +9,8 @@ function Counter() {
   return (
     <div>
       <h1>Count: {count}</h1>
-      <button onClick={() => dispatch(incrementCount(count))}>Increment</button>
-      <button onClick={() => dispatch(decrementCount(count))}>Decrement</button>
+      <CustomButton label='+' onClick={() => dispatch(incrementCount(count))}>Increment</CustomButton>
+      <CustomButton label='-' onClick={() => dispatch(decrementCount(count))}>Decrement</CustomButton>
     </div>
   );
 }

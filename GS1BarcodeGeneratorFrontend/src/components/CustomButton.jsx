@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-function CustomButton({ className = 'grid text-center button text-4xl m-4', label, onClick, type = 'button', to, ...props }) {
+function CustomButton({ className = 'text-center button text-4xl m-4', label, onClick, type = 'button', to, ...props }) {
   // If 'to' is provided, render a Link, otherwise render a button
   if (to) {
     return (
