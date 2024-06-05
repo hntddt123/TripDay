@@ -9,6 +9,9 @@ cd GS1BarcodeGeneratorFrontend
 npm i
 ```
 
+```npm run dev```
+Run with Vite Open [http://localhost:5173](http://localhost:5173)
+
 ## React Stuff
 GS1 Barcode Generator Frontend project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -21,10 +24,15 @@ In the project directory, you can run:
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-```npm run test```
+```npm run test``` 
+```npm run test:coverage```
+```npm run test:watch```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Runs Jest testing suite with options 1 time, coverage report,  watch mode
+
+```npm run lint:watch```
+
+Runs eslint
 
 ```npm run build```
 
