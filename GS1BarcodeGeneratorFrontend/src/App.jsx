@@ -17,7 +17,6 @@ function App() {
             <div className='grid grid-cols-1 text-center container mx-auto'>
               <CustomButton label='New Barcode' to='/newbarcode' />
               <CustomButton label='View Barcodes' to='/barcodes' />
-              <Counter />
             </div>
           )}
         />
