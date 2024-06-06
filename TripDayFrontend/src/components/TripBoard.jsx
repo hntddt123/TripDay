@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import CustomButton from './CustomButton';
 
-function BarcodeBoard({ label, component }) {
+function TripBoard({ label, component }) {
   return (
-    <div className='container card text-left mx-auto border-amber-400'>
+    <div className='container card text-left mx-auto border-lime-200'>
       <div className='grid'>
         <h1 className='text-4xl mb-4'>{label}</h1>
         {component}
@@ -13,9 +13,9 @@ function BarcodeBoard({ label, component }) {
   );
 }
 
-BarcodeBoard.propTypes = {
+TripBoard.propTypes = {
   label: PropTypes.string,
   component: PropTypes.node
 };
 
-export default BarcodeBoard;
+export default TripBoard;

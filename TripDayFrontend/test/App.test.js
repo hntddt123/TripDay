@@ -8,6 +8,6 @@ test('Canary Test', () => {
 
 test('renders QR Code Generator title', () => {
   renderWithRedux(<App />);
-  const linkElement = screen.getByText(/GS1 QR Code Generator/i);
+  const linkElement = screen.getByText(/Trip Day/i);
   expect(linkElement).toBeInTheDocument();
 });

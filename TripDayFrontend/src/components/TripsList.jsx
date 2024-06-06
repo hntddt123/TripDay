@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useFetchBreedsQuery } from '../api/dogsSliceAPI.ts';
 
-function BarcodesList() {
+function TripsList() {
   const [numDogs, setNumDogs] = useState(3);
   const { data = [], isFetching, isError } = useFetchBreedsQuery(numDogs);
 
@@ -38,4 +38,4 @@ function BarcodesList() {
   );
 }
 
-export default BarcodesList;
+export default TripsList;

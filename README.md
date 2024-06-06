@@ -1,11 +1,11 @@
-# GS1 Barcode Generator Project
-This is the project to convert GS1 barcode from 1D format to 2D QR Code format
+# TripDay Project
+This is the project to help myself learning the app development processes
 
 # Frontend setup
 
 Install node modules and run this project
 ```
-cd GS1BarcodeGeneratorFrontend
+cd TripDayFrontend
 npm i
 ```
 
@@ -16,7 +16,7 @@ Run with Vite Open [http://localhost:5173](http://localhost:5173)
 Runs with docker, see Dockerfile and compose.yml in the folder
 
 ## React Stuff
-GS1 Barcode Generator Frontend project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+TripDay Frontend project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 

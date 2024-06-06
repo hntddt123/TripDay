@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import BarcodeBoard from '../src/components/BarcodeBoard';
+import TripBoard from '../src/components/TripBoard';
 
 const renderWithRouter = (ui, { route = '/' } = {}) => {
   window.history.pushState({}, 'Test page', route);
@@ -8,7 +8,7 @@ const renderWithRouter = (ui, { route = '/' } = {}) => {
   return render(ui, { wrapper: BrowserRouter });
 };
 
-test('renders BarcodeBoard', () => {
-  renderWithRouter(<BarcodeBoard />);
+test('renders TripBoard', () => {
+  renderWithRouter(<TripBoard />);
   expect(screen.getByText((content, element) => element.tagName.toLowerCase() === 'h1')).toBeInTheDocument();
 });
