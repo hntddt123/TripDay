@@ -14,7 +14,7 @@ function App() {
         <Route
           path='/'
           element={(
-            <div className='grid grid-cols-1 text-center ml-40 mr-40'>
+            <div className='grid grid-cols-1 text-center container mx-auto'>
               <CustomButton label='New Barcode' to='/newbarcode' />
               <CustomButton label='View Barcodes' to='/barcodes' />
               <Counter />

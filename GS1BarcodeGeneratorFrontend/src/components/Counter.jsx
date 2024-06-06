@@ -8,9 +8,11 @@ function Counter() {
 
   return (
     <div>
-      <h1>Count: {count}</h1>
-      <CustomButton label='+' onClick={() => dispatch(incrementCount(count))}>Increment</CustomButton>
-      <CustomButton label='-' onClick={() => dispatch(decrementCount(count))}>Decrement</CustomButton>
+      <h1 className='text-2xl'>Count: {count}</h1>
+      <div className='grid grid-cols-2'>
+        <CustomButton label='+' onClick={() => dispatch(incrementCount(count))}>Increment</CustomButton>
+        <CustomButton label='-' onClick={() => dispatch(decrementCount(count))}>Decrement</CustomButton>
+      </div>
     </div>
   );
 }

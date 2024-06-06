@@ -28,7 +28,7 @@ function BarcodesList() {
             <tr key={breed.id}>
               <td className='size-1/2'>{breed.name}</td>
               <td className='size-1/2'>
-                <img className='size-1/2' src={breed.image.url} alt={breed.name} />
+                <img className='w-full h-auto rounded size-1/2' src={breed.image.url} alt={breed.name} />
               </td>
             </tr>
           ))}

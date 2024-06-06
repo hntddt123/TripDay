@@ -31,6 +31,7 @@
     "build": "react-scripts build",
     "dev": "vite",
     "test": "jest",
+    "docker": "docker-compose build && docker compose up",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watchAll",
     "eject": "react-scripts eject",
