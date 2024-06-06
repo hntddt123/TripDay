@@ -12,6 +12,9 @@ npm i
 ```npm run dev```
 Run with Vite Open [http://localhost:5173](http://localhost:5173)
 
+```npm run docker```
+Runs with docker, see Dockerfile and compose.yml in the folder
+
 ## React Stuff
 GS1 Barcode Generator Frontend project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
