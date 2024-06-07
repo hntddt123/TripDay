@@ -26,6 +26,8 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 
 # Cache permission
 RUN mkdir -p node_modules/.cache && chmod -R 777 node_modules/.cache
+RUN mkdir -p /usr/src/app/node_modules && chown -R node:node /usr/src/app
+RUN mkdir -p /src/dist && chmod -R 777 /src/dist
 
 # Run the application as a non-root user.
 USER node
@@ -34,8 +36,9 @@ USER node
 COPY . .
 
 # Expose the port that the application listens on.
-EXPOSE 3000
+EXPOSE 5173
 
+RUN  npm run build
 # Run the application.
-CMD [ "npm", "start" ]
+CMD ["npm", "run", "preview"]
 

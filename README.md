@@ -13,32 +13,29 @@ npm i
 
 In the project directory, you can run:
 
-```npm run dev```
+```npm run dev```  
 Runs the app in the development mode with Vite
 
-```npm run preview```
+```npm run preview```  
 Runs the app in the preview production mode with Vite
 
-```npm run docker```
+```npm run docker```  
 Runs with docker, see Dockerfile and compose.yml in the folder
 
 
 ```npm run test``` 
-```npm run test:coverage```
-```npm run test:watch```
-
+```npm run test:coverage```  
+```npm run test:watch```  
 Runs Jest testing suite with options 1 time, coverage report,  watch mode
 
-```npm run lint:watch```
-
+```npm run lint:watch```  
 Runs eslint
 
-```npm run build```
-
-Builds the app for production to the `dist` folder.\
+```npm run build```  
+Builds the app for production to the `dist` folder.  
 Bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
+The build is minified and the filenames include the hashes.  
 
 ## React Stuff
 TripDay Frontend project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

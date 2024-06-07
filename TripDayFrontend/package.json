@@ -32,7 +32,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "jest",
-    "docker": "docker-compose build && docker compose up",
+    "docker": "docker compose up --build",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watchAll",
     "lint": "eslint '**/*.{js,jsx,ts,tsx}'"
