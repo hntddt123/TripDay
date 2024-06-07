@@ -5,8 +5,9 @@ module.exports = {
     jest: true
   },
   extends: [
+    'airbnb',
     'plugin:react/recommended',
-    'airbnb'
+    'plugin:@typescript-eslint/recommended'
   ],
   globals: {
     Atomics: 'readonly',
@@ -37,11 +38,17 @@ module.exports = {
     'padded-blocks': 'warn',
     'no-multiple-empty-lines': 'warn',
     'max-len': ['warn', { code: 150 }],
-    'jsx-quotes': ['error', 'prefer-single'],
+    'jsx-quotes': ['warn', 'prefer-single'],
     'react/jsx-filename-extension': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/jsx-boolean-value': 'error',
     'react/jsx-uses-react': 'off',
-    'react/react-in-jsx-scope': 'off'
+    'react/react-in-jsx-scope': 'off',
+    'react/button-has-type': 'off',
+    'react/require-default-props': 'off',
+    'default-param-last': 'off',
+    'react/jsx-one-expression-per-line': 'off',
+    'no-restricted-globals': 'warn',
+    'prefer-destructuring': 'warn'
   }
 };
