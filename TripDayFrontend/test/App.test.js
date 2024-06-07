@@ -2,6 +2,11 @@ import { screen } from '@testing-library/react';
 import App from '../src/App';
 import { renderWithRedux } from './renderWithRedux';
 
+jest.mock('../src/constants', () => ({
+  API_KEY: ''
+}));
+
+
 test('Canary Test', () => {
   expect(1).toBe(1);
 });

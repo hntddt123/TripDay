@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import fetch from 'isomorphic-fetch';
-
-const API_KEY = import.meta.env.VITE_API_KEY;
+import { API_KEY } from '../constants';
 
 interface Breed {
   id: string;
