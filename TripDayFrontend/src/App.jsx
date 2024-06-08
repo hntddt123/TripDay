@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import TripBoard from './components/TripBoard';
 import TripsList from './components/TripsList';
 import CustomButton from './components/CustomButton';
+import { MODE } from './constants';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <div className='grid grid-cols-1 text-center container mx-auto'>
               <CustomButton label='New Trip' to='/newtrip' />
               <CustomButton label='View Trips' to='/trips' />
+              <p className='text-2xl'>Version: {MODE}</p>
             </div>
           )}
         />
