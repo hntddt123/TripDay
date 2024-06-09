@@ -1,18 +1,24 @@
+import { createSlice } from '@reduxjs/toolkit';
+
 const initialMapState = {
   mapStyle: 'mapbox://styles/mapbox/standard',
   viewState: {
     longitude: 121.432915,
     latitude: 25.1580665,
     zoom: 15
-  }
+  },
+  markers: []
 };
 
-export const mapReducer = (state = initialMapState, action) => {
-  switch (action.type) {
-    case 'setViewState':
-      return { ...state, viewState: action.payload };
-
-    default:
-      return state;
+const mapSlice = createSlice({
+  name: 'map',
+  initialState: initialMapState,
+  reducers: {
+    setViewState: (state, action) => ({ ...state, viewState: action.payload }),
+    addMarker: (state, action) => ({ ...state, markers: action.payload }),
+    removeMarker: (state, action) => ({ ...state, markers: action.payload })
   }
-};
+});
+
+export const { setViewState, addMarker, removeMarker } = mapSlice.actions;
+export const mapReducer = mapSlice.reducer;
