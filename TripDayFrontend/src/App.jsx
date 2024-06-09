@@ -23,11 +23,11 @@ function App() {
         />
         <Route
           path='/newtrip'
-          element={<TripBoard label='Create Trip' />}
+          element={<TripBoard label='Current Adventure' component={<TripsList />} />}
         />
         <Route
           path='/trips'
-          element={<TripBoard label='History Trips' component={<TripsList />} />}
+          element={<TripBoard label='Memories' />}
         />
         <Route
           path='*'

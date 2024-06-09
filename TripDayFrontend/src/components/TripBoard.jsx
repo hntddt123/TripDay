@@ -6,7 +6,9 @@ function TripBoard({ label, component }) {
     <div className='container card text-left mx-auto border-lime-200'>
       <div className='grid'>
         <h1 className='text-4xl mb-4'>{label}</h1>
-        {component}
+        <div>
+          {component}
+        </div>
         <CustomButton label='Back' to='/' />
       </div>
     </div>

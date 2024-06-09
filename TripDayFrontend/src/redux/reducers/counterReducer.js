@@ -4,11 +4,11 @@ import {
   DECREMENT_COUNT
 } from '../actions/counterActionType';
 
-const initialState = {
+const initialCounterState = {
   count: 0,
 };
 
-export const counterReducer = (state = initialState, action) => {
+export const counterReducer = (state = initialCounterState, action) => {
   switch (action.type) {
     case INCREMENT_COUNT:
       return { ...state, count: action.payload.count + 1 };
