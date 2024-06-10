@@ -7,6 +7,7 @@ const initialMapState = {
     latitude: 25.1580665,
     zoom: 15
   },
+  gpsLonLat: { longitude: null, latitude: null },
   markers: []
 };
 
@@ -15,10 +16,10 @@ const mapSlice = createSlice({
   initialState: initialMapState,
   reducers: {
     setViewState: (state, action) => ({ ...state, viewState: action.payload }),
-    addMarker: (state, action) => ({ ...state, markers: action.payload }),
-    removeMarker: (state, action) => ({ ...state, markers: action.payload })
+    setMarker: (state, action) => ({ ...state, markers: [action.payload] }),
+    setCurrentLocation: (state, action) => ({ ...state, gpsLonLat: action.payload }),
   }
 });
 
-export const { setViewState, addMarker, removeMarker } = mapSlice.actions;
+export const { setViewState, setMarker, setCurrentLocation } = mapSlice.actions;
 export const mapReducer = mapSlice.reducer;

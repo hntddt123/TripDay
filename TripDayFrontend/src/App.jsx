@@ -7,7 +7,7 @@ import { MODE } from './constants';
 function App() {
   return (
     <BrowserRouter basename='/'>
-      <header className='text-4xl text-center p-2 bg-lime-400'>
+      <header className='text-4xl text-center font-light p-2 bg-lime-400'>
         Trip Day
       </header>
       <Routes>
