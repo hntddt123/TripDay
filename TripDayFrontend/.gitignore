@@ -13,6 +13,7 @@
 /dist
 
 # misc
+/ssl
 .DS_Store
 .env.development
 .env.production
