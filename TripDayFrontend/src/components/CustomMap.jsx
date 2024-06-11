@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Map, { Marker, FullscreenControl, GeolocateControl, Source, Layer } from 'react-map-gl';
@@ -42,11 +43,10 @@ const createGeoJSONCircle = (center, radiusInMeters, points = 64) => {
 
 const drawRadius = (lng, lat) => createGeoJSONCircle([lng, lat], 500);
 
-export default function MapView() {
+export default function CustomMap({ data }) {
   const mapStyle = useSelector((state) => state.mapReducer.mapStyle);
   const viewState = useSelector((state) => state.mapReducer.viewState);
   const mapMarkers = useSelector((state) => state.mapReducer.markers);
-  const apiMarkers = useSelector((state) => state.markerReducer.markers);
   const dispatch = useDispatch();
 
   const onMove = useCallback((event) => {
@@ -72,7 +72,7 @@ export default function MapView() {
     dispatch(setMarker(newMarker));
   };
 
-  const getClickMakers = () => ((mapMarkers.length > 0) ? mapMarkers.map((marker) => (
+  const getClickMarkers = () => ((mapMarkers.length > 0) ? mapMarkers.map((marker) => (
     <div key={marker.id}>
       <Marker longitude={marker.lng} latitude={marker.lat}>
         <div className='text-4xl'>📍</div>
@@ -94,16 +94,18 @@ export default function MapView() {
     </div>
   )) : null);
 
-  const getProximityMakers = () => ((apiMarkers.length > 0) ? apiMarkers.map((marker) => (
-    <div key={marker.id}>
-      <Marker longitude={marker.lng} latitude={marker.lat}>
-        <div className='text-4xl'>📍</div>
-      </Marker>
-      <Marker longitude={marker.lng} latitude={marker.lat} offset={[0, 30]}>
-        <div className='text-2xl  text-red-600'>{marker.locationName}</div>
-      </Marker>
-    </div>
-  )) : null);
+  const getProximityMarkers = () => (
+    ((data && data.results.length > 0) ? data.results.map((marker) => (
+      <div key={marker.fsq_id}>
+        <Marker longitude={marker.geocodes.main.longitude} latitude={marker.geocodes.main.latitude}>
+          <div className='text-4xl'>📍</div>
+        </Marker>
+        <Marker longitude={marker.geocodes.main.longitude} latitude={marker.geocodes.main.latitude} offset={[0, 30]}>
+          <div className='text-2xl  text-red-600'>{marker.name}</div>
+        </Marker>
+      </div>
+    )) : null)
+  );
 
   return (
     <Map
@@ -117,8 +119,61 @@ export default function MapView() {
     >
       <GeolocateControl positionOptions={{ enableHighAccuracy: true }} onGeolocate={handleCurrentLocation} showUserHeading />
       <FullscreenControl position='top-left' />
-      {getClickMakers()}
-      {getProximityMakers()}
+      {getClickMarkers()}
+      {getProximityMarkers()}
     </Map>
   );
 }
+
+const LocationPropType = PropTypes.shape({
+  address: PropTypes.string,
+  census_block: PropTypes.string,
+  country: PropTypes.string,
+  cross_street: PropTypes.string,
+  formatted_address: PropTypes.string,
+  locality: PropTypes.string,
+  postcode: PropTypes.string,
+  region: PropTypes.string,
+});
+
+const GeocodePropType = PropTypes.shape({
+  latitude: PropTypes.number,
+  longitude: PropTypes.number,
+});
+
+const CategoryPropType = PropTypes.shape({
+  id: PropTypes.number,
+  name: PropTypes.string,
+  icon: PropTypes.shape({
+    prefix: PropTypes.string,
+    suffix: PropTypes.string,
+  }),
+});
+
+const ChainPropType = PropTypes.shape({
+  id: PropTypes.string,
+  name: PropTypes.string,
+});
+
+const ResultPropType = PropTypes.shape({
+  fsq_id: PropTypes.string,
+  categories: PropTypes.arrayOf(CategoryPropType),
+  chains: PropTypes.arrayOf(ChainPropType),
+  distance: PropTypes.number,
+  geocodes: PropTypes.shape({
+    main: GeocodePropType,
+    roof: GeocodePropType,
+  }),
+  link: PropTypes.string,
+  location: LocationPropType,
+  name: PropTypes.string,
+  timezone: PropTypes.string,
+});
+
+const FoursquareResponsePropTypes = PropTypes.shape({
+  results: PropTypes.arrayOf(ResultPropType),
+});
+
+CustomMap.propTypes = {
+  data: FoursquareResponsePropTypes,
+};

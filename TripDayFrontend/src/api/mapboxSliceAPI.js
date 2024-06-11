@@ -19,7 +19,7 @@ export const mapboxApi = createApi({
   endpoints: (builder) => ({
     getNearbyRestaurants: builder.query({
       query: ({ ll, radius, limit }) => `places/search?ll=${ll}&radius=${radius}&limit=${limit}&categories=4d4b7105d754a06374d81259`,
-    }),
+    })
   }),
 });
 
