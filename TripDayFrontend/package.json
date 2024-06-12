@@ -1,5 +1,6 @@
 {
   "name": "tripday-frontend",
+  "author": "Nien-Tai Ho <nientaiho@gmail.com>",
   "version": "0.1.0",
   "private": true,
   "engines": {
