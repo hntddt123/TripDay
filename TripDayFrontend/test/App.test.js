@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react';
 import App from '../src/App';
 import { renderWithRedux } from './renderWithRedux';
 
-jest.mock('../src/constants', () => ({
+jest.mock('../src/constants/constants.js', () => ({
   API_KEY: ''
 }));
 

@@ -1,10 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import fetch from 'isomorphic-fetch';
-import { FOURSQUARE_API_KEY } from '../constants';
+import { FOURSQUARE_API_KEY } from '../constants/constants';
 
 /*
   Use mapbox api v6
   https://api.foursquare.com/v3/places/search?ll=25.1593548,121.4296176&categories=4d4b7105d754a06374d81259&radius=500
+  4d4b7105d754a06374d81259 restaurants
+  4bf58dd8d48988d1fa931735 hotels
   authorization: APIKEY
 */
 export const mapboxApi = createApi({
@@ -17,10 +19,10 @@ export const mapboxApi = createApi({
     }
   }),
   endpoints: (builder) => ({
-    getNearbyRestaurants: builder.query({
-      query: ({ ll, radius, limit }) => `places/search?ll=${ll}&radius=${radius}&limit=${limit}&categories=4d4b7105d754a06374d81259`,
+    getNearbyPOI: builder.query({
+      query: ({ ll, radius, limit, category }) => `places/search?ll=${ll}&radius=${radius}&limit=${limit}&categories=${category}&sort=DISTANCE`,
     })
   }),
 });
 
-export const { useLazyGetNearbyRestaurantsQuery } = mapboxApi;
+export const { useLazyGetNearbyPOIQuery } = mapboxApi;

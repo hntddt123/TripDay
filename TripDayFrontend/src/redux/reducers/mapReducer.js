@@ -18,6 +18,7 @@ const mapSlice = createSlice({
     setViewState: (state, action) => ({ ...state, viewState: action.payload }),
     setMarker: (state, action) => ({ ...state, markers: [action.payload] }),
     setCurrentLocation: (state, action) => ({ ...state, gpsLonLat: action.payload }),
+    setUserOption: (state, action) => ({ ...state, userOption: { searchCategory: action.payload } }),
   }
 });
 

@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Map, { Marker, FullscreenControl, GeolocateControl, Source, Layer } from 'react-map-gl';
 import { setViewState, setMarker, setCurrentLocation } from '../redux/reducers/mapReducer';
-import { MAPBOX_API_KEY } from '../constants';
+import { MAPBOX_API_KEY } from '../constants/constants';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -94,14 +94,19 @@ export default function CustomMap({ data }) {
     </div>
   )) : null);
 
+
   const getProximityMarkers = () => (
-    ((data && data.results.length > 0) ? data.results.map((marker) => (
+    ((data && data.results.length > 0) ? data.results.map((marker, i) => (
       <div key={marker.fsq_id}>
         <Marker longitude={marker.geocodes.main.longitude} latitude={marker.geocodes.main.latitude}>
-          <div className='text-4xl'>📍</div>
+          <div className='text-4xl'>🍱</div>
         </Marker>
-        <Marker longitude={marker.geocodes.main.longitude} latitude={marker.geocodes.main.latitude} offset={[0, 30]}>
-          <div className='text-2xl  text-red-600'>{marker.name}</div>
+        <Marker
+          longitude={marker.geocodes.main.longitude}
+          latitude={marker.geocodes.main.latitude}
+          offset={[0, 40]}
+        >
+          <div className='cardPOIMarker text-2xl  text-orange-400'>{`${i + 1} ${marker.name}`}</div>
         </Marker>
       </div>
     )) : null)
@@ -112,7 +117,7 @@ export default function CustomMap({ data }) {
       {...viewState}
       onMove={onMove}
       onClick={handleClick}
-      style={{ width: '100%', height: '80vh' }}
+      style={{ width: '100%', height: '90vh', borderRadius: 15 }}
       mapStyle={mapStyle}
       mapLib={import('mapbox-gl')}
       mapboxAccessToken={MAPBOX_API_KEY}

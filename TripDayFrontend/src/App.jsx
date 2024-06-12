@@ -2,12 +2,12 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import TripBoard from './components/TripBoard';
 import TripsList from './components/TripsList';
 import CustomButton from './components/CustomButton';
-import { MODE } from './constants';
+import { MODE } from './constants/constants';
 
 function App() {
   return (
     <BrowserRouter basename='/'>
-      <header className='text-4xl text-center font-light p-2 bg-lime-400'>
+      <header className='title text-4xl text-center p-2'>
         Trip Day
       </header>
       <Routes>
