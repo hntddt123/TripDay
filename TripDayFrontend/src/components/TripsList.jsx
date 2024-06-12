@@ -3,36 +3,37 @@ import CustomMap from './CustomMap';
 import CustomButton from './CustomButton';
 import { useLazyGetNearbyPOIQuery } from '../api/mapboxSliceAPI';
 
-const restaurantIcon = '🍴';
-const hotelIcon = '🛏️';
+const restaurantIcon = '🍱';
+const hotelIcon = '🛌';
 const carIcon = '🚘';
 
 function TripsList() {
-  const [trigger, { data: poi, isFetching, error }] = useLazyGetNearbyPOIQuery();
+  const [trigger, { data: poi, isLoading, isFetching, error }] = useLazyGetNearbyPOIQuery();
   const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
 
-  const setPOIQuery = (ll, radius, limit, category) => ({ ll, radius, limit, category });
+  const setPOIQuery = (ll, radius, limit, category, icon) => ({ ll, radius, limit, category, icon });
 
   const handleRestaurantButton = () => {
     if (gpsLonLat.longitude && gpsLonLat.latitude) {
-      trigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4d4b7105d754a06374d81259'));
+      trigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4d4b7105d754a06374d81259', restaurantIcon));
     }
   };
 
   const handleHotelButton = () => {
     if (gpsLonLat.longitude && gpsLonLat.latitude) {
-      trigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4bf58dd8d48988d1fa931735'));
+      trigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4bf58dd8d48988d1fa931735', hotelIcon));
     }
   };
 
   const handleCarButton = () => {
     if (gpsLonLat.longitude && gpsLonLat.latitude) {
-      trigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4d4b7105d754a06379d81259'));
+      trigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4d4b7105d754a06379d81259', carIcon));
     }
   };
 
   const getNearbyPOIList = () => (
     <div>
+      {(isLoading ? 'Loading...' : null)}
       {(isFetching) ? 'Fetching...' : null}
       {(error) ? `Error: ${error.message}` : null}
       {(poi && poi.results.length > 0) ? poi.results.map((marker, i) => (

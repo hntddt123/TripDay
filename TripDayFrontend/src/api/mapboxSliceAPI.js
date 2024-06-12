@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import fetch from 'isomorphic-fetch';
 import { FOURSQUARE_API_KEY } from '../constants/constants';
+import { setSelectedPOIIcon } from '../redux/reducers/mapReducer';
 
 /*
   Use mapbox api v6
@@ -21,6 +22,14 @@ export const mapboxApi = createApi({
   endpoints: (builder) => ({
     getNearbyPOI: builder.query({
       query: ({ ll, radius, limit, category }) => `places/search?ll=${ll}&radius=${radius}&limit=${limit}&categories=${category}&sort=DISTANCE`,
+      async onQueryStarted(data, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(setSelectedPOIIcon(data.icon));
+        } catch (err) {
+          dispatch(setSelectedPOIIcon(err.message));
+        }
+      }
     })
   }),
 });

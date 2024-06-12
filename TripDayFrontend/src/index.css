@@ -66,6 +66,19 @@ body {
     border-right-width: theme('borderWidth.8');
   }
 
+  .cardPOI:hover, .cardPOI:active {
+    margin: theme('spacing.2');
+    border-radius: theme('borderRadius.lg');
+    padding: theme('spacing.2');
+    box-shadow: theme('boxShadow.md');
+    border-color: theme('colors.amber.300');
+    border-top-width: theme('borderWidth.0');
+    border-bottom-width: theme('borderWidth.0');
+    border-left-width: theme('borderWidth.8');
+    border-right-width: theme('borderWidth.8');
+    background-color: theme('backgroundColor.amber.50');
+  }
+
   .cardPOIMarker {
     margin: theme('spacing.2');
     border-radius: theme('borderRadius.lg');
@@ -78,6 +91,33 @@ body {
     border-right-width: theme('borderWidth.0');
     background-color: theme('backgroundColor.amber.50');
   }
+
+  .cardPOIMarker:hover, .cardPOIMarker:active {
+    margin: theme('spacing.2');
+    border-radius: theme('borderRadius.lg');
+    padding: theme('spacing.2');
+    box-shadow: theme('boxShadow.md');
+    border-color: theme('colors.amber.600');
+    border-top-width: theme('borderWidth.0');
+    border-bottom-width: theme('borderWidth.0');
+    border-left-width: theme('borderWidth.8');
+    border-right-width: theme('borderWidth.0');
+    background-color: theme('backgroundColor.amber.100');
+  }
+
+
+  .cardPOIAddInfo {
+    margin: theme('spacing.2');
+    border-radius: theme('borderRadius.lg');
+    padding: theme('spacing.4');
+    border-color: theme('colors.amber.300');
+    border-top-width: theme('borderWidth.0');
+    border-bottom-width: theme('borderWidth.0');
+    border-left-width: theme('borderWidth.0');
+    border-right-width: theme('borderWidth.0');
+    background-color: theme('backgroundColor.white');
+  }
+
 
   .cardInfo {
     margin: theme('spacing.2');

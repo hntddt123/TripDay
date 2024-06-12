@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Map, { Marker, FullscreenControl, GeolocateControl, Source, Layer } from 'react-map-gl';
-import { setViewState, setMarker, setCurrentLocation } from '../redux/reducers/mapReducer';
+import { setViewState, setMarker, setCurrentLocation, setSelectedPOI } from '../redux/reducers/mapReducer';
 import { MAPBOX_API_KEY } from '../constants/constants';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -47,6 +47,8 @@ export default function CustomMap({ data }) {
   const mapStyle = useSelector((state) => state.mapReducer.mapStyle);
   const viewState = useSelector((state) => state.mapReducer.viewState);
   const mapMarkers = useSelector((state) => state.mapReducer.markers);
+  const selectedPOI = useSelector((state) => state.mapReducer.selectedPOI);
+  const selectedPOIIcon = useSelector((state) => state.mapReducer.selectedPOIIcon);
   const dispatch = useDispatch();
 
   const onMove = useCallback((event) => {
@@ -72,7 +74,7 @@ export default function CustomMap({ data }) {
     dispatch(setMarker(newMarker));
   };
 
-  const getClickMarkers = () => ((mapMarkers.length > 0) ? mapMarkers.map((marker) => (
+  const getClickMarker = () => ((mapMarkers.length > 0) ? mapMarkers.map((marker) => (
     <div key={marker.id}>
       <Marker longitude={marker.lng} latitude={marker.lat}>
         <div className='text-4xl'>📍</div>
@@ -94,14 +96,38 @@ export default function CustomMap({ data }) {
     </div>
   )) : null);
 
+  const getAdditionalMarkerInfo = () => {
+    if (data && data.results.length > 0) {
+      const filteredResult = data.results.filter((marker, i) => `${i + 1} ${marker.name}` === selectedPOI)[0];
+      if (filteredResult) {
+        return (
+          <div key={filteredResult.fsq_id}>
+            <Marker
+              longitude={filteredResult.geocodes.main.longitude}
+              latitude={filteredResult.geocodes.main.latitude}
+              offset={[0, -40]}
+            >
+              <div className='cardPOIAddInfo text-2xl  text-orange-400'>{`${filteredResult.name}`}</div>
+            </Marker>
+          </div>
+        );
+      }
+    }
+    return null;
+  };
+
+  const handlePOIMarkerClick = (event) => {
+    dispatch(setSelectedPOI(event.target._element.innerText));
+  };
 
   const getProximityMarkers = () => (
     ((data && data.results.length > 0) ? data.results.map((marker, i) => (
       <div key={marker.fsq_id}>
         <Marker longitude={marker.geocodes.main.longitude} latitude={marker.geocodes.main.latitude}>
-          <div className='text-4xl'>🍱</div>
+          <div className='text-4xl'>{selectedPOIIcon}</div>
         </Marker>
         <Marker
+          onClick={handlePOIMarkerClick}
           longitude={marker.geocodes.main.longitude}
           latitude={marker.geocodes.main.latitude}
           offset={[0, 40]}
@@ -124,8 +150,9 @@ export default function CustomMap({ data }) {
     >
       <GeolocateControl positionOptions={{ enableHighAccuracy: true }} onGeolocate={handleCurrentLocation} showUserHeading />
       <FullscreenControl position='top-left' />
-      {getClickMarkers()}
+      {getClickMarker()}
       {getProximityMarkers()}
+      {getAdditionalMarkerInfo()}
     </Map>
   );
 }
