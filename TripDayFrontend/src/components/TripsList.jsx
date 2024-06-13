@@ -31,11 +31,22 @@ function TripsList() {
     }
   };
 
+  const getLoadingStatus = () => (
+    <div>
+      <div>
+        {(isLoading ? 'Loading...' : null)}
+      </div>
+      <div>
+        {(isFetching) ? 'Fetching...' : null}
+      </div>
+      <div>
+        {(error) ? `Error: ${error.message}` : null}
+      </div>
+    </div>
+  );
+
   const getNearbyPOIList = () => (
     <div>
-      {(isLoading ? 'Loading...' : null)}
-      {(isFetching) ? 'Fetching...' : null}
-      {(error) ? `Error: ${error.message}` : null}
       {(poi && poi.results.length > 0) ? poi.results.map((marker, i) => (
         <div className='flex cardPOI justify-between items-center' key={marker.fsq_id}>
           <div className='text-2xl '>{`${i + 1} - ${marker.name} (${marker.location.address})`}</div>
@@ -67,6 +78,7 @@ function TripsList() {
         <CustomButton label={hotelIcon} onClick={handleHotelButton} />
         <CustomButton label={carIcon} onClick={handleCarButton} />
       </div>
+      {getLoadingStatus()}
       {getLocation()}
       <CustomMap data={(poi) || null} />
       {getNearbyPOIList()}

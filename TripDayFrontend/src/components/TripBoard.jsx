@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import CustomButton from './CustomButton';
 
 function TripBoard({ label, component }) {
+
   return (
     <div className='container card text-left mx-auto border-lime-200'>
       <div className='grid'>
