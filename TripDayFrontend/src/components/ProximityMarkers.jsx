@@ -11,7 +11,6 @@ export default function ProximityMarkers({ data }) {
     dispatch(setSelectedPOI(marker.fsq_id));
   };
 
-
   return (
     ((data && data.results.length > 0) ? data.results.map((marker, i) => (
       <div key={marker.fsq_id}>
@@ -24,7 +23,7 @@ export default function ProximityMarkers({ data }) {
           latitude={marker.geocodes.main.latitude}
           offset={[0, 40]}
         >
-          <div className='cardPOIMarker text-2xl  text-orange-400'>{`${i + 1} ${marker.name}`}</div>
+          <button className='cardPOIMarker text-2xl text-orange-400'>{`${i + 1}`}</button>
         </Marker>
       </div>
     )) : null)

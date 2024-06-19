@@ -1,7 +1,8 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CustomMap from './CustomMap';
 import CustomButton from './CustomButton';
 import { useLazyGetNearbyPOIQuery } from '../api/mapboxSliceAPI';
+import { setSelectedPOI } from '../redux/reducers/mapReducer';
 
 const restaurantIcon = '🍱';
 const hotelIcon = '🛌';
@@ -10,6 +11,7 @@ const carIcon = '🚘';
 function TripsList() {
   const [trigger, { data: poi, isLoading, isFetching, error }] = useLazyGetNearbyPOIQuery();
   const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
+  const dispatch = useDispatch();
 
   const setPOIQuery = (ll, radius, limit, category, icon) => ({ ll, radius, limit, category, icon });
 
@@ -31,6 +33,10 @@ function TripsList() {
     }
   };
 
+  const handlePOIListItemClick = (marker) => () => {
+    dispatch(setSelectedPOI(marker.fsq_id));
+  };
+
   const getLoadingStatus = () => (
     <div>
       <div>
@@ -48,10 +54,10 @@ function TripsList() {
   const getNearbyPOIList = () => (
     <div>
       {(poi && poi.results.length > 0) ? poi.results.map((marker, i) => (
-        <div className='flex cardPOI justify-between items-center' key={marker.fsq_id}>
+        <button className='flex cardPOI justify-between items-center' key={marker.fsq_id} onClick={handlePOIListItemClick(marker)}>
           <div className='text-2xl '>{`${i + 1} - ${marker.name} (${marker.location.address})`}</div>
           <div className='text-2xl '>{`${marker.distance} m`}</div>
-        </div>
+        </button>
       )) : null}
     </div>
   );
@@ -73,7 +79,6 @@ function TripsList() {
   return (
     <div className='container mx-auto'>
       <div>
-        {/* <Counter /> */}
         <CustomButton label={restaurantIcon} onClick={handleRestaurantButton} />
         <CustomButton label={hotelIcon} onClick={handleHotelButton} />
         <CustomButton label={carIcon} onClick={handleCarButton} />

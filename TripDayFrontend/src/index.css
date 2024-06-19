@@ -55,6 +55,7 @@ body {
   }
 
   .cardPOI {
+    width: 100%;
     margin: theme('spacing.2');
     border-radius: theme('borderRadius.lg');
     padding: theme('spacing.2');
@@ -66,7 +67,7 @@ body {
     border-right-width: theme('borderWidth.8');
   }
 
-  .cardPOI:hover, .cardPOI:active {
+  .cardPOI:hover {
     margin: theme('spacing.2');
     border-radius: theme('borderRadius.lg');
     padding: theme('spacing.2');
@@ -77,6 +78,32 @@ body {
     border-left-width: theme('borderWidth.8');
     border-right-width: theme('borderWidth.8');
     background-color: theme('backgroundColor.amber.50');
+  }
+
+  .cardPOI:active {
+    margin: theme('spacing.2');
+    border-radius: theme('borderRadius.lg');
+    padding: theme('spacing.2');
+    box-shadow: theme('boxShadow.md');
+    border-color: theme('colors.amber.300');
+    border-top-width: theme('borderWidth.0');
+    border-bottom-width: theme('borderWidth.0');
+    border-left-width: theme('borderWidth.8');
+    border-right-width: theme('borderWidth.8');
+    background-color: theme('backgroundColor.amber.100');
+  }
+
+  .cardPOI:focus {
+    margin: theme('spacing.2');
+    border-radius: theme('borderRadius.lg');
+    padding: theme('spacing.2');
+    box-shadow: theme('boxShadow.md');
+    border-color: theme('colors.amber.300');
+    border-top-width: theme('borderWidth.0');
+    border-bottom-width: theme('borderWidth.0');
+    border-left-width: theme('borderWidth.8');
+    border-right-width: theme('borderWidth.8');
+    background-color: theme('backgroundColor.amber.200');
   }
 
   .cardPOIMarker {
@@ -92,7 +119,20 @@ body {
     background-color: theme('backgroundColor.amber.50');
   }
 
-  .cardPOIMarker:hover, .cardPOIMarker:active {
+  .cardPOIMarker:hover {
+    margin: theme('spacing.2');
+    border-radius: theme('borderRadius.lg');
+    padding: theme('spacing.2');
+    box-shadow: theme('boxShadow.md');
+    border-color: theme('colors.amber.600');
+    border-top-width: theme('borderWidth.0');
+    border-bottom-width: theme('borderWidth.0');
+    border-left-width: theme('borderWidth.8');
+    border-right-width: theme('borderWidth.0');
+    background-color: theme('backgroundColor.amber.50');
+  }
+
+  .cardPOIMarker:active {
     margin: theme('spacing.2');
     border-radius: theme('borderRadius.lg');
     padding: theme('spacing.2');
@@ -103,8 +143,8 @@ body {
     border-left-width: theme('borderWidth.8');
     border-right-width: theme('borderWidth.0');
     background-color: theme('backgroundColor.amber.100');
+    
   }
-
 
   .cardPOIAddInfo {
     margin: theme('spacing.2');
