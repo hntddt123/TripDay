@@ -2,8 +2,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import CustomMap from './CustomMap';
 import CustomButton from './CustomButton';
 import { useLazyGetNearbyPOIQuery } from '../api/mapboxSliceAPI';
-import { setSelectedPOI } from '../redux/reducers/mapReducer';
+import { setSelectedPOI, setCurrentLocation } from '../redux/reducers/mapReducer';
 
+const gpsIcon = '🛰️';
 const restaurantIcon = '🍱';
 const hotelIcon = '🛌';
 const carIcon = '🚘';
@@ -15,20 +16,43 @@ function TripsList() {
 
   const setPOIQuery = (ll, radius, limit, category, icon) => ({ ll, radius, limit, category, icon });
 
+  const isLonLat = () => (gpsLonLat.longitude !== null && gpsLonLat.latitude !== null);
+
+  function success(position) {
+    const { longitude, latitude } = position.coords;
+    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+    dispatch(setCurrentLocation({
+      longitude: longitude,
+      latitude: latitude
+    }));
+  }
+
+  function gpsError() {
+    console.log('Unable to retrieve your location');
+  }
+
+  const handleGPSButton = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(success, gpsError);
+    } else {
+      console.log('Geolocation not supported');
+    }
+  };
+
   const handleRestaurantButton = () => {
-    if (gpsLonLat.longitude && gpsLonLat.latitude) {
+    if (isLonLat()) {
       trigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4d4b7105d754a06374d81259', restaurantIcon));
     }
   };
 
   const handleHotelButton = () => {
-    if (gpsLonLat.longitude && gpsLonLat.latitude) {
+    if (isLonLat()) {
       trigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4bf58dd8d48988d1fa931735', hotelIcon));
     }
   };
 
   const handleCarButton = () => {
-    if (gpsLonLat.longitude && gpsLonLat.latitude) {
+    if (isLonLat()) {
       trigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4d4b7105d754a06379d81259', carIcon));
     }
   };
@@ -62,7 +86,7 @@ function TripsList() {
     </div>
   );
 
-  const getLocation = () => ((gpsLonLat.longitude && gpsLonLat.latitude) ? (
+  const getLocation = () => ((isLonLat()) ? (
     <div className='cardInfo'>
       <div className='text-2xl'>
         Click above options
@@ -79,9 +103,10 @@ function TripsList() {
   return (
     <div className='container mx-auto'>
       <div>
-        <CustomButton label={restaurantIcon} onClick={handleRestaurantButton} />
-        <CustomButton label={hotelIcon} onClick={handleHotelButton} />
-        <CustomButton label={carIcon} onClick={handleCarButton} />
+        <CustomButton label={gpsIcon} onClick={handleGPSButton} />
+        <CustomButton label={restaurantIcon} onClick={handleRestaurantButton} disabled={!isLonLat()} />
+        <CustomButton label={hotelIcon} onClick={handleHotelButton} disabled={!isLonLat()} />
+        <CustomButton label={carIcon} onClick={handleCarButton} disabled={!isLonLat()} />
       </div>
       {getLoadingStatus()}
       {getLocation()}

@@ -49,6 +49,7 @@ export default function CustomMap({ data }) {
       mapStyle={mapStyle}
       mapLib={import('mapbox-gl')}
       mapboxAccessToken={MAPBOX_API_KEY}
+      cooperativeGestures
     >
       <GeolocateControl positionOptions={{ enableHighAccuracy: true }} onGeolocate={handleCurrentLocation} showUserHeading />
       <FullscreenControl position='top-left' />
