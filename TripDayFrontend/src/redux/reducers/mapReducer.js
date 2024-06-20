@@ -3,8 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialMapState = {
   mapStyle: 'mapbox://styles/mapbox/standard',
   viewState: {
-    longitude: 121.432915,
-    latitude: 25.1580665,
+    longitude: 153.4250000,
+    latitude: 22.4250000,
     zoom: 1
   },
   gpsLonLat: { longitude: null, latitude: null },

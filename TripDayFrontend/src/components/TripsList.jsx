@@ -76,7 +76,7 @@ function TripsList() {
         {(isFetching) ? 'Fetching...' : null}
       </div>
       <div>
-        {(error) ? `Error: ${error.message}` : null}
+        {(error) ? `Error: ${error.error}` : null}
       </div>
     </div>
   );

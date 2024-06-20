@@ -128,7 +128,7 @@ body {
     border-color: theme('colors.amber.400');
     border-top-width: theme('borderWidth.0');
     border-bottom-width: theme('borderWidth.0');
-    border-left-width: theme('borderWidth.8');
+    border-left-width: theme('borderWidth.0');
     border-right-width: theme('borderWidth.0');
     background-color: theme('backgroundColor.amber.50');
   }
@@ -141,9 +141,9 @@ body {
     border-color: theme('colors.amber.600');
     border-top-width: theme('borderWidth.0');
     border-bottom-width: theme('borderWidth.0');
-    border-left-width: theme('borderWidth.8');
+    border-left-width: theme('borderWidth.0');
     border-right-width: theme('borderWidth.0');
-    background-color: theme('backgroundColor.amber.50');
+    background-color: theme('backgroundColor.amber.100');
   }
 
   .cardPOIMarker:active {
