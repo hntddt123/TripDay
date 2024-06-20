@@ -5,6 +5,7 @@ import { FoursquareResponsePropTypes } from '../constants/fourSqaurePropTypes';
 
 export default function ProximityMarkers({ data }) {
   const selectedPOIIcon = useSelector((state) => state.mapReducer.selectedPOIIcon);
+  const isfullPOIname = useSelector((state) => state.mapReducer.isfullPOIname);
   const dispatch = useDispatch();
 
   const handlePOIMarkerClick = (marker) => {
@@ -24,7 +25,7 @@ export default function ProximityMarkers({ data }) {
           latitude={marker.geocodes.main.latitude}
           offset={[0, 40]}
         >
-          <button className='cardPOIMarker text-2xl text-orange-400'>{`${i + 1}`}</button>
+          <button className='cardPOIMarker text-2xl text-orange-400'>{`${i + 1}`}{isfullPOIname ? ` ${marker.name}` : null}</button>
         </Marker>
       </div>
     )) : null)

@@ -10,7 +10,8 @@ const initialMapState = {
   gpsLonLat: { longitude: null, latitude: null },
   markers: [],
   selectedPOI: '',
-  selectedPOIIcon: ''
+  selectedPOIIcon: '',
+  isfullPOIname: true
 };
 
 const mapSlice = createSlice({
@@ -23,8 +24,9 @@ const mapSlice = createSlice({
     setUserOption: (state, action) => ({ ...state, userOption: { searchCategory: action.payload } }),
     setSelectedPOI: (state, action) => ({ ...state, selectedPOI: action.payload }),
     setSelectedPOIIcon: (state, action) => ({ ...state, selectedPOIIcon: action.payload }),
+    setIsfullPOIname: (state, action) => ({ ...state, isfullPOIname: action.payload }),
   }
 });
 
-export const { setViewState, setMarker, setCurrentLocation, setSelectedPOI, setSelectedPOIIcon } = mapSlice.actions;
+export const { setViewState, setMarker, setCurrentLocation, setSelectedPOI, setSelectedPOIIcon, setIsfullPOIname } = mapSlice.actions;
 export const mapReducer = mapSlice.reducer;

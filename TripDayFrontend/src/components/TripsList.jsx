@@ -1,8 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import Toggle from 'react-toggle';
 import CustomMap from './CustomMap';
 import CustomButton from './CustomButton';
 import { useLazyGetNearbyPOIQuery } from '../api/mapboxSliceAPI';
-import { setSelectedPOI, setCurrentLocation, setViewState } from '../redux/reducers/mapReducer';
+import { setSelectedPOI, setCurrentLocation, setViewState, setIsfullPOIname } from '../redux/reducers/mapReducer';
 
 const gpsIcon = '🛰️';
 const restaurantIcon = '🍱';
@@ -12,6 +14,7 @@ const carIcon = '🚘';
 function TripsList() {
   const [trigger, { data: poi, isLoading, isFetching, error }] = useLazyGetNearbyPOIQuery();
   const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
+  const isfullPOIname = useSelector((state) => state.mapReducer.isfullPOIname);
   const dispatch = useDispatch();
 
   const setPOIQuery = (ll, radius, limit, category, icon) => ({ ll, radius, limit, category, icon });
@@ -59,6 +62,10 @@ function TripsList() {
     if (hasLonLat()) {
       trigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4d4b7105d754a06379d81259', carIcon));
     }
+  };
+
+  const handleFullNameToggle = () => {
+    dispatch(setIsfullPOIname(!isfullPOIname));
   };
 
   const handlePOIListItemClick = (marker) => () => {
@@ -113,9 +120,18 @@ function TripsList() {
         <CustomButton label={restaurantIcon} onClick={handleRestaurantButton} disabled={!hasLonLat()} />
         <CustomButton label={hotelIcon} onClick={handleHotelButton} disabled={!hasLonLat()} />
         <CustomButton label={carIcon} onClick={handleCarButton} disabled={!hasLonLat()} />
+        {getLocation()}
+      </div>
+      <div className='text-2xl'>
+        Show Full POI Name
+        <Toggle
+          className='ml-2 align-middle'
+          icons={false}
+          defaultChecked={isfullPOIname}
+          onChange={handleFullNameToggle}
+        />
       </div>
       {getLoadingStatus()}
-      {getLocation()}
       <CustomMap data={(poi) || null} />
       {getNearbyPOIList()}
       {/* <CustomButton label='Save' /> */}
