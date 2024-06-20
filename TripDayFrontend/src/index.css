@@ -53,9 +53,7 @@ body {
   }
 
   .title {
-    border-bottom-left-radius: theme('borderRadius.lg');
-    border-bottom-right-radius: theme('borderRadius.lg');
-    background-color: theme('backgroundColor.lime.400');
+    background-color: rgb(225, 255, 180, .8);
     font-weight: 300;
     font-family: 'Courier New', Courier, monospace;
   }
@@ -66,6 +64,14 @@ body {
     border-width: theme('borderWidth.4');
     padding: theme('spacing.4');
     box-shadow: theme('boxShadow.sm');
+  }
+
+  .cardTrip {
+    margin: auto;
+    border-top-width: theme('borderWidth.2');
+    border-top-color: theme('backgroundColor.amber.300');
+    background-color: rgba(225, 255, 180, 0.3);
+    padding: theme('spacing[0.5]');
   }
 
   .cardPOI {
