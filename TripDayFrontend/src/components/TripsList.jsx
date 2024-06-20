@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CustomMap from './CustomMap';
 import CustomButton from './CustomButton';
 import { useLazyGetNearbyPOIQuery } from '../api/mapboxSliceAPI';
-import { setSelectedPOI, setCurrentLocation } from '../redux/reducers/mapReducer';
+import { setSelectedPOI, setCurrentLocation, setViewState } from '../redux/reducers/mapReducer';
 
 const gpsIcon = '🛰️';
 const restaurantIcon = '🍱';
@@ -16,49 +16,55 @@ function TripsList() {
 
   const setPOIQuery = (ll, radius, limit, category, icon) => ({ ll, radius, limit, category, icon });
 
-  const isLonLat = () => (gpsLonLat.longitude !== null && gpsLonLat.latitude !== null);
+  const hasLonLat = () => (gpsLonLat.longitude !== null && gpsLonLat.latitude !== null);
 
   function success(position) {
     const { longitude, latitude } = position.coords;
-    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
     dispatch(setCurrentLocation({
       longitude: longitude,
       latitude: latitude
     }));
+    dispatch(setViewState({
+      longitude: longitude,
+      latitude: latitude,
+      zoom: 15
+    }));
   }
 
   function gpsError() {
-    console.log('Unable to retrieve your location');
+    console.error('Unable to retrieve your location');
   }
 
   const handleGPSButton = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(success, gpsError);
     } else {
-      console.log('Geolocation not supported');
+      console.error('Geolocation not supported');
     }
   };
 
   const handleRestaurantButton = () => {
-    if (isLonLat()) {
+    if (hasLonLat()) {
       trigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4d4b7105d754a06374d81259', restaurantIcon));
     }
   };
 
   const handleHotelButton = () => {
-    if (isLonLat()) {
+    if (hasLonLat()) {
       trigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4bf58dd8d48988d1fa931735', hotelIcon));
     }
   };
 
   const handleCarButton = () => {
-    if (isLonLat()) {
+    if (hasLonLat()) {
       trigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4d4b7105d754a06379d81259', carIcon));
     }
   };
 
   const handlePOIListItemClick = (marker) => () => {
     dispatch(setSelectedPOI(marker.fsq_id));
+    console.log(marker);
+    dispatch(setViewState({ latitude: marker.geocodes.main.latitude, longitude: marker.geocodes.main.longitude, zoom: 17 }));
   };
 
   const getLoadingStatus = () => (
@@ -86,7 +92,7 @@ function TripsList() {
     </div>
   );
 
-  const getLocation = () => ((isLonLat()) ? (
+  const getLocation = () => ((hasLonLat()) ? (
     <div className='cardInfo'>
       <div className='text-2xl'>
         Click above options
@@ -104,9 +110,9 @@ function TripsList() {
     <div className='container mx-auto'>
       <div>
         <CustomButton label={gpsIcon} onClick={handleGPSButton} />
-        <CustomButton label={restaurantIcon} onClick={handleRestaurantButton} disabled={!isLonLat()} />
-        <CustomButton label={hotelIcon} onClick={handleHotelButton} disabled={!isLonLat()} />
-        <CustomButton label={carIcon} onClick={handleCarButton} disabled={!isLonLat()} />
+        <CustomButton label={restaurantIcon} onClick={handleRestaurantButton} disabled={!hasLonLat()} />
+        <CustomButton label={hotelIcon} onClick={handleHotelButton} disabled={!hasLonLat()} />
+        <CustomButton label={carIcon} onClick={handleCarButton} disabled={!hasLonLat()} />
       </div>
       {getLoadingStatus()}
       {getLocation()}

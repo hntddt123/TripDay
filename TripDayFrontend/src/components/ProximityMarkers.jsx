@@ -1,6 +1,6 @@
 import { Marker } from 'react-map-gl';
 import { useSelector, useDispatch } from 'react-redux';
-import { setSelectedPOI } from '../redux/reducers/mapReducer';
+import { setSelectedPOI, setViewState } from '../redux/reducers/mapReducer';
 import { FoursquareResponsePropTypes } from '../constants/fourSqaurePropTypes';
 
 export default function ProximityMarkers({ data }) {
@@ -9,6 +9,7 @@ export default function ProximityMarkers({ data }) {
 
   const handlePOIMarkerClick = (marker) => {
     dispatch(setSelectedPOI(marker.fsq_id));
+    dispatch(setViewState({ latitude: marker.geocodes.main.latitude, longitude: marker.geocodes.main.longitude, zoom: 17 }));
   };
 
   return (

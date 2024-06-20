@@ -1,7 +1,7 @@
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useCallback, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Map, { FullscreenControl, GeolocateControl } from 'react-map-gl';
+import Map, { FullscreenControl, GeolocateControl, NavigationControl } from 'react-map-gl';
 import { FoursquareResponsePropTypes } from '../constants/fourSqaurePropTypes';
 import { setViewState, setMarker, setCurrentLocation } from '../redux/reducers/mapReducer';
 import { MAPBOX_API_KEY } from '../constants/constants';
@@ -51,8 +51,9 @@ export default function CustomMap({ data }) {
       mapboxAccessToken={MAPBOX_API_KEY}
       cooperativeGestures
     >
-      <GeolocateControl positionOptions={{ enableHighAccuracy: true }} onGeolocate={handleCurrentLocation} showUserHeading />
       <FullscreenControl position='top-left' />
+      <GeolocateControl position='top-left' positionOptions={{ enableHighAccuracy: true }} onGeolocate={handleCurrentLocation} showUserHeading />
+      <NavigationControl />
       {/* {mapRef ? <ClickMarker /> : null} */}
       <ProximityMarkers data={data} />
       <AdditionalMarkerInfo data={data} />

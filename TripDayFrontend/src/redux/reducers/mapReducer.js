@@ -5,7 +5,7 @@ const initialMapState = {
   viewState: {
     longitude: 121.432915,
     latitude: 25.1580665,
-    zoom: 15
+    zoom: 1
   },
   gpsLonLat: { longitude: null, latitude: null },
   markers: [],
