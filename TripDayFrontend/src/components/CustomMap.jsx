@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useCallback, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -10,10 +11,11 @@ import ProximityMarkers from './ProximityMarkers';
 import AdditionalMarkerInfo from './AdditionalMarkerInfo';
 
 // react-map-gl component
-export default function CustomMap({ data }) {
+export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQueryTrigger }) {
   const mapStyle = useSelector((state) => state.mapReducer.mapStyle);
   const viewState = useSelector((state) => state.mapReducer.viewState);
   const mapRef = useRef();
+  const geoControlRef = useRef();
   const dispatch = useDispatch();
 
   const onMove = useCallback((event) => {
@@ -52,11 +54,19 @@ export default function CustomMap({ data }) {
       cooperativeGestures
     >
       <FullscreenControl position='top-left' />
-      <GeolocateControl position='top-left' positionOptions={{ enableHighAccuracy: true }} onGeolocate={handleCurrentLocation} showUserHeading />
+      <GeolocateControl
+        ref={geoControlRef}
+        position='top-left'
+        positionOptions={{ enableHighAccuracy: true }}
+        onGeolocate={handleCurrentLocation}
+        showUserHeading
+        showUserLocation
+        trackUserLocation
+      />
       <NavigationControl />
       {/* {mapRef ? <ClickMarker /> : null} */}
-      <ProximityMarkers data={data} />
-      <AdditionalMarkerInfo data={data} />
+      <ProximityMarkers data={data} getPOIPhotosQueryTrigger={getPOIPhotosQueryTrigger} />
+      <AdditionalMarkerInfo data={data} getPOIPhotosQueryResult={getPOIPhotosQueryResult} />
     </Map>
   );
 }

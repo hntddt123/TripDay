@@ -5,10 +5,17 @@ import { setSelectedPOIIcon } from '../redux/reducers/mapReducer';
 
 /*
   Use mapbox api v6
+  Place Search
   https://api.foursquare.com/v3/places/search?ll=25.1593548,121.4296176&categories=4d4b7105d754a06374d81259&radius=500
-  4d4b7105d754a06374d81259 restaurants
-  4bf58dd8d48988d1fa931735 hotels
-  authorization: APIKEY
+  example: 4d4b7105d754a06374d81259 restaurants
+  example: 4bf58dd8d48988d1fa931735 hotels
+  example: authorization: APIKEY
+
+  Place Photos
+  https://api.foursquare.com/v3/places/{fsq_id}/photos
+  example: 老漁村 7625320806284d325e90f3af
+
+  Place
 */
 export const mapboxApi = createApi({
   reducerPath: 'mapboxApi',
@@ -30,8 +37,11 @@ export const mapboxApi = createApi({
           dispatch(setSelectedPOIIcon(err.message));
         }
       }
+    }),
+    getPOIPhotos: builder.query({
+      query: ({ fsqId }) => `places/${fsqId}/photos?limit=3&sort=POPULAR`,
     })
   }),
 });
 
-export const { useLazyGetNearbyPOIQuery } = mapboxApi;
+export const { useLazyGetNearbyPOIQuery, useLazyGetPOIPhotosQuery } = mapboxApi;

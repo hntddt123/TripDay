@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { skipToken } from '@reduxjs/toolkit/query/react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Toggle from 'react-toggle';
+import { useLazyGetNearbyPOIQuery, useLazyGetPOIPhotosQuery } from '../api/mapboxSliceAPI';
+import { setCurrentLocation, setViewState, setIsfullPOIname, setIsShowingOnlySelectedPOI } from '../redux/reducers/mapReducer';
 import CustomMap from './CustomMap';
 import CustomButton from './CustomButton';
-import { useLazyGetNearbyPOIQuery } from '../api/mapboxSliceAPI';
-import { setSelectedPOI, setCurrentLocation, setViewState, setIsfullPOIname } from '../redux/reducers/mapReducer';
+import NearbyPOIList from './NearbyPOIList';
 
 const gpsIcon = '🛰️';
 const restaurantIcon = '🍱';
@@ -12,9 +14,12 @@ const hotelIcon = '🛌';
 const carIcon = '🚘';
 
 function TripsList() {
-  const [trigger, { data: poi, isLoading, isFetching, error }] = useLazyGetNearbyPOIQuery();
+  const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error }] = useLazyGetNearbyPOIQuery();
+  const [getPOIPhotosQueryTrigger, getPOIPhotosQueryResult] = useLazyGetPOIPhotosQuery(isSuccess ? poi : skipToken);
+
   const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
   const isfullPOIname = useSelector((state) => state.mapReducer.isfullPOIname);
+  const isShowingOnlySelectedPOI = useSelector((state) => state.mapReducer.isShowingOnlySelectedPOI);
   const dispatch = useDispatch();
 
   const setPOIQuery = (ll, radius, limit, category, icon) => ({ ll, radius, limit, category, icon });
@@ -23,6 +28,7 @@ function TripsList() {
 
   function success(position) {
     const { longitude, latitude } = position.coords;
+
     dispatch(setCurrentLocation({
       longitude: longitude,
       latitude: latitude
@@ -48,19 +54,19 @@ function TripsList() {
 
   const handleRestaurantButton = () => {
     if (hasLonLat()) {
-      trigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4d4b7105d754a06374d81259', restaurantIcon));
+      getNearbyPOIQueryTrigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4d4b7105d754a06374d81259', restaurantIcon));
     }
   };
 
   const handleHotelButton = () => {
     if (hasLonLat()) {
-      trigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4bf58dd8d48988d1fa931735', hotelIcon));
+      getNearbyPOIQueryTrigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4bf58dd8d48988d1fa931735', hotelIcon));
     }
   };
 
   const handleCarButton = () => {
     if (hasLonLat()) {
-      trigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4d4b7105d754a06379d81259', carIcon));
+      getNearbyPOIQueryTrigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4d4b7105d754a06379d81259', carIcon));
     }
   };
 
@@ -68,10 +74,8 @@ function TripsList() {
     dispatch(setIsfullPOIname(!isfullPOIname));
   };
 
-  const handlePOIListItemClick = (marker) => () => {
-    dispatch(setSelectedPOI(marker.fsq_id));
-    console.log(marker);
-    dispatch(setViewState({ latitude: marker.geocodes.main.latitude, longitude: marker.geocodes.main.longitude, zoom: 17 }));
+  const handleIsShowingOnlySelectedPOIToggle = () => {
+    dispatch(setIsShowingOnlySelectedPOI(!isShowingOnlySelectedPOI));
   };
 
   const getLoadingStatus = () => (
@@ -85,17 +89,6 @@ function TripsList() {
       <div>
         {(error) ? `Error: ${error.error}` : null}
       </div>
-    </div>
-  );
-
-  const getNearbyPOIList = () => (
-    <div>
-      {(poi && poi.results.length > 0) ? poi.results.map((marker, i) => (
-        <button className='flex cardPOI justify-between items-center' key={marker.fsq_id} onClick={handlePOIListItemClick(marker)}>
-          <div className='text-2xl '>{`${i + 1} - ${marker.name} (${marker.location.address})`}</div>
-          <div className='text-2xl '>{`${marker.distance} m`}</div>
-        </button>
-      )) : null}
     </div>
   );
 
@@ -131,9 +124,22 @@ function TripsList() {
           onChange={handleFullNameToggle}
         />
       </div>
+      <div className='text-2xl'>
+        Show only Selected Place
+        <Toggle
+          className='ml-2 align-middle'
+          icons={false}
+          defaultChecked={isShowingOnlySelectedPOI}
+          onChange={handleIsShowingOnlySelectedPOIToggle}
+        />
+      </div>
       {getLoadingStatus()}
-      <CustomMap data={(poi) || null} />
-      {getNearbyPOIList()}
+      <CustomMap
+        data={(poi) || null}
+        getPOIPhotosQueryResult={(getPOIPhotosQueryResult) || null}
+        getPOIPhotosQueryTrigger={getPOIPhotosQueryTrigger}
+      />
+      <NearbyPOIList poi={poi} />
       {/* <CustomButton label='Save' /> */}
     </div>
   );

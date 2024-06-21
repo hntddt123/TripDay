@@ -11,7 +11,9 @@ const initialMapState = {
   markers: [],
   selectedPOI: '',
   selectedPOIIcon: '',
-  isfullPOIname: true
+  isfullPOIname: true,
+  isShowingOnlySelectedPOI: false,
+  isShowingAddtionalMarker: false
 };
 
 const mapSlice = createSlice({
@@ -25,8 +27,20 @@ const mapSlice = createSlice({
     setSelectedPOI: (state, action) => ({ ...state, selectedPOI: action.payload }),
     setSelectedPOIIcon: (state, action) => ({ ...state, selectedPOIIcon: action.payload }),
     setIsfullPOIname: (state, action) => ({ ...state, isfullPOIname: action.payload }),
+    setIsShowingOnlySelectedPOI: (state, action) => ({ ...state, isShowingOnlySelectedPOI: action.payload }),
+    setIsShowingAddtionalMarker: (state, action) => ({ ...state, isShowingAddtionalMarker: action.payload })
   }
 });
 
-export const { setViewState, setMarker, setCurrentLocation, setSelectedPOI, setSelectedPOIIcon, setIsfullPOIname } = mapSlice.actions;
+export const {
+  setViewState,
+  setMarker,
+  setCurrentLocation,
+  setSelectedPOI,
+  setSelectedPOIIcon,
+  setIsfullPOIname,
+  setIsShowingOnlySelectedPOI,
+  setIsShowingAddtionalMarker
+} = mapSlice.actions;
+
 export const mapReducer = mapSlice.reducer;
