@@ -32,7 +32,6 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
   const handleClick = (event) => {
     const newid = new Date().getTime();
     const { lng, lat } = event.lngLat;
-
     const newMarker = {
       id: newid,
       lng: lng,

@@ -1,6 +1,6 @@
 import { Marker } from 'react-map-gl';
 import { useSelector, useDispatch } from 'react-redux';
-import { setSelectedPOI, setViewState, setIsShowingAddtionalMarker } from '../redux/reducers/mapReducer';
+import { setSelectedPOI, setViewState, setIsShowingAddtionalMarker, setIsShowingOnlySelectedPOI } from '../redux/reducers/mapReducer';
 import { FoursquareResponsePropTypes } from '../constants/fourSqaurePropTypes';
 
 // eslint-disable-next-line react/prop-types
@@ -9,6 +9,7 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
   const selectedPOI = useSelector((state) => state.mapReducer.selectedPOI);
   const isfullPOIname = useSelector((state) => state.mapReducer.isfullPOIname);
   const isShowingOnlySelectedPOI = useSelector((state) => state.mapReducer.isShowingOnlySelectedPOI);
+  const viewState = useSelector((state) => state.mapReducer.viewState);
   const dispatch = useDispatch();
 
   const setPOIPhotosQuery = (fsqId) => ({ fsqId });
@@ -16,8 +17,9 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
   const handlePOIMarkerClick = (marker) => {
     getPOIPhotosQueryTrigger(setPOIPhotosQuery(marker.fsq_id));
     dispatch(setIsShowingAddtionalMarker(true));
+    dispatch(setIsShowingOnlySelectedPOI(true));
     dispatch(setSelectedPOI(marker.fsq_id));
-    dispatch(setViewState({ latitude: marker.geocodes.main.latitude, longitude: marker.geocodes.main.longitude, zoom: 17 }));
+    dispatch(setViewState({ latitude: marker.geocodes.main.latitude, longitude: marker.geocodes.main.longitude, zoom: viewState.zoom }));
   };
 
   if ((data && data.results.length > 0 && !isShowingOnlySelectedPOI)) {
@@ -32,7 +34,9 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
           latitude={marker.geocodes.main.latitude}
           offset={[0, 40]}
         >
-          <button className='cardPOIMarker text-2xl text-orange-400'>{`${i + 1}`}{isfullPOIname ? ` ${marker.name}` : null}</button>
+          <button className='cardPOIMarker text-xl text-orange-400'>
+            {`${i + 1}`}{isfullPOIname ? ` ${marker.name} ${marker.distance}m` : null}
+          </button>
         </Marker>
       </div>
     ));
@@ -51,7 +55,9 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
             latitude={filteredResult.geocodes.main.latitude}
             offset={[0, 40]}
           >
-            <button className='cardPOIMarker text-2xl text-orange-400'>{isfullPOIname ? ` ${filteredResult.name}` : null}</button>
+            <button className='cardPOIMarker text-xl text-orange-400'>
+              {isfullPOIname ? ` ${filteredResult.name} ${filteredResult.distance}m` : null}
+            </button>
           </Marker>
         </div>
       );

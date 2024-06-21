@@ -1,19 +1,27 @@
 /* eslint-disable react/prop-types */
 import { Marker } from 'react-map-gl';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FoursquareResponsePropTypes } from '../constants/fourSqaurePropTypes';
+import CustomButton from './CustomButton';
+import { setIsShowingAddtionalMarker, setIsShowingOnlySelectedPOI } from '../redux/reducers/mapReducer';
 
 export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult }) {
   const selectedPOI = useSelector((state) => state.mapReducer.selectedPOI);
   const isShowingAddtionalMarker = useSelector((state) => state.mapReducer.isShowingAddtionalMarker);
+  const dispatch = useDispatch();
+
+  const handleCloseButton = () => {
+    dispatch(setIsShowingAddtionalMarker(false));
+    dispatch(setIsShowingOnlySelectedPOI(false));
+  };
 
   const formatPhotos = () => ((getPOIPhotosQueryResult.data && getPOIPhotosQueryResult.data.length > 0)
     ? getPOIPhotosQueryResult.data.map((photo) => (
       <img
         key={photo.id}
         className='m-1'
-        src={`${photo.prefix}120x120${photo.suffix}`}
-        alt={`${photo.prefix}120x120${photo.suffix}`}
+        src={`${photo.prefix}96x96${photo.suffix}`}
+        alt={`${photo.prefix}96x96${photo.suffix}`}
       />
     )) : null);
 
@@ -38,9 +46,11 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult }) 
           <Marker
             longitude={filteredResult.geocodes.main.longitude}
             latitude={filteredResult.geocodes.main.latitude}
-            offset={[0, 130]}
+            offset={[0, 120]}
           >
+            <CustomButton label='x' onClick={handleCloseButton} />
             <div className='flex flex-wrap cardPOIAddInfo text-2xl text-orange-400'>
+              <div className='text-2xl'>{`${filteredResult.name} (${filteredResult.location.address}) ${filteredResult.distance} m`}</div>
               {getPhotos()}
             </div>
           </Marker>

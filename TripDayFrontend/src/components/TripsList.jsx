@@ -3,7 +3,7 @@ import { skipToken } from '@reduxjs/toolkit/query/react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Toggle from 'react-toggle';
 import { useLazyGetNearbyPOIQuery, useLazyGetPOIPhotosQuery } from '../api/mapboxSliceAPI';
-import { setCurrentLocation, setViewState, setIsfullPOIname, setIsShowingOnlySelectedPOI } from '../redux/reducers/mapReducer';
+import { setCurrentLocation, setViewState, setIsfullPOIname, setIsShowingOnlySelectedPOI, setSelectedPOI } from '../redux/reducers/mapReducer';
 import CustomMap from './CustomMap';
 import CustomButton from './CustomButton';
 import NearbyPOIList from './NearbyPOIList';
@@ -19,7 +19,6 @@ function TripsList() {
 
   const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
   const isfullPOIname = useSelector((state) => state.mapReducer.isfullPOIname);
-  const isShowingOnlySelectedPOI = useSelector((state) => state.mapReducer.isShowingOnlySelectedPOI);
   const dispatch = useDispatch();
 
   const setPOIQuery = (ll, radius, limit, category, icon) => ({ ll, radius, limit, category, icon });
@@ -55,27 +54,44 @@ function TripsList() {
   const handleRestaurantButton = () => {
     if (hasLonLat()) {
       getNearbyPOIQueryTrigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4d4b7105d754a06374d81259', restaurantIcon));
+      dispatch(setViewState({
+        longitude: gpsLonLat.longitude,
+        latitude: gpsLonLat.latitude,
+        zoom: 15
+      }));
+      dispatch(setIsShowingOnlySelectedPOI(false));
+      dispatch(setSelectedPOI(''));
     }
   };
 
   const handleHotelButton = () => {
     if (hasLonLat()) {
       getNearbyPOIQueryTrigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4bf58dd8d48988d1fa931735', hotelIcon));
+      dispatch(setViewState({
+        longitude: gpsLonLat.longitude,
+        latitude: gpsLonLat.latitude,
+        zoom: 15
+      }));
+      dispatch(setIsShowingOnlySelectedPOI(false));
+      dispatch(setSelectedPOI(''));
     }
   };
 
   const handleCarButton = () => {
     if (hasLonLat()) {
       getNearbyPOIQueryTrigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4d4b7105d754a06379d81259', carIcon));
+      dispatch(setViewState({
+        longitude: gpsLonLat.longitude,
+        latitude: gpsLonLat.latitude,
+        zoom: 15
+      }));
+      dispatch(setIsShowingOnlySelectedPOI(false));
+      dispatch(setSelectedPOI(''));
     }
   };
 
   const handleFullNameToggle = () => {
     dispatch(setIsfullPOIname(!isfullPOIname));
-  };
-
-  const handleIsShowingOnlySelectedPOIToggle = () => {
-    dispatch(setIsShowingOnlySelectedPOI(!isShowingOnlySelectedPOI));
   };
 
   const getLoadingStatus = () => (
@@ -106,32 +122,27 @@ function TripsList() {
     </div>
   ) : <div className='cardInfo text-2xl'>Press location button to get current GPS location for searching</div>);
 
+  const getPlaceNameToggle = () => (
+    <div className='text-2xl'>
+      Place Name
+      <Toggle
+        className='ml-2 align-middle'
+        icons={false}
+        defaultChecked={isfullPOIname}
+        onChange={handleFullNameToggle}
+      />
+    </div>
+  );
+
   return (
-    <div className='container mx-auto'>
+    <div className='mx-auto'>
+      {getLocation()}
+      {getPlaceNameToggle()}
       <div>
         <CustomButton label={gpsIcon} onClick={handleGPSButton} />
         <CustomButton label={restaurantIcon} onClick={handleRestaurantButton} disabled={!hasLonLat()} />
         <CustomButton label={hotelIcon} onClick={handleHotelButton} disabled={!hasLonLat()} />
         <CustomButton label={carIcon} onClick={handleCarButton} disabled={!hasLonLat()} />
-        {getLocation()}
-      </div>
-      <div className='text-2xl'>
-        Show Full POI Name
-        <Toggle
-          className='ml-2 align-middle'
-          icons={false}
-          defaultChecked={isfullPOIname}
-          onChange={handleFullNameToggle}
-        />
-      </div>
-      <div className='text-2xl'>
-        Show only Selected Place
-        <Toggle
-          className='ml-2 align-middle'
-          icons={false}
-          defaultChecked={isShowingOnlySelectedPOI}
-          onChange={handleIsShowingOnlySelectedPOIToggle}
-        />
       </div>
       {getLoadingStatus()}
       <CustomMap
