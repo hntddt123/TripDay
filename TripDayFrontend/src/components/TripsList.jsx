@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -17,6 +18,7 @@ function TripsList() {
   const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error }] = useLazyGetNearbyPOIQuery();
   const [getPOIPhotosQueryTrigger, getPOIPhotosQueryResult] = useLazyGetPOIPhotosQuery(isSuccess ? poi : skipToken);
 
+  const mapRef = useRef();
   const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
   const isfullPOIname = useSelector((state) => state.mapReducer.isfullPOIname);
   const dispatch = useDispatch();
@@ -145,12 +147,14 @@ function TripsList() {
         <CustomButton label={carIcon} onClick={handleCarButton} disabled={!hasLonLat()} />
       </div>
       {getLoadingStatus()}
-      <CustomMap
-        data={(poi) || null}
-        getPOIPhotosQueryResult={(getPOIPhotosQueryResult) || null}
-        getPOIPhotosQueryTrigger={getPOIPhotosQueryTrigger}
-      />
-      <NearbyPOIList poi={poi} />
+      <div ref={mapRef}>
+        <CustomMap
+          data={(poi) || null}
+          getPOIPhotosQueryResult={(getPOIPhotosQueryResult) || null}
+          getPOIPhotosQueryTrigger={getPOIPhotosQueryTrigger}
+        />
+      </div>
+      <NearbyPOIList poi={poi} mapRef={mapRef} />
       {/* <CustomButton label='Save' /> */}
     </div>
   );

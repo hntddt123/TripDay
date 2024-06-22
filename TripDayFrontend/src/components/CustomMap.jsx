@@ -46,7 +46,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
       {...viewState}
       onMove={onMove}
       onClick={handleClick}
-      style={{ width: '100%', height: '90vh', borderRadius: 15 }}
+      style={{ width: '100vw', height: '90vh', borderRadius: 10 }}
       mapStyle={mapStyle}
       mapLib={import('mapbox-gl')}
       mapboxAccessToken={MAPBOX_API_KEY}

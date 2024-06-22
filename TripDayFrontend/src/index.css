@@ -52,6 +52,35 @@ body {
     background-color: theme('backgroundColor.amber.300');
   }
 
+  .cancelButton {
+    margin-bottom: 1rem;
+    padding-left: theme('spacing.2');
+    padding-right: theme('spacing.2');
+    align-content: center;
+    border-radius: 50%;
+    background-color: theme('backgroundColor.red.600');
+    opacity: 0.9;
+  }
+
+  .cancelButton:hover {
+    margin-bottom: 1rem;
+    padding-left: theme('spacing.2');
+    padding-right: theme('spacing.2');
+    align-content: center;
+    border-radius: 50%;
+    background-color: theme('backgroundColor.red.700');
+  }
+
+  .cancelButton:active {
+    margin-bottom: 1rem;
+    padding-left: theme('spacing.2');
+    padding-right: theme('spacing.2');
+    align-content: center;
+    border-radius: 50%;
+    background-color: theme('backgroundColor.red.800');
+  }
+
+
   .title {
     font-weight: 300;
     font-family: 'Courier New', Courier, monospace;
@@ -173,7 +202,9 @@ body {
   }
 
   .cardPOIAddInfo {
-    margin: auto;
+    margin-top: 7rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
     border-radius: theme('borderRadius.lg');
     border-color: theme('colors.amber.300');
     border-top-width: theme('borderWidth.0');
@@ -181,6 +212,12 @@ body {
     border-left-width: theme('borderWidth.0');
     border-right-width: theme('borderWidth.0');
     background-color: theme('backgroundColor.amber.50');
+  }
+
+  .cardPOIAddInfoPictures {
+    overflow: auto;
+    margin-top: 1rem;
+    padding-bottom: 100%;
   }
 
 
@@ -206,4 +243,38 @@ body {
     border-left-width: theme('borderWidth.8');
     border-right-width: theme('borderWidth.0');
   }
+
+  .picture {
+    margin: theme('spacing.[0.5]');
+    border-radius: theme('borderRadius.md');
+    border-width: 0;
+    padding: 0;
+    width: 20%;
+    height: 20%;
+    max-width: 200px;
+    max-height: 200px;
+    min-height: 80px;
+    min-width: 80px;
+    transform-origin: top left;
+    -webkit-transform-origin: top left;
+    transition-property: transform;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+  }
+
+  .picture:hover {
+    cursor: pointer;
+  }
+
+  .picture:focus {
+    margin: theme('spacing.[0.5]');
+    transform: translate(0%, 0%) scale(2.75);
+    transform-origin: top left;
+    -webkit-transform: translate(0%, 0%) scale(2.75);
+    -webkit-transform-origin: top left;
+    transition-property: transform;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+  }
+
 }

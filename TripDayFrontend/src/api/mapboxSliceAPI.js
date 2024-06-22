@@ -39,7 +39,7 @@ export const mapboxApi = createApi({
       }
     }),
     getPOIPhotos: builder.query({
-      query: ({ fsqId }) => `places/${fsqId}/photos?limit=3&sort=POPULAR`,
+      query: ({ fsqId }) => `places/${fsqId}/photos?limit=10&sort=POPULAR`,
     })
   }),
 });

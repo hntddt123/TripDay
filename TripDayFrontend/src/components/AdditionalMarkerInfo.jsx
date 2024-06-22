@@ -1,17 +1,17 @@
 /* eslint-disable react/prop-types */
-import { Marker } from 'react-map-gl';
+import { Popup } from 'react-map-gl';
 import { useDispatch, useSelector } from 'react-redux';
 import { FoursquareResponsePropTypes } from '../constants/fourSqaurePropTypes';
 import CustomButton from './CustomButton';
-import { setIsShowingAddtionalMarker, setIsShowingOnlySelectedPOI } from '../redux/reducers/mapReducer';
+import { setIsShowingAddtionalPopUp, setIsShowingOnlySelectedPOI } from '../redux/reducers/mapReducer';
 
 export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult }) {
   const selectedPOI = useSelector((state) => state.mapReducer.selectedPOI);
-  const isShowingAddtionalMarker = useSelector((state) => state.mapReducer.isShowingAddtionalMarker);
+  const isShowingAddtionalPopUp = useSelector((state) => state.mapReducer.isShowingAddtionalPopUp);
   const dispatch = useDispatch();
 
   const handleCloseButton = () => {
-    dispatch(setIsShowingAddtionalMarker(false));
+    dispatch(setIsShowingAddtionalPopUp(false));
     dispatch(setIsShowingOnlySelectedPOI(false));
   };
 
@@ -19,9 +19,11 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult }) 
     ? getPOIPhotosQueryResult.data.map((photo) => (
       <img
         key={photo.id}
-        className='m-1'
-        src={`${photo.prefix}96x96${photo.suffix}`}
-        alt={`${photo.prefix}96x96${photo.suffix}`}
+        className='picture'
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+        tabIndex='0'
+        src={`${photo.prefix}400x400${photo.suffix}`}
+        alt={`${photo.prefix}400x400${photo.suffix}`}
       />
     )) : null);
 
@@ -38,22 +40,32 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult }) 
     return null;
   };
 
-  if (data && data.results.length > 0 && isShowingAddtionalMarker) {
+  if (data && data.results.length > 0 && isShowingAddtionalPopUp) {
     const filteredResult = data.results.filter((marker) => marker.fsq_id === selectedPOI)[0];
     if (filteredResult) {
       return (
-        <div key={filteredResult.fsq_id}>
-          <Marker
+        <div>
+          <Popup
+            key={filteredResult.geocodes.main.longitude + filteredResult.geocodes.main.latitude}
             longitude={filteredResult.geocodes.main.longitude}
             latitude={filteredResult.geocodes.main.latitude}
-            offset={[0, 120]}
+            anchor='bottom'
+            closeOnClick={false}
+            closeButton={false}
+            style={{ display: 'none' }}
+          />
+          <div
+            className='mapboxgl-popup-content text-xl cardPOIAddInfo text-orange-500'
+            style={{ borderRadius: 20, backgroundColor: 'rgba(0,0,0,0.7)' }}
           >
-            <CustomButton label='x' onClick={handleCloseButton} />
-            <div className='flex flex-wrap cardPOIAddInfo text-2xl text-orange-400'>
-              <div className='text-2xl'>{`${filteredResult.name} (${filteredResult.location.address}) ${filteredResult.distance} m`}</div>
+            <CustomButton className='cancelButton text-orange-950' label='X' onClick={handleCloseButton} />
+            <div className='text-xl'>
+              {` ${filteredResult.name} (${filteredResult.location.address}) ${filteredResult.distance} m`}
+            </div>
+            <div className='flex cardPOIAddInfoPictures'>
               {getPhotos()}
             </div>
-          </Marker>
+          </div>
         </div>
       );
     }

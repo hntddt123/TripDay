@@ -1,13 +1,17 @@
 /* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedPOI, setViewState, setIsShowingAddtionalMarker } from '../redux/reducers/mapReducer';
+import { setSelectedPOI, setViewState, setIsShowingAddtionalPopUp, setIsShowingOnlySelectedPOI } from '../redux/reducers/mapReducer';
 
-function NearbyPOIList({ poi }) {
+function NearbyPOIList({ poi, mapRef }) {
   const viewState = useSelector((state) => state.mapReducer.viewState);
   const dispatch = useDispatch();
 
   const handlePOIListItemClick = (marker) => () => {
-    dispatch(setIsShowingAddtionalMarker(false));
+    if (mapRef.current) {
+      mapRef.current.scrollIntoView();
+    }
+    dispatch(setIsShowingAddtionalPopUp(false));
+    dispatch(setIsShowingOnlySelectedPOI(true));
     dispatch(setSelectedPOI(marker.fsq_id));
     dispatch(setViewState({ latitude: marker.geocodes.main.latitude, longitude: marker.geocodes.main.longitude, zoom: viewState.zoom }));
   };
