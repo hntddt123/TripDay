@@ -49,8 +49,7 @@ export default function DirectionLayer({ getDirectionsQueryResults }) {
                 <div key={getDirectionsQueryResults.data.uuid + i}>
                   {i + 1}. {step.maneuver.instruction}
                 </div>
-              ))
-              }
+              ))}
             </div>
           </Marker>
         ) : null}
