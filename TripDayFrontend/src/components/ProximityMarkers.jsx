@@ -47,7 +47,7 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
         >
           <CustomButton
             className='cardPOIMarker text-xl text-orange-500'
-            label={`${i + 1} ${marker.name} ${isfullPOIname ? `${marker.name} ${marker.distance}` : null}m`}
+            label={`${i + 1} ${isfullPOIname ? `${marker.name} ${marker.distance}m` : ''}`}
           />
         </Marker>
       </div>
@@ -56,7 +56,7 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
   if (data && data.results.length > 0 && isShowingOnlySelectedPOI) {
     const filteredResult = data.results.filter((marker) => marker.fsq_id === selectedPOI)[0];
     if (filteredResult) {
-      const filterText = isfullPOIname ? ` ${filteredResult.name} ${filteredResult.distance}m` : null;
+      const filterText = `${filteredResult.name} ${filteredResult.distance}m`;
       return (
         <div key={filteredResult.fsq_id}>
           <Marker longitude={filteredResult.geocodes.main.longitude} latitude={filteredResult.geocodes.main.latitude}>

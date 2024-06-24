@@ -128,9 +128,10 @@ body {
   }
 
   .cardPOIAddInfo {
-    margin-top: 7rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
+    z-index: 2;
+    margin-top: 10rem;
+    margin-left: 0.1rem;
+    margin-right: 0.1rem;
     border-radius: theme('borderRadius.lg');
     border-color: theme('colors.amber.300');
     border-top-width: theme('borderWidth.0');
@@ -193,9 +194,9 @@ body {
   }
 
   .picture:focus {
-    transform: translate(0%, 0%) scale(2.75);
+    transform: translate(0%, 0%) scale(2.5);
     transform-origin: top left;
-    -webkit-transform: translate(0%, 0%) scale(2.75);
+    -webkit-transform: translate(0%, 0%) scale(2.5);
     -webkit-transform-origin: top left;
     transition-property: transform;
     transition-duration: 0.2s;
@@ -215,8 +216,9 @@ body {
     background-color: theme('backgroundColor.amber.50');
   }
 
-  .sidemenu {
+  .bottommenu {
     position: absolute;
+    z-index: 1;
     top: 75%;
     bottom: 6%;
     width: 100%;

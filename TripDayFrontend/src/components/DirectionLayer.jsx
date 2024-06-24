@@ -43,7 +43,7 @@ export default function DirectionLayer({ getDirectionsQueryResults }) {
             <div className='text-2xl cardPOIMarker text-orange-500'>
               {`${(getDirectionsQueryResults.data.routes[0].legs[0].duration / 60).toFixed(0)} Min walk`}
             </div>
-            <div className='text-4xl instructions'>
+            <div className='text-xl instructions'>
               {`${(getDirectionsQueryResults.data.routes[0].legs[0].steps.map((step) => step.maneuver.instruction))}`}
             </div>
           </Marker>

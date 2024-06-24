@@ -47,6 +47,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
       lng: lng,
       lat: lat
     };
+    console.log(event)
     dispatch(setMarker(newMarker));
     dispatch(setIsShowingOnlySelectedPOI(false));
   };
@@ -62,7 +63,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
       mapStyle={mapStyle}
       mapLib={import('mapbox-gl')}
       mapboxAccessToken={MAPBOX_API_KEY}
-      // cooperativeGestures
+      cooperativeGestures
     >
       <FullscreenControl position='top-left' />
       <GeolocateControl
@@ -83,7 +84,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
           getDirectionsQueryResults={getDirectionsQueryResults}
         />
       ) : null}
-      <div className='sidemenu'>
+      <div className='bottommenu'>
         <NearbyPOIList poi={data} />
       </div>
     </Map>

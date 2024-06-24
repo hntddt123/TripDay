@@ -74,10 +74,10 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
             style={{ borderRadius: 20, backgroundColor: 'rgba(0,0,0,0.7)' }}
           >
             <CustomButton className='cancelButton text-orange-950' label='X' onClick={handleCloseButton} />
-            <div className='text-xl'>
-              <CustomButton className='button text-orange-950' label='Get Direction' onClick={handleDirectionButton} />
-              {` ${filteredResult.name} (${filteredResult.location.address}) ${filteredResult.distance} m`}
+            <div className='text-2xl'>
+              {`${filteredResult.name} (${filteredResult.location.address}) ${filteredResult.distance} m`}
             </div>
+            <CustomButton className='poiButton text-orange-950' label='Get Direction' onClick={handleDirectionButton} />
             <div className='flex cardPOIAddInfoPictures'>
               {getPhotos()}
             </div>
