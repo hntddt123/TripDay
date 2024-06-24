@@ -47,7 +47,6 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
       lng: lng,
       lat: lat
     };
-    console.log(event)
     dispatch(setMarker(newMarker));
     dispatch(setIsShowingOnlySelectedPOI(false));
   };
