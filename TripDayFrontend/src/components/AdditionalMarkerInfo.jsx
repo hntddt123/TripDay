@@ -5,14 +5,29 @@ import { FoursquareResponsePropTypes } from '../constants/fourSqaurePropTypes';
 import CustomButton from './CustomButton';
 import { setIsShowingAddtionalPopUp, setIsShowingOnlySelectedPOI } from '../redux/reducers/mapReducer';
 
-export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult }) {
+export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, getDirectionsQueryTrigger }) {
   const selectedPOI = useSelector((state) => state.mapReducer.selectedPOI);
+  const selectedPOILonLat = useSelector((state) => state.mapReducer.selectedPOILonLat);
+  const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
   const isShowingAddtionalPopUp = useSelector((state) => state.mapReducer.isShowingAddtionalPopUp);
   const dispatch = useDispatch();
+
+  const setRouteQuery = (lonStart, latStart, lonEnd, latEnd) => ({ lonStart, latStart, lonEnd, latEnd });
 
   const handleCloseButton = () => {
     dispatch(setIsShowingAddtionalPopUp(false));
     dispatch(setIsShowingOnlySelectedPOI(false));
+  };
+
+  const handleDirectionButton = () => {
+    getDirectionsQueryTrigger(setRouteQuery(
+      gpsLonLat.longitude,
+      gpsLonLat.latitude,
+      selectedPOILonLat.longitude,
+      selectedPOILonLat.latitude
+    ));
+    dispatch(setIsShowingAddtionalPopUp(false));
+    dispatch(setIsShowingOnlySelectedPOI(true));
   };
 
   const formatPhotos = () => ((getPOIPhotosQueryResult.data && getPOIPhotosQueryResult.data.length > 0)
@@ -60,6 +75,7 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult }) 
           >
             <CustomButton className='cancelButton text-orange-950' label='X' onClick={handleCloseButton} />
             <div className='text-xl'>
+              <CustomButton className='button text-orange-950' label='Get Direction' onClick={handleDirectionButton} />
               {` ${filteredResult.name} (${filteredResult.location.address}) ${filteredResult.distance} m`}
             </div>
             <div className='flex cardPOIAddInfoPictures'>

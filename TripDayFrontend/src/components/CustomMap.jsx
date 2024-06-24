@@ -1,22 +1,32 @@
 /* eslint-disable react/prop-types */
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Map, { FullscreenControl, GeolocateControl, NavigationControl } from 'react-map-gl';
 import { FoursquareResponsePropTypes } from '../constants/fourSqaurePropTypes';
-import { setViewState, setMarker, setCurrentLocation } from '../redux/reducers/mapReducer';
+import { setViewState, setMarker, setCurrentLocation, setIsShowingOnlySelectedPOI } from '../redux/reducers/mapReducer';
 import { MAPBOX_API_KEY } from '../constants/constants';
+import { useLazyGetDirectionsQuery } from '../api/mapboxSliceAPI';
 // import ClickMarker from './ClickMarker';
 import ProximityMarkers from './ProximityMarkers';
 import AdditionalMarkerInfo from './AdditionalMarkerInfo';
+import DirectionLayer from './DirectionLayer';
+import NearbyPOIList from './NearbyPOIList';
 
 // react-map-gl component
 export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQueryTrigger }) {
+  const [getDirectionsQueryTrigger, getDirectionsQueryResults] = useLazyGetDirectionsQuery();
+
   const mapStyle = useSelector((state) => state.mapReducer.mapStyle);
   const viewState = useSelector((state) => state.mapReducer.viewState);
   const mapRef = useRef();
   const geoControlRef = useRef();
+  const [mapLoaded, setMapLoaded] = useState(false);
   const dispatch = useDispatch();
+
+  const handleStyleLoad = () => {
+    setMapLoaded(true);
+  };
 
   const onMove = useCallback((event) => {
     dispatch(setViewState(event.viewState));
@@ -38,6 +48,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
       lat: lat
     };
     dispatch(setMarker(newMarker));
+    dispatch(setIsShowingOnlySelectedPOI(false));
   };
 
   return (
@@ -46,11 +57,12 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
       {...viewState}
       onMove={onMove}
       onClick={handleClick}
+      onLoad={handleStyleLoad}
       style={{ width: '100vw', height: '90vh', borderRadius: 10 }}
       mapStyle={mapStyle}
       mapLib={import('mapbox-gl')}
       mapboxAccessToken={MAPBOX_API_KEY}
-      cooperativeGestures
+      // cooperativeGestures
     >
       <FullscreenControl position='top-left' />
       <GeolocateControl
@@ -63,9 +75,17 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
         trackUserLocation
       />
       <NavigationControl />
-      {/* {mapRef ? <ClickMarker /> : null} */}
       <ProximityMarkers data={data} getPOIPhotosQueryTrigger={getPOIPhotosQueryTrigger} />
-      <AdditionalMarkerInfo data={data} getPOIPhotosQueryResult={getPOIPhotosQueryResult} />
+      <AdditionalMarkerInfo data={data} getPOIPhotosQueryResult={getPOIPhotosQueryResult} getDirectionsQueryTrigger={getDirectionsQueryTrigger} />
+      {/* {(mapLoaded) ? <ClickMarker /> : null} */}
+      {(mapLoaded) ? (
+        <DirectionLayer
+          getDirectionsQueryResults={getDirectionsQueryResults}
+        />
+      ) : null}
+      <div className='sidemenu'>
+        <NearbyPOIList poi={data} />
+      </div>
     </Map>
   );
 }

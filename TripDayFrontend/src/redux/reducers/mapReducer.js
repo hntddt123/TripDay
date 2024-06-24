@@ -11,6 +11,7 @@ const initialMapState = {
   markers: [],
   selectedPOI: '',
   selectedPOIIcon: '',
+  selectedPOILonLat: { longitude: null, latitude: null },
   isfullPOIname: true,
   isShowingOnlySelectedPOI: false,
   isShowingAddtionalPopUp: false
@@ -26,6 +27,7 @@ const mapSlice = createSlice({
     setUserOption: (state, action) => ({ ...state, userOption: { searchCategory: action.payload } }),
     setSelectedPOI: (state, action) => ({ ...state, selectedPOI: action.payload }),
     setSelectedPOIIcon: (state, action) => ({ ...state, selectedPOIIcon: action.payload }),
+    setselectedPOILonLat: (state, action) => ({ ...state, selectedPOILonLat: action.payload }),
     setIsfullPOIname: (state, action) => ({ ...state, isfullPOIname: action.payload }),
     setIsShowingOnlySelectedPOI: (state, action) => ({ ...state, isShowingOnlySelectedPOI: action.payload }),
     setIsShowingAddtionalPopUp: (state, action) => ({ ...state, isShowingAddtionalPopUp: action.payload })
@@ -38,6 +40,7 @@ export const {
   setCurrentLocation,
   setSelectedPOI,
   setSelectedPOIIcon,
+  setselectedPOILonLat,
   setIsfullPOIname,
   setIsShowingOnlySelectedPOI,
   setIsShowingAddtionalPopUp

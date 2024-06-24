@@ -1,15 +1,12 @@
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/query/react';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import Toggle from 'react-toggle';
-import { useLazyGetNearbyPOIQuery, useLazyGetPOIPhotosQuery } from '../api/mapboxSliceAPI';
-import { setCurrentLocation, setViewState, setIsfullPOIname, setIsShowingOnlySelectedPOI, setSelectedPOI } from '../redux/reducers/mapReducer';
+import { useLazyGetNearbyPOIQuery, useLazyGetPOIPhotosQuery } from '../api/foursquareSliceAPI';
+import { setViewState, setIsfullPOIname, setIsShowingOnlySelectedPOI, setSelectedPOI } from '../redux/reducers/mapReducer';
 import CustomMap from './CustomMap';
 import CustomButton from './CustomButton';
-import NearbyPOIList from './NearbyPOIList';
 
-const gpsIcon = '🛰️';
 const restaurantIcon = '🍱';
 const hotelIcon = '🛌';
 const carIcon = '🚘';
@@ -26,32 +23,6 @@ function TripsList() {
   const setPOIQuery = (ll, radius, limit, category, icon) => ({ ll, radius, limit, category, icon });
 
   const hasLonLat = () => (gpsLonLat.longitude !== null && gpsLonLat.latitude !== null);
-
-  function success(position) {
-    const { longitude, latitude } = position.coords;
-
-    dispatch(setCurrentLocation({
-      longitude: longitude,
-      latitude: latitude
-    }));
-    dispatch(setViewState({
-      longitude: longitude,
-      latitude: latitude,
-      zoom: 15
-    }));
-  }
-
-  function gpsError() {
-    console.error('Unable to retrieve your location');
-  }
-
-  const handleGPSButton = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(success, gpsError);
-    } else {
-      console.error('Geolocation not supported');
-    }
-  };
 
   const handleRestaurantButton = () => {
     if (hasLonLat()) {
@@ -113,9 +84,6 @@ function TripsList() {
   const getLocation = () => ((hasLonLat()) ? (
     <div className='cardInfo'>
       <div className='text-2xl'>
-        Click above options
-      </div>
-      <div className='text-2xl'>
         {`Longtitude: ${gpsLonLat.longitude}`}
       </div>
       <div className='text-2xl'>
@@ -141,10 +109,9 @@ function TripsList() {
       {getLocation()}
       {getPlaceNameToggle()}
       <div>
-        <CustomButton label={gpsIcon} onClick={handleGPSButton} />
-        <CustomButton label={restaurantIcon} onClick={handleRestaurantButton} disabled={!hasLonLat()} />
-        <CustomButton label={hotelIcon} onClick={handleHotelButton} disabled={!hasLonLat()} />
-        <CustomButton label={carIcon} onClick={handleCarButton} disabled={!hasLonLat()} />
+        <CustomButton className='poiButton' label={restaurantIcon} onClick={handleRestaurantButton} disabled={!hasLonLat()} />
+        <CustomButton className='poiButton' label={hotelIcon} onClick={handleHotelButton} disabled={!hasLonLat()} />
+        <CustomButton className='poiButton' label={carIcon} onClick={handleCarButton} disabled={!hasLonLat()} />
       </div>
       {getLoadingStatus()}
       <div ref={mapRef}>
@@ -154,7 +121,6 @@ function TripsList() {
           getPOIPhotosQueryTrigger={getPOIPhotosQueryTrigger}
         />
       </div>
-      <NearbyPOIList poi={poi} mapRef={mapRef} />
       {/* <CustomButton label='Save' /> */}
     </div>
   );

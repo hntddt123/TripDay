@@ -1,47 +1,27 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import fetch from 'isomorphic-fetch';
-import { FOURSQUARE_API_KEY } from '../constants/constants';
-import { setSelectedPOIIcon } from '../redux/reducers/mapReducer';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { MAPBOX_API_KEY } from '../constants/constants';
 
 /*
-  Use mapbox api v6
-  Place Search
-  https://api.foursquare.com/v3/places/search?ll=25.1593548,121.4296176&categories=4d4b7105d754a06374d81259&radius=500
-  example: 4d4b7105d754a06374d81259 restaurants
-  example: 4bf58dd8d48988d1fa931735 hotels
-  example: authorization: APIKEY
-
-  Place Photos
-  https://api.foursquare.com/v3/places/{fsq_id}/photos
-  example: 老漁村 7625320806284d325e90f3af
-
-  Place
+  Get Directions
+  https://api.mapbox.com/directions/v5/mapbox/walking/121.429999%2C25.159405%3B121.431372%2C25.160944
+  &steps=true
+  &geometries=geojson
+  &access_token={token}
 */
 export const mapboxApi = createApi({
   reducerPath: 'mapboxApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://api.foursquare.com/v3/',
-    fetchFn: fetch,
-    prepareHeaders: (headers) => {
-      headers.set('Authorization', FOURSQUARE_API_KEY);
-    }
+    baseUrl: 'https://api.mapbox.com/',
+    fetchFn: fetch
   }),
   endpoints: (builder) => ({
-    getNearbyPOI: builder.query({
-      query: ({ ll, radius, limit, category }) => `places/search?ll=${ll}&radius=${radius}&limit=${limit}&categories=${category}&sort=DISTANCE`,
-      async onQueryStarted(data, { dispatch, queryFulfilled }) {
-        try {
-          await queryFulfilled;
-          dispatch(setSelectedPOIIcon(data.icon));
-        } catch (err) {
-          dispatch(setSelectedPOIIcon(err.message));
-        }
-      }
+    getDirections: builder.query({
+      query: ({ lonStart, latStart, lonEnd, latEnd }) =>
+        // eslint-disable-next-line implicit-arrow-linebreak
+        `directions/v5/mapbox/walking/${lonStart},${latStart};${lonEnd},${latEnd}?steps=true&geometries=geojson&access_token=${MAPBOX_API_KEY}`,
     }),
-    getPOIPhotos: builder.query({
-      query: ({ fsqId }) => `places/${fsqId}/photos?limit=10&sort=POPULAR`,
-    })
   }),
 });
 
-export const { useLazyGetNearbyPOIQuery, useLazyGetPOIPhotosQuery } = mapboxApi;
+export const { useLazyGetDirectionsQuery } = mapboxApi;
