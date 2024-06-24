@@ -11,19 +11,32 @@ body {
 }
 
 @layer components {
+  body {
+    @apply bg-primary-light dark:bg-primary-dark;
+  }
+
+  div {
+    @apply dark:text-white;
+  }
+
   .button {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    text-align: center;
     align-content: center;
+    margin: 0.5rem;
     border-radius: theme('borderRadius.lg');
-    border-width: theme('borderWidth.2');
     padding: theme('spacing.6');
     box-shadow: theme('boxShadow.sm');
-    background-color: theme('backgroundColor.amber.300');
-    border-color: theme('backgroundColor.amber.50');
+    @apply 
+    bg-primary-buttonLight dark:bg-primary-buttonDark 
+    text-black dark:text-white;
   }
 
   .button:hover {
     border-color: theme('backgroundColor.amber.50');
-    background-color: theme('backgroundColor.amber.400');
+    @apply 
+    bg-amber-400 dark:bg-amber-600;
   }
 
   .button:active {
@@ -57,9 +70,15 @@ body {
 
 
   .title {
+    padding: 0.5rem;
     font-weight: 300;
     font-family: 'Courier New', Courier, monospace;
-    background-color: rgb(225, 255, 180, .8);
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    text-align: center;
+    @apply 
+    bg-primary-titleLight dark:bg-primary-titleDark
+    dark:text-black;
   }
 
   .card {
@@ -73,7 +92,7 @@ body {
   .cardTrip {
     margin: auto;
     padding: theme('spacing[0.5]');
-    background-color: rgba(225, 255, 180, 0.3);
+    @apply bg-primary-light dark:bg-primary-dark;
   }
 
   .cardPOI {
@@ -91,19 +110,23 @@ body {
     border-bottom-width: theme('borderWidth.0');
     border-left-width: theme('borderWidth.4');
     border-right-width: theme('borderWidth.4');
-    background-color: theme('backgroundColor.amber.50');
+    @apply 
+    bg-amber-50 dark:bg-amber-500
+    border-amber-400 dark:bg-primary-buttonDarkTransparent;
   }
 
   .cardPOI:hover {
     background-color: theme('backgroundColor.amber.100');
+    @apply  bg-amber-100 dark:bg-primary-buttonDark
   }
 
   .cardPOI:active {
-    background-color: theme('backgroundColor.amber.100');
+    @apply  bg-amber-100 dark:bg-amber-600
   }
 
   .cardPOI:focus, :focus-visible {
     background-color: theme('backgroundColor.amber.200');
+    @apply  bg-amber-200 dark:bg-amber-600
   }
 
   .cardPOIMarker {
@@ -116,7 +139,7 @@ body {
     border-bottom-width: theme('borderWidth.0');
     border-left-width: theme('borderWidth.0');
     border-right-width: theme('borderWidth.0');
-    background-color: theme('backgroundColor.amber.50');
+    @apply bg-amber-50 dark:bg-primary-buttonDarkTransparent
   }
 
   .cardPOIMarker:hover {
@@ -138,7 +161,7 @@ body {
     border-bottom-width: theme('borderWidth.0');
     border-left-width: theme('borderWidth.0');
     border-right-width: theme('borderWidth.0');
-    background-color: theme('backgroundColor.amber.50');
+    @apply text-white dark:text-white;
   }
 
   .cardPOIAddInfoPictures {
@@ -158,6 +181,8 @@ body {
     border-bottom-width: theme('borderWidth.0');
     border-left-width: theme('borderWidth.8');
     border-right-width: theme('borderWidth.0');
+    @apply 
+    bg-primary-titleLight dark:bg-primary-titleDark
   }
 
   .cardTitle {
@@ -169,6 +194,8 @@ body {
     border-bottom-width: theme('borderWidth.0');
     border-left-width: theme('borderWidth.8');
     border-right-width: theme('borderWidth.0');
+    @apply 
+    bg-primary-titleLight dark:bg-primary-titleDark
   }
 
   .picture {
@@ -213,7 +240,7 @@ body {
     padding: theme(spacing.2);
     overflow-y: scroll;
     border-radius: theme('borderRadius.lg');
-    background-color: theme('backgroundColor.amber.50');
+    @apply  bg-amber-50 dark:bg-primary-buttonDarkTransparent
   }
 
   .bottommenu {
@@ -224,24 +251,27 @@ body {
     width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
-    ;
   }
 
   .poiButton {
-    font-size: xx-large;
+    font-size: 1.75rem;
     line-height: 1.75rem;
     align-content: center;
     border-radius: theme('borderRadius.lg');
     margin: theme('spacing.1');
     padding: theme('spacing.2');
     box-shadow: theme('boxShadow.sm');
-    background-color: theme('backgroundColor.amber.300');
     border-color: theme('backgroundColor.amber.50');
+    @apply  
+    bg-primary-buttonLight dark:bg-primary-buttonDark
+    text-black dark:text-white
   }
 
   .poiButton:hover {
     border-color: theme('backgroundColor.amber.50');
     background-color: theme('backgroundColor.amber.400');
+    @apply  
+    bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover
   }
 
   .poiButton:active {

@@ -44,7 +44,13 @@ export default function DirectionLayer({ getDirectionsQueryResults }) {
               {`${(getDirectionsQueryResults.data.routes[0].legs[0].duration / 60).toFixed(0)} Min walk`}
             </div>
             <div className='text-xl instructions'>
-              {`${(getDirectionsQueryResults.data.routes[0].legs[0].steps.map((step) => step.maneuver.instruction))}`}
+              {getDirectionsQueryResults.data.routes[0].legs[0].steps.map((step, i) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <div key={getDirectionsQueryResults.data.uuid + i}>
+                  {i + 1}. {step.maneuver.instruction}
+                </div>
+              ))
+              }
             </div>
           </Marker>
         ) : null}

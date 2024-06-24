@@ -70,14 +70,14 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
             style={{ display: 'none' }}
           />
           <div
-            className='mapboxgl-popup-content text-xl cardPOIAddInfo text-orange-500'
+            className='mapboxgl-popup-content text-xl cardPOIAddInfo'
             style={{ borderRadius: 20, backgroundColor: 'rgba(0,0,0,0.7)' }}
           >
             <CustomButton className='cancelButton text-orange-950' label='X' onClick={handleCloseButton} />
             <div className='text-2xl'>
               {`${filteredResult.name} (${filteredResult.location.address}) ${filteredResult.distance} m`}
             </div>
-            <CustomButton className='poiButton text-orange-950' label='Get Direction' onClick={handleDirectionButton} />
+            <CustomButton className='poiButton' label='Get Direction' onClick={handleDirectionButton} />
             <div className='flex cardPOIAddInfoPictures'>
               {getPhotos()}
             </div>

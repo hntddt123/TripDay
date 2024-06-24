@@ -1,18 +1,18 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-function CustomButton({ className = 'text-center button text-2xl m-2', label, onClick, type = 'button', disabled = false, to, ...props }) {
+function CustomButton({ className = 'button dark:button', label, onClick, type = 'button', disabled = false, to, ...props }) {
   // If 'to' is provided, render a Link, otherwise render a button
   if (to) {
     return (
-      <Link className={`generic-button ${className}`} to={to} {...props}>
+      <Link className={`${className}`} to={to} {...props}>
         {label}
       </Link>
     );
   }
 
   return (
-    <button className={`generic-button ${className}`} type={type} onClick={onClick} disabled={disabled} {...props}>
+    <button className={`${className}`} type={type} onClick={onClick} disabled={disabled} {...props}>
       {label}
     </button>
   );

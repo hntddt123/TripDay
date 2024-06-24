@@ -2,19 +2,25 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import TripBoard from './components/TripBoard';
 import TripsList from './components/TripsList';
 import CustomButton from './components/CustomButton';
+import DarkModeToggle from './components/DarkModeToggle';
+
 import { MODE } from './constants/constants';
 
 function App() {
   return (
     <BrowserRouter basename='/'>
-      <header className='title text-4xl text-center p-2'>
-        Trip Day
+      <header className='flex title justify-between'>
+        <div />
+        <div className='content-center'>
+          Trip Day
+        </div>
+        <DarkModeToggle />
       </header>
       <Routes>
         <Route
           path='/'
           element={(
-            <div className='grid grid-cols-1 text-center container mx-auto'>
+            <div className='grid grid-cols-1 container text-center mx-auto'>
               <CustomButton label='New Trip' to='/newtrip' />
               <CustomButton label='View Trips' to='/trips' />
               <p className='text-2xl'>Version: {MODE}</p>

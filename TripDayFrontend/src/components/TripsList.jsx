@@ -93,7 +93,7 @@ function TripsList() {
   ) : <div className='cardInfo text-2xl'>Press location button to get current GPS location for searching</div>);
 
   const getPlaceNameToggle = () => (
-    <div className='text-2xl'>
+    <div className='text-2xl m-2'>
       Place Name
       <Toggle
         className='ml-2 align-middle'
@@ -108,7 +108,7 @@ function TripsList() {
     <div className='mx-auto'>
       {getLocation()}
       {getPlaceNameToggle()}
-      <div>
+      <div className='m-1'>
         <CustomButton className='poiButton' label={restaurantIcon} onClick={handleRestaurantButton} disabled={!hasLonLat()} />
         <CustomButton className='poiButton' label={hotelIcon} onClick={handleHotelButton} disabled={!hasLonLat()} />
         <CustomButton className='poiButton' label={carIcon} onClick={handleCarButton} disabled={!hasLonLat()} />
