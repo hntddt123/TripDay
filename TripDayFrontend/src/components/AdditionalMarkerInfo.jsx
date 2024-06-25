@@ -3,7 +3,7 @@ import { Popup } from 'react-map-gl';
 import { useDispatch, useSelector } from 'react-redux';
 import { FoursquareResponsePropTypes } from '../constants/fourSqaurePropTypes';
 import CustomButton from './CustomButton';
-import { setIsShowingAddtionalPopUp, setIsShowingOnlySelectedPOI } from '../redux/reducers/mapReducer';
+import { setIsShowingAddtionalPopUp, setIsShowingOnlySelectedPOI, setIsNavigating } from '../redux/reducers/mapReducer';
 
 export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, getDirectionsQueryTrigger }) {
   const selectedPOI = useSelector((state) => state.mapReducer.selectedPOI);
@@ -28,18 +28,18 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
     ));
     dispatch(setIsShowingAddtionalPopUp(false));
     dispatch(setIsShowingOnlySelectedPOI(true));
+    dispatch(setIsNavigating(true));
   };
 
   const formatPhotos = () => ((getPOIPhotosQueryResult.data && getPOIPhotosQueryResult.data.length > 0)
     ? getPOIPhotosQueryResult.data.map((photo) => (
-      <img
-        key={photo.id}
-        className='picture'
-        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-        tabIndex='0'
-        src={`${photo.prefix}400x400${photo.suffix}`}
-        alt={`${photo.prefix}400x400${photo.suffix}`}
-      />
+      <button key={photo.id} tabIndex={0} className='pictureContainer'>
+        <img
+          className='picture'
+          src={`${photo.prefix}400x400${photo.suffix}`}
+          alt={`${photo.prefix}400x400${photo.suffix}`}
+        />
+      </button>
     )) : null);
 
   const getPhotos = () => {
@@ -59,7 +59,7 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
     const filteredResult = data.results.filter((marker) => marker.fsq_id === selectedPOI)[0];
     if (filteredResult) {
       return (
-        <div>
+        <div className='flex'>
           <Popup
             key={filteredResult.geocodes.main.longitude + filteredResult.geocodes.main.latitude}
             longitude={filteredResult.geocodes.main.longitude}
@@ -71,14 +71,14 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
           />
           <div
             className='mapboxgl-popup-content text-xl cardPOIAddInfo'
-            style={{ borderRadius: 20, backgroundColor: 'rgba(0,0,0,0.7)' }}
+            style={{ borderRadius: 20, backgroundColor: 'rgba(0,0,0,0.7)', overflow: 'auto', width: '100%' }}
           >
             <CustomButton className='cancelButton text-orange-950' label='X' onClick={handleCloseButton} />
+            <CustomButton className='poiButton justify-center' label='Get Direction' onClick={handleDirectionButton} />
             <div className='text-2xl'>
               {`${filteredResult.name} (${filteredResult.location.address}) ${filteredResult.distance} m`}
             </div>
-            <CustomButton className='poiButton' label='Get Direction' onClick={handleDirectionButton} />
-            <div className='flex cardPOIAddInfoPictures'>
+            <div className='cardPOIAddInfoPictures'>
               {getPhotos()}
             </div>
           </div>

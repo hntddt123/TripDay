@@ -17,7 +17,9 @@ module.exports = {
           buttonDarkHover: '#d97706',
           buttonLightActive: '#fcd34d',
           buttonDarkActive: '##b45309',
-          buttonDarkTransparent: 'rgba(0,0,0,0.7)'
+          buttonDarkTransparent: 'rgba(0,0,0,0.7)',
+          buttonDarkTransparentHover: 'rgba(0,0,0,0.8)',
+          buttonDarkTransparentActive: 'rgba(0,0,0,0.9)'
         },
       },
     },

@@ -84,10 +84,10 @@ function TripsList() {
   const getLocation = () => ((hasLonLat()) ? (
     <div className='cardInfo'>
       <div className='text-2xl'>
-        {`Longtitude: ${gpsLonLat.longitude}`}
+        {`Longtitude: ${(gpsLonLat.longitude.toFixed(8))}`}
       </div>
       <div className='text-2xl'>
-        {`Latitude: ${gpsLonLat.latitude}`}
+        {`Latitude: ${gpsLonLat.latitude.toFixed(8)}`}
       </div>
     </div>
   ) : <div className='cardInfo text-2xl'>Press location button to get current GPS location for searching</div>);

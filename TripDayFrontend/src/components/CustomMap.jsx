@@ -19,10 +19,14 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
 
   const mapStyle = useSelector((state) => state.mapReducer.mapStyle);
   const viewState = useSelector((state) => state.mapReducer.viewState);
+  const isShowingAddtionalPopUp = useSelector((state) => state.mapReducer.isShowingAddtionalPopUp);
+  const isNavigating = useSelector((state) => state.mapReducer.isNavigating);
+
   const mapRef = useRef();
   const geoControlRef = useRef();
   const [mapLoaded, setMapLoaded] = useState(false);
   const dispatch = useDispatch();
+  const mapCSSStyle = { width: '100vw', height: '90vh', borderRadius: 10 };
 
   const handleStyleLoad = () => {
     setMapLoaded(true);
@@ -35,7 +39,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
   const handleCurrentLocation = (event) => {
     dispatch(setCurrentLocation({
       longitude: event.coords.longitude,
-      latitude: event.coords.latitude
+      latitude: event.coords.latitude,
     }));
   };
 
@@ -48,7 +52,9 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
       lat: lat
     };
     dispatch(setMarker(newMarker));
-    dispatch(setIsShowingOnlySelectedPOI(false));
+    if (!isNavigating) {
+      dispatch(setIsShowingOnlySelectedPOI(false));
+    }
   };
 
   return (
@@ -58,7 +64,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
       onMove={onMove}
       onClick={handleClick}
       onLoad={handleStyleLoad}
-      style={{ width: '100vw', height: '90vh', borderRadius: 10 }}
+      style={mapCSSStyle}
       mapStyle={mapStyle}
       mapLib={import('mapbox-gl')}
       mapboxAccessToken={MAPBOX_API_KEY}
@@ -84,7 +90,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
           getDirectionsQueryResults={getDirectionsQueryResults}
         />
       ) : null}
-      <div className='bottommenu'>
+      <div className={`bottommenu ${isShowingAddtionalPopUp ? 'blur-sm' : null}`}>
         <NearbyPOIList poi={data} />
       </div>
     </Map>

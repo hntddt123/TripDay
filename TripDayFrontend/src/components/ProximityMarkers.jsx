@@ -16,9 +16,9 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
   const selectedPOI = useSelector((state) => state.mapReducer.selectedPOI);
   const isfullPOIname = useSelector((state) => state.mapReducer.isfullPOIname);
   const isShowingOnlySelectedPOI = useSelector((state) => state.mapReducer.isShowingOnlySelectedPOI);
+  const isShowingAddtionalPopUp = useSelector((state) => state.mapReducer.isShowingAddtionalPopUp);
   const viewState = useSelector((state) => state.mapReducer.viewState);
   const dispatch = useDispatch();
-
   const setPOIPhotosQuery = (fsqId) => ({ fsqId });
 
   const handlePOIMarkerClick = (marker) => {
@@ -46,7 +46,7 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
           offset={[0, 40]}
         >
           <CustomButton
-            className='cardPOIMarker text-xl text-orange-500'
+            className={`cardPOIMarker text-xl ${isShowingAddtionalPopUp ? 'blur-sm' : null}`}
             label={`${i + 1} ${isfullPOIname ? `${marker.name} ${marker.distance}m` : ''}`}
           />
         </Marker>
@@ -68,7 +68,7 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
             latitude={filteredResult.geocodes.main.latitude}
             offset={[0, 40]}
           >
-            <CustomButton className='cardPOIMarker text-xl text-orange-500' label={filterText} />
+            <CustomButton className='cardPOIMarker' label={filterText} />
           </Marker>
         </div>
       );

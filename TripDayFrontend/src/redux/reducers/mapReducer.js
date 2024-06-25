@@ -14,7 +14,8 @@ const initialMapState = {
   selectedPOILonLat: { longitude: null, latitude: null },
   isfullPOIname: true,
   isShowingOnlySelectedPOI: false,
-  isShowingAddtionalPopUp: false
+  isShowingAddtionalPopUp: false,
+  isNavigating: false,
 };
 
 const mapSlice = createSlice({
@@ -30,7 +31,8 @@ const mapSlice = createSlice({
     setselectedPOILonLat: (state, action) => ({ ...state, selectedPOILonLat: action.payload }),
     setIsfullPOIname: (state, action) => ({ ...state, isfullPOIname: action.payload }),
     setIsShowingOnlySelectedPOI: (state, action) => ({ ...state, isShowingOnlySelectedPOI: action.payload }),
-    setIsShowingAddtionalPopUp: (state, action) => ({ ...state, isShowingAddtionalPopUp: action.payload })
+    setIsShowingAddtionalPopUp: (state, action) => ({ ...state, isShowingAddtionalPopUp: action.payload }),
+    setIsNavigating: (state, action) => ({ ...state, isNavigating: action.payload })
   }
 });
 
@@ -43,7 +45,8 @@ export const {
   setselectedPOILonLat,
   setIsfullPOIname,
   setIsShowingOnlySelectedPOI,
-  setIsShowingAddtionalPopUp
+  setIsShowingAddtionalPopUp,
+  setIsNavigating
 } = mapSlice.actions;
 
 export const mapReducer = mapSlice.reducer;
