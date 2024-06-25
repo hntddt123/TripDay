@@ -106,14 +106,13 @@ function TripsList() {
 
   return (
     <div className='mx-auto'>
-      {getLocation()}
-      {getPlaceNameToggle()}
       <div className='m-1'>
         <CustomButton className='poiButton' label={restaurantIcon} onClick={handleRestaurantButton} disabled={!hasLonLat()} />
         <CustomButton className='poiButton' label={hotelIcon} onClick={handleHotelButton} disabled={!hasLonLat()} />
         <CustomButton className='poiButton' label={carIcon} onClick={handleCarButton} disabled={!hasLonLat()} />
       </div>
       {getLoadingStatus()}
+      {getPlaceNameToggle()}
       <div ref={mapRef}>
         <CustomMap
           data={(poi) || null}
@@ -121,6 +120,7 @@ function TripsList() {
           getPOIPhotosQueryTrigger={getPOIPhotosQueryTrigger}
         />
       </div>
+      {getLocation()}
       {/* <CustomButton label='Save' /> */}
     </div>
   );

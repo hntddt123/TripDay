@@ -69,7 +69,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
       mapLib={import('mapbox-gl')}
       mapboxAccessToken={MAPBOX_API_KEY}
       projection='mercator'
-      cooperativeGestures
+
     >
       <FullscreenControl position='top-left' />
       <GeolocateControl
