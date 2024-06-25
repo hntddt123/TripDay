@@ -56,7 +56,8 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
   if (data && data.results.length > 0 && isShowingOnlySelectedPOI) {
     const filteredResult = data.results.filter((marker) => marker.fsq_id === selectedPOI)[0];
     if (filteredResult) {
-      const filterText = `${filteredResult.name} ${filteredResult.distance}m`;
+      const filterText = (isfullPOIname) ? `${filteredResult.name} ${filteredResult.distance}m` : `${filteredResult.distance}m`;
+
       return (
         <div key={filteredResult.fsq_id}>
           <Marker longitude={filteredResult.geocodes.main.longitude} latitude={filteredResult.geocodes.main.latitude}>
