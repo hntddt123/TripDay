@@ -16,7 +16,6 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
 
   const handleCloseButton = () => {
     dispatch(setIsShowingAddtionalPopUp(false));
-    dispatch(setIsShowingOnlySelectedPOI(false));
   };
 
   const handleDirectionButton = () => {
