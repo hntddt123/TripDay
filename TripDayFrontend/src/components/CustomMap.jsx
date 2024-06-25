@@ -73,6 +73,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
   const handleCancelDirectionButton = () => {
     dispatch(setIsNavigating(false));
     dispatch(setIsShowingSideBar(false));
+    dispatch(setIsShowingOnlySelectedPOI(false));
   };
 
   return (
@@ -110,7 +111,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
       <div className={`bottommenu ${isShowingAddtionalPopUp ? 'blur-sm' : null}`}>
         <NearbyPOIList poi={data} />
       </div>
-      {getDirectionsQueryResults.isSuccess && !getDirectionsQueryResults.isUninitialized
+      {getDirectionsQueryResults.isSuccess && !getDirectionsQueryResults.isUninitialized && isNavigating
         ? (
           <div className={`${isShowingSideBar ? 'sidebarInstructions flex-center left' : 'sidebarInstructions flex-center left collapsed'}`}>
             <div className='sidebarInstructionsContent flex-center text-lg'>
