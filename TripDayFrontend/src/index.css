@@ -19,6 +19,14 @@ body {
     @apply dark:text-white;
   }
 
+  .safeArea {
+    padding-top: env(safe-area-inset-top);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    box-sizing: border-box;
+  }  
+
   .button {
     font-size: 1.5rem;
     line-height: 2rem;
@@ -233,18 +241,53 @@ body {
     transition-timing-function: ease-in-out;
   }
 
-  .instructions {
-    position: absolute;
-    margin-bottom: 3rem;
-    height: 8rem;
-    width: 16rem;
-    top: -10;
-    bottom: 50%;
-    padding: theme(spacing.2);
-    overflow-y: scroll;
+  .sidebarInstructionsContent {
+    width: 15rem;
+    height: 19.5rem;
+    margin-bottom: 1rem;
+    padding: theme(spacing.1);
     border-radius: theme('borderRadius.lg');
     @apply  bg-amber-50 dark:bg-primary-buttonDarkTransparent
   }
+
+  .sidebarInstructionsToggle {
+    border-radius: theme('borderRadius.xl');
+    position: absolute;
+    width: 1.5rem;
+    height: 2.427rem;
+    overflow: visible;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .sidebarInstructionsToggle.left {
+    right: -2rem;
+    @apply bg-amber-50 dark:bg-primary-buttonDarkTransparent;
+  }
+
+  .sidebarInstructionsToggle:hover {
+    cursor: pointer;
+    @apply bg-amber-100 dark:bg-primary-buttonDarkTransparentHover;
+  }
+
+  .sidebarInstructions {
+    transition: transform .5s;
+    z-index: 1;
+    width: 15rem;
+    height: 100%;
+}
+
+  .left.collapsed {
+    transform: translateX(-245px);
+  }
+
+  .flex-center {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
   .bottommenu {
     position: absolute;

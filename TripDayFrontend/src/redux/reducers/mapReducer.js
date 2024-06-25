@@ -15,7 +15,8 @@ const initialMapState = {
   isfullPOIname: true,
   isShowingOnlySelectedPOI: false,
   isShowingAddtionalPopUp: false,
-  isNavigating: false,
+  isShowingSideBar: false,
+  isNavigating: false
 };
 
 const mapSlice = createSlice({
@@ -32,7 +33,8 @@ const mapSlice = createSlice({
     setIsfullPOIname: (state, action) => ({ ...state, isfullPOIname: action.payload }),
     setIsShowingOnlySelectedPOI: (state, action) => ({ ...state, isShowingOnlySelectedPOI: action.payload }),
     setIsShowingAddtionalPopUp: (state, action) => ({ ...state, isShowingAddtionalPopUp: action.payload }),
-    setIsNavigating: (state, action) => ({ ...state, isNavigating: action.payload })
+    setIsNavigating: (state, action) => ({ ...state, isNavigating: action.payload }),
+    setIsShowingSideBar: (state, action) => ({ ...state, isShowingSideBar: action.payload })
   }
 });
 
@@ -46,7 +48,8 @@ export const {
   setIsfullPOIname,
   setIsShowingOnlySelectedPOI,
   setIsShowingAddtionalPopUp,
-  setIsNavigating
+  setIsNavigating,
+  setIsShowingSideBar
 } = mapSlice.actions;
 
 export const mapReducer = mapSlice.reducer;

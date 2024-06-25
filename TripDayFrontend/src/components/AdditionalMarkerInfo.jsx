@@ -3,7 +3,7 @@ import { Popup } from 'react-map-gl';
 import { useDispatch, useSelector } from 'react-redux';
 import { FoursquareResponsePropTypes } from '../constants/fourSqaurePropTypes';
 import CustomButton from './CustomButton';
-import { setIsShowingAddtionalPopUp, setIsShowingOnlySelectedPOI, setIsNavigating } from '../redux/reducers/mapReducer';
+import { setIsShowingAddtionalPopUp, setIsShowingOnlySelectedPOI, setIsNavigating, setIsShowingSideBar } from '../redux/reducers/mapReducer';
 
 export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, getDirectionsQueryTrigger }) {
   const selectedPOI = useSelector((state) => state.mapReducer.selectedPOI);
@@ -28,6 +28,7 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
     ));
     dispatch(setIsShowingAddtionalPopUp(false));
     dispatch(setIsShowingOnlySelectedPOI(true));
+    dispatch(setIsShowingSideBar(true));
     dispatch(setIsNavigating(true));
   };
 

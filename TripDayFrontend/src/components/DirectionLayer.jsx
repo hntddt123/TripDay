@@ -1,17 +1,10 @@
 /* eslint-disable react/prop-types */
 import { Source, Layer, Marker } from 'react-map-gl';
-import { useSelector, useDispatch } from 'react-redux';
-import CustomButton from './CustomButton';
-import { setIsNavigating } from '../redux/reducers/mapReducer';
+import { useSelector } from 'react-redux';
 
 export default function DirectionLayer({ getDirectionsQueryResults }) {
   const selectedPOILonLat = useSelector((state) => state.mapReducer.selectedPOILonLat);
   const isNavigating = useSelector((state) => state.mapReducer.isNavigating);
-  const dispatch = useDispatch();
-
-  const handleCancelDirectionButton = () => {
-    dispatch(setIsNavigating(false));
-  };
 
   const geojson = {
     type: 'Feature',
@@ -48,17 +41,8 @@ export default function DirectionLayer({ getDirectionsQueryResults }) {
         {(getDirectionsQueryResults.isSuccess && !getDirectionsQueryResults.isUninitialized)
           ? (
             <Marker longitude={selectedPOILonLat.longitude} latitude={selectedPOILonLat.latitude} offset={[0, -50]}>
-              <div className='text-2xl cardPOIMarker text-orange-500'>
+              <div className='text-2xl cardPOIMarker'>
                 {`${(getDirectionsQueryResults.data.routes[0].legs[0].duration / 60).toFixed(0)} Min`}
-              </div>
-              <div className='text-xl instructions'>
-                <CustomButton className='poiButton justify-center' label='Cancel' onClick={handleCancelDirectionButton} />
-                {getDirectionsQueryResults.data.routes[0].legs[0].steps.map((step, i) => (
-                  // eslint-disable-next-line react/no-array-index-key
-                  <div key={getDirectionsQueryResults.data.uuid + i}>
-                    {i + 1}. {step.maneuver.instruction}
-                  </div>
-                ))}
               </div>
             </Marker>
           ) : null}

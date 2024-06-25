@@ -8,39 +8,41 @@ import { MODE } from './constants/constants';
 
 function App() {
   return (
-    <BrowserRouter basename='/'>
-      <header className='flex title justify-between'>
-        <div />
-        <div className='content-center'>
-          Trip Day
-        </div>
-        <DarkModeToggle />
-      </header>
-      <Routes>
-        <Route
-          path='/'
-          element={(
-            <div className='grid grid-cols-1 container text-center mx-auto'>
-              <CustomButton label='New Trip' to='/newtrip' />
-              <CustomButton label='View Trips' to='/trips' />
-              <p className='text-2xl'>Version: {MODE}</p>
-            </div>
-          )}
-        />
-        <Route
-          path='/newtrip'
-          element={<TripBoard label='Current Adventure' component={<TripsList />} />}
-        />
-        <Route
-          path='/trips'
-          element={<TripBoard label='Memories' />}
-        />
-        <Route
-          path='*'
-          element={<div><h2 className='text-4xl'>404 not found</h2></div>}
-        />
-      </Routes>
-    </BrowserRouter>
+    <div className='safeArea'>
+      <BrowserRouter basename='/'>
+        <header className='flex title justify-between'>
+          <div />
+          <div className='content-center'>
+            Trip Day
+          </div>
+          <DarkModeToggle />
+        </header>
+        <Routes>
+          <Route
+            path='/'
+            element={(
+              <div className='grid grid-cols-1 container text-center mx-auto'>
+                <CustomButton label='New Trip' to='/newtrip' />
+                <CustomButton label='View Trips' to='/trips' />
+                <p className='text-2xl'>Version: {MODE}</p>
+              </div>
+            )}
+          />
+          <Route
+            path='/newtrip'
+            element={<TripBoard label='Adventure Summary' component={<TripsList />} />}
+          />
+          <Route
+            path='/trips'
+            element={<TripBoard label='Memories' />}
+          />
+          <Route
+            path='*'
+            element={<div><h2 className='text-4xl'>404 not found</h2></div>}
+          />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 
