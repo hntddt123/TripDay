@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import './index.css';
+import './react-toggle.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 

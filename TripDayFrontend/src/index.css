@@ -11,29 +11,345 @@ body {
 }
 
 @layer components {
+  body {
+    @apply bg-primary-light dark:bg-primary-dark;
+  }
+
+  div {
+    @apply dark:text-white;
+  }
+
+  .safeArea {
+    padding-top: env(safe-area-inset-top);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    box-sizing: border-box;
+  }  
+
   .button {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    text-align: center;
     align-content: center;
+    margin: 0.5rem;
     border-radius: theme('borderRadius.lg');
-    border-width: theme('borderWidth.2');
     padding: theme('spacing.6');
     box-shadow: theme('boxShadow.sm');
-    background-color: theme('backgroundColor.amber.300');
+    @apply 
+    bg-primary-buttonLight dark:bg-primary-buttonDark 
+    text-black dark:text-white;
   }
 
   .button:hover {
+    border-color: theme('backgroundColor.amber.50');
+    @apply 
+    bg-amber-400 dark:bg-amber-600;
+  }
+
+  .button:active {
+    border-color: theme('backgroundColor.amber.50');
+    background-color: theme('backgroundColor.amber.600');
+  }
+
+  .button:disabled {
+    opacity: 0.25;
+    border-color: theme('backgroundColor.amber.300');
+    background-color: theme('backgroundColor.amber.300');
+  }
+
+  .cancelButton {
+    margin-bottom: 1rem;
+    padding-left: theme('spacing.2');
+    padding-right: theme('spacing.2');
     align-content: center;
-    border-radius: theme('borderRadius.lg');
-    border-width: theme('borderWidth.2');
-    padding: theme('spacing.6');
-    box-shadow: theme('boxShadow.sm');
-    background-color: theme('backgroundColor.amber.400');
+    border-radius: 50%;
+    background-color: theme('backgroundColor.red.600');
+    opacity: 0.9;
+  }
+
+  .cancelButton:hover {
+    background-color: theme('backgroundColor.red.700');
+  }
+
+  .cancelButton:active {
+    background-color: theme('backgroundColor.red.800');
+  }
+
+
+  .title {
+    padding: 0.2rem;
+    font-weight: 300;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2rem;
+    line-height: 2.25rem;
+    text-align: center;
+    @apply 
+    bg-primary-titleLight dark:bg-primary-titleDark
+    dark:text-black;
   }
 
   .card {
     margin: theme('spacing.4');
     border-radius: theme('borderRadius.lg');
-    border-width: theme('borderWidth.2');
-    padding: theme('spacing.8');
+    border-width: theme('borderWidth.4');
+    padding: theme('spacing.4');
     box-shadow: theme('boxShadow.sm');
+  }
+
+  .cardTrip {
+    margin: auto;
+    padding: theme('spacing[0.5]');
+    @apply bg-primary-light dark:bg-primary-dark;
+  }
+
+  .cardPOI {
+    font-size: large;
+    line-height: 1.5rem;
+    width: 99%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: theme('spacing.[0.5]');
+    padding: theme('spacing[2]');
+    border-radius: theme('borderRadius.lg');
+    box-shadow: theme('boxShadow.md');
+    border-color: theme('colors.amber.300');
+    border-top-width: theme('borderWidth.0');
+    border-bottom-width: theme('borderWidth.0');
+    border-left-width: theme('borderWidth.4');
+    border-right-width: theme('borderWidth.4');
+    @apply 
+    bg-amber-50 dark:bg-amber-500
+    border-amber-400 dark:bg-primary-buttonDarkTransparent;
+  }
+
+  .cardPOI:hover {
+    background-color: theme('backgroundColor.amber.100');
+    @apply  bg-amber-100 dark:bg-primary-buttonDark
+  }
+
+  .cardPOI:active {
+    @apply  bg-amber-100 dark:bg-amber-600
+  }
+
+  .cardPOI:focus, :focus-visible {
+    background-color: theme('backgroundColor.amber.200');
+    @apply  bg-amber-200 dark:bg-amber-600
+  }
+
+  .cardPOIMarker {
+    margin: theme('spacing.2');
+    border-radius: theme('borderRadius.lg');
+    padding: theme('spacing.1');
+    box-shadow: theme('boxShadow.md');
+    border-color: theme('colors.amber.400');
+    border-top-width: theme('borderWidth.0');
+    border-bottom-width: theme('borderWidth.0');
+    border-left-width: theme('borderWidth.0');
+    border-right-width: theme('borderWidth.0');
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    @apply bg-amber-50 dark:bg-primary-buttonDarkTransparent
+  }
+
+  .cardPOIMarker:hover {
+    @apply bg-amber-100 dark:bg-primary-buttonDarkTransparentHover
+  }
+
+  .cardPOIMarker:active {
+    @apply bg-amber-200 dark:bg-primary-buttonDarkTransparentActive
+  }
+
+  .cardPOIAddInfo {
+    z-index: 2;
+    margin-top: 6.5rem;
+    border-color: theme('colors.amber.300');
+    border-radius: theme('borderRadius.lg');
+    border-top-width: theme('borderWidth.0');
+    border-bottom-width: theme('borderWidth.0');
+    border-left-width: theme('borderWidth.0');
+    border-right-width: theme('borderWidth.0');
+    @apply text-white dark:text-white
+  }
+
+  .cardPOIAddInfoPictures {
+    z-index: 0;
+    display: flex;
+    overflow: scroll;
+    margin-bottom: 100%;
+    padding-right: 30%;
+    padding-bottom: 30%;
+  }
+
+  .cardInfo {
+    margin: theme('spacing.2');
+    padding: theme('spacing.2');
+    box-shadow: theme('boxShadow.md');
+    border-color: theme('colors.lime.400');
+    border-radius: theme('borderRadius.lg');
+    border-top-width: theme('borderWidth.0');
+    border-bottom-width: theme('borderWidth.0');
+    border-left-width: theme('borderWidth.8');
+    border-right-width: theme('borderWidth.0');
+    @apply 
+    bg-primary-titleLight dark:bg-primary-titleDark
+  }
+
+  .cardTitle {
+    margin: theme('spacing.2');
+    border-radius: theme('borderRadius.lg');
+    padding: theme('spacing.4');
+    border-color: theme('colors.lime.500');
+    border-top-width: theme('borderWidth.0');
+    border-bottom-width: theme('borderWidth.0');
+    border-left-width: theme('borderWidth.8');
+    border-right-width: theme('borderWidth.0');
+    @apply 
+    bg-primary-titleLight dark:bg-primary-titleDark
+  }
+
+  .picture {
+    display: block;
+    border-width: 0;
+    border-radius: theme('borderRadius.md');
+    padding: 0;
+    max-height: 25vh;
+    max-width: 25vw;
+  }
+  
+  .pictureContainer {
+    padding: 0;
+    margin: theme('spacing.[1]');
+    transform-origin: top left;
+    -webkit-transform-origin: top left;
+    transition-property: transform;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+  }
+
+  .pictureContainer:hover {
+    cursor: pointer;
+  }
+
+  .pictureContainer:focus {
+    transform: translate(0%, 0%) scale(2);
+    transform-origin: top left;
+    -webkit-transform: translate(0%, 0%) scale(2);
+    -webkit-transform-origin: top left;
+    transition-property: transform padding;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+  }
+
+  .sidebarInstructionsContent {
+    width: 15rem;
+    height: 26rem;
+    top: 0rem;
+    padding: theme(spacing.1);
+    border-radius: theme('borderRadius.lg');
+    @apply  bg-amber-50 dark:bg-primary-buttonDarkTransparent
+  }
+
+  .sidebarInstructionsToggle {
+    border-radius: theme('borderRadius.xl');
+    position: absolute;
+    width: 1.5rem;
+    height: 2.427rem;
+    overflow: visible;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .sidebarInstructionsToggle.left {
+    right: -2rem;
+    @apply bg-amber-50 dark:bg-primary-buttonDarkTransparent;
+  }
+
+  .sidebarInstructionsToggle:hover {
+    cursor: pointer;
+    @apply bg-amber-100 dark:bg-primary-buttonDarkTransparentHover;
+  }
+
+  .sidebarInstructions {
+    transition: transform .5s;
+    z-index: 1;
+    width: 15rem;
+    height: 100%;
+}
+
+  .left.collapsed {
+    transform: translateX(-245px);
+  }
+
+  .flex-center {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+  .bottommenu {
+    position: absolute;
+    z-index: 1;
+    top: 75%;
+    bottom: 6%;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  .poiButton {
+    font-size: 1.75rem;
+    line-height: 1.75rem;
+    align-content: center;
+    border-radius: theme('borderRadius.lg');
+    margin: theme('spacing.1');
+    padding: theme('spacing.2');
+    box-shadow: theme('boxShadow.sm');
+    border-color: theme('backgroundColor.amber.50');
+    @apply  
+    bg-primary-buttonLight dark:bg-primary-buttonDark
+    text-black dark:text-white
+  }
+
+  .poiButton:hover {
+    border-color: theme('backgroundColor.amber.50');
+    background-color: theme('backgroundColor.amber.400');
+    @apply  
+    bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover
+  }
+
+  .poiButton:active {
+    border-color: theme('backgroundColor.amber.50');
+    background-color: theme('backgroundColor.amber.600');
+  }
+
+  .poiButton:disabled {
+    opacity: 0.25;
+    border-color: theme('backgroundColor.amber.300');
+    background-color: theme('backgroundColor.amber.300');
+  }
+
+  .darkmodeButton {
+      font-size: 1rem;
+      line-height: 1rem;
+      text-align: center;
+      align-content: center;
+      border-radius: theme('borderRadius.full');
+      @apply 
+      bg-primary-buttonLight dark:bg-primary-buttonDark 
+      text-black dark:text-white;
+  }
+
+  .darkmodeButton:hover {
+    border-color: theme('backgroundColor.amber.50');
+    @apply 
+    bg-amber-400 dark:bg-amber-600;
+  }
+
+  .darkmodeButton:active {
+    border-color: theme('backgroundColor.amber.50');
+    background-color: theme('backgroundColor.amber.600');
   }
 }

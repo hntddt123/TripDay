@@ -14,6 +14,7 @@ jobs:
     steps:
       - name: Development Code
         uses: actions/checkout@v2
+
       - name: Use Node.js 22.x
         uses: actions/setup-node@v1
         with:
@@ -21,7 +22,14 @@ jobs:
       - run: npm install
       - run: npm run lint
       - run: npm run test
+      
+      - name: Set up SSL certificates
+        run: | 
+          mkdir -p ssl 
+          echo "${{ secrets.TRIP_DAY_SSL_CERT }}" > ./ssl/tripdaycert.pem 
+          echo "${{ secrets.TRIP_DAY_SSL_KEY }}" > ./ssl/tripdaykey.pem
       - run: npm run build --if-present
+      
       # - name: Deploy dev to Heroku
       #   uses: akhileshns/heroku-deploy@v3.12.12
       #   with:

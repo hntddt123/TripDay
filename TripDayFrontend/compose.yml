@@ -15,8 +15,11 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+      - ./ssl:/app/ssl:ro
     environment:
       NODE_ENV: production
+      SSL_CERTIFICATE_PATH: /app/ssl/cert.pem
+      SSL_PRIVATE_KEY_PATH: /app/ssl/key.pem
     ports:
       - 5173:5173
     user: "${UID}:${GID}"

@@ -8,8 +8,8 @@ function Counter() {
 
   return (
     <div>
-      <h1 className='text-2xl'>Count: {count}</h1>
-      <div className='grid grid-cols-2'>
+      <h1 className='text-3xl'>Show {count > 1 ? `${count} items` : `${count} item`}</h1>
+      <div className='grid grid-cols-3'>
         <CustomButton label='+' onClick={() => dispatch(incrementCount(count))}>Increment</CustomButton>
         <CustomButton label='-' onClick={() => dispatch(decrementCount(count))}>Decrement</CustomButton>
       </div>

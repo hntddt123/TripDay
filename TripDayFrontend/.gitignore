@@ -11,8 +11,10 @@
 # production
 /build
 /dist
+/dev-dist
 
 # misc
+/ssl
 .DS_Store
 .env.development
 .env.production
