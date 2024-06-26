@@ -2,6 +2,22 @@
 This is the project to help myself learning the app development processes
 
 # Frontend setup
+![image](/Images/TripDayDev.png)
+
+### Requirements
+
+Create the following files
+```.env.development``` 
+```.env.production```
+under TripDayFronttend folder and include your 
+VITE_MAPBOX_API_KEY=YOURKEY (https://docs.mapbox.com/help/glossary/access-token/)
+VITE_FOURSQUARE_API_KEY=YOURKEY (https://docs.foursquare.com/developer/docs/manage-api-keys)
+
+Private key and certificate for HTTPS development
+```
+./ssl/tripdaykey.pem
+./ssl/tripdaycert.pem
+```
 
 Install node modules and run this project
 ```
