@@ -162,7 +162,7 @@ function TripsList() {
           renderTrack={(props, state) => <div {...props} key={props.key}>{state.valueNow}</div>}
           onChange={(value) => handleItemCountChange(value)}
         />
-        Radius
+        Radius (meter)
         <ReactSlider
           className='slider'
           markClassName='sliderMark'
