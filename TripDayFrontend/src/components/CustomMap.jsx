@@ -119,7 +119,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
                 {getDirectionsQueryResults.data.routes[0].legs[0].steps.map((step, i) => (
                   // eslint-disable-next-line react/no-array-index-key
                   <div key={getDirectionsQueryResults.data.uuid + i}>
-                    {i + 1}. {step.maneuver.instruction}
+                    {i + 1} {step.maneuver.instruction}
                   </div>
                 ))}
                 <CustomButton className='poiButton justify-center' label='Cancel' onClick={handleCancelDirectionButton} />
