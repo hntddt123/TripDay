@@ -3,7 +3,6 @@ import TripBoard from './components/TripBoard';
 import TripsList from './components/TripsList';
 import CustomButton from './components/CustomButton';
 import DarkModeToggle from './components/DarkModeToggle';
-
 import { MODE } from './constants/constants';
 
 function App() {

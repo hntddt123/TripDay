@@ -66,6 +66,7 @@ body {
     border-radius: 50%;
     background-color: theme('backgroundColor.red.600');
     opacity: 0.9;
+    @apply text-black dark:text-white;
   }
 
   .cancelButton:hover {
@@ -350,6 +351,46 @@ body {
 
   .darkmodeButton:active {
     border-color: theme('backgroundColor.amber.50');
+    background-color: theme('backgroundColor.amber.600');
+  }
+
+  .slider {
+    cursor: grab;
+    width: 15em;
+    height: 0.25rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    border-radius: theme('borderRadius.lg');
+  }
+
+  .sliderThumb {
+    font-size: large;
+    align-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 25%;
+    top: -1.5rem;
+    color: theme('backgroundColor.amber.600');
+    background-color: theme('backgroundColor.amber.100');
+  }
+
+  .sliderMark {
+    width: .15em;
+    height: .15em;
+    border-radius: 50%;
+    background-color: theme('backgroundColor.amber.100');
+  }
+
+  .sliderTrack {
+    height: 0.15em;
+    border-radius: theme('borderRadius.lg');
+    background-color: theme('backgroundColor.amber.950');
+  }
+
+  .sliderTrack.sliderTrack-0 {
+    height: .15em;
+    border-radius: theme('borderRadius.lg');
     background-color: theme('backgroundColor.amber.600');
   }
 }

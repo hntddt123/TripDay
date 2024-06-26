@@ -2,8 +2,17 @@ import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import Toggle from 'react-toggle';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import ReactSlider from 'react-slider';
 import { useLazyGetNearbyPOIQuery, useLazyGetPOIPhotosQuery } from '../api/foursquareSliceAPI';
-import { setViewState, setIsfullPOIname, setIsShowingOnlySelectedPOI, setSelectedPOI } from '../redux/reducers/mapReducer';
+import {
+  setViewState,
+  setIsFullPOIname,
+  setIsShowingOnlySelectedPOI,
+  setSelectedPOI,
+  setSelectedPOICount,
+  setSelectedPOIRadius
+} from '../redux/reducers/mapReducer';
 import CustomMap from './CustomMap';
 import CustomButton from './CustomButton';
 
@@ -17,7 +26,9 @@ function TripsList() {
 
   const mapRef = useRef();
   const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
-  const isfullPOIname = useSelector((state) => state.mapReducer.isfullPOIname);
+  const isFullPOIname = useSelector((state) => state.mapReducer.isFullPOIname);
+  const selectedPOICount = useSelector((state) => state.mapReducer.selectedPOICount);
+  const selectedPOIRadius = useSelector((state) => state.mapReducer.selectedPOIRadius);
   const dispatch = useDispatch();
 
   const setPOIQuery = (ll, radius, limit, category, icon) => ({ ll, radius, limit, category, icon });
@@ -26,7 +37,13 @@ function TripsList() {
 
   const handleRestaurantButton = () => {
     if (hasLonLat()) {
-      getNearbyPOIQueryTrigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4d4b7105d754a06374d81259', restaurantIcon));
+      getNearbyPOIQueryTrigger(setPOIQuery(
+        `${gpsLonLat.latitude},${gpsLonLat.longitude}`,
+        selectedPOIRadius,
+        selectedPOICount,
+        '4d4b7105d754a06374d81259',
+        restaurantIcon
+      ));
       dispatch(setViewState({
         longitude: gpsLonLat.longitude,
         latitude: gpsLonLat.latitude,
@@ -39,7 +56,13 @@ function TripsList() {
 
   const handleHotelButton = () => {
     if (hasLonLat()) {
-      getNearbyPOIQueryTrigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4bf58dd8d48988d1fa931735', hotelIcon));
+      getNearbyPOIQueryTrigger(setPOIQuery(
+        `${gpsLonLat.latitude},${gpsLonLat.longitude}`,
+        selectedPOIRadius,
+        selectedPOICount,
+        '4bf58dd8d48988d1fa931735',
+        hotelIcon
+      ));
       dispatch(setViewState({
         longitude: gpsLonLat.longitude,
         latitude: gpsLonLat.latitude,
@@ -52,7 +75,13 @@ function TripsList() {
 
   const handleCarButton = () => {
     if (hasLonLat()) {
-      getNearbyPOIQueryTrigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4d4b7105d754a06379d81259', carIcon));
+      getNearbyPOIQueryTrigger(setPOIQuery(
+        `${gpsLonLat.latitude},${gpsLonLat.longitude}`,
+        selectedPOIRadius,
+        selectedPOICount,
+        '4d4b7105d754a06379d81259',
+        carIcon
+      ));
       dispatch(setViewState({
         longitude: gpsLonLat.longitude,
         latitude: gpsLonLat.latitude,
@@ -64,7 +93,15 @@ function TripsList() {
   };
 
   const handleFullNameToggle = () => {
-    dispatch(setIsfullPOIname(!isfullPOIname));
+    dispatch(setIsFullPOIname(!isFullPOIname));
+  };
+
+  const handleItemCountChange = (count) => {
+    dispatch(setSelectedPOICount(count));
+  };
+
+  const handleRadiusChange = (radius) => {
+    dispatch(setSelectedPOIRadius(radius));
   };
 
   const getLoadingStatus = () => (
@@ -98,7 +135,7 @@ function TripsList() {
       <Toggle
         className='ml-2 align-middle'
         icons={false}
-        defaultChecked={isfullPOIname}
+        defaultChecked={isFullPOIname}
         onChange={handleFullNameToggle}
       />
     </div>
@@ -106,13 +143,47 @@ function TripsList() {
 
   return (
     <div className='mx-auto'>
-      <div className='m-1'>
-        <CustomButton className='poiButton' label={restaurantIcon} onClick={handleRestaurantButton} disabled={!hasLonLat()} />
-        <CustomButton className='poiButton' label={hotelIcon} onClick={handleHotelButton} disabled={!hasLonLat()} />
-        <CustomButton className='poiButton' label={carIcon} onClick={handleCarButton} disabled={!hasLonLat()} />
-      </div>
-      {getLoadingStatus()}
       {getPlaceNameToggle()}
+      <div className='text-2xl ml-2'>
+        Item Count
+        <ReactSlider
+          className='slider'
+          markClassName='sliderMark'
+          thumbClassName='sliderThumb'
+          trackClassName='sliderTrack'
+          defaultValue={20}
+          marks={[10, 15, 20, 25, 30, 35, 40, 45, 50]}
+          step={5}
+          min={10}
+          max={50}
+          // eslint-disable-next-line react/prop-types
+          renderThumb={(props, state) => <div {...props} key={props.key}>{state.valueNow}</div>}
+          // eslint-disable-next-line react/prop-types
+          renderTrack={(props, state) => <div {...props} key={props.key}>{state.valueNow}</div>}
+          onChange={(value) => handleItemCountChange(value)}
+        />
+        Radius
+        <ReactSlider
+          className='slider'
+          markClassName='sliderMark'
+          thumbClassName='sliderThumb'
+          trackClassName='sliderTrack'
+          defaultValue={500}
+          marks={[100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]}
+          step={100}
+          min={100}
+          max={1000}
+          // eslint-disable-next-line react/prop-types
+          renderThumb={(props, state) => <div {...props} key={props.key}>{state.valueNow}</div>}
+          onChange={(value) => handleRadiusChange(value)}
+        />
+        <div className='m-1'>
+          <CustomButton className='poiButton' label={restaurantIcon} onClick={handleRestaurantButton} disabled={!hasLonLat()} />
+          <CustomButton className='poiButton' label={hotelIcon} onClick={handleHotelButton} disabled={!hasLonLat()} />
+          <CustomButton className='poiButton' label={carIcon} onClick={handleCarButton} disabled={!hasLonLat()} />
+        </div>
+        {getLoadingStatus()}
+      </div>
       <div ref={mapRef}>
         <CustomMap
           data={(poi) || null}

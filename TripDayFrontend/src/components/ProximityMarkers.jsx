@@ -5,7 +5,7 @@ import {
   setViewState,
   setIsShowingAddtionalPopUp,
   setIsShowingOnlySelectedPOI,
-  setselectedPOILonLat
+  setSelectedPOILonLat
 } from '../redux/reducers/mapReducer';
 import { FoursquareResponsePropTypes } from '../constants/fourSqaurePropTypes';
 import CustomButton from './CustomButton';
@@ -14,7 +14,7 @@ import CustomButton from './CustomButton';
 export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
   const selectedPOIIcon = useSelector((state) => state.mapReducer.selectedPOIIcon);
   const selectedPOI = useSelector((state) => state.mapReducer.selectedPOI);
-  const isfullPOIname = useSelector((state) => state.mapReducer.isfullPOIname);
+  const isFullPOIname = useSelector((state) => state.mapReducer.isFullPOIname);
   const isShowingOnlySelectedPOI = useSelector((state) => state.mapReducer.isShowingOnlySelectedPOI);
   const isShowingAddtionalPopUp = useSelector((state) => state.mapReducer.isShowingAddtionalPopUp);
   const viewState = useSelector((state) => state.mapReducer.viewState);
@@ -24,7 +24,7 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
   const handlePOIMarkerClick = (marker) => {
     getPOIPhotosQueryTrigger(setPOIPhotosQuery(marker.fsq_id));
     dispatch(setSelectedPOI(marker.fsq_id));
-    dispatch(setselectedPOILonLat({
+    dispatch(setSelectedPOILonLat({
       longitude: marker.geocodes.main.longitude,
       latitude: marker.geocodes.main.latitude
     }));
@@ -47,7 +47,7 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
         >
           <CustomButton
             className={`cardPOIMarker text-xl ${isShowingAddtionalPopUp ? 'blur-sm' : null}`}
-            label={`${i + 1} ${isfullPOIname ? `${marker.name} ${marker.distance}m` : ''}`}
+            label={`${i + 1} ${isFullPOIname ? `${marker.name} ${marker.distance}m` : ''}`}
           />
         </Marker>
       </div>
@@ -56,7 +56,7 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
   if (data && data.results.length > 0 && isShowingOnlySelectedPOI) {
     const filteredResult = data.results.filter((marker) => marker.fsq_id === selectedPOI)[0];
     if (filteredResult) {
-      const filterText = (isfullPOIname) ? `${filteredResult.name} ${filteredResult.distance}m` : `${filteredResult.distance}m`;
+      const filterText = (isFullPOIname) ? `${filteredResult.name} ${filteredResult.distance}m` : `${filteredResult.distance}m`;
 
       return (
         <div key={filteredResult.fsq_id}>
