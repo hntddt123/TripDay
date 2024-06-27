@@ -71,7 +71,12 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
           />
           <div
             className='mapboxgl-popup-content text-xl cardPOIAddInfo'
-            style={{ borderRadius: 20, backgroundColor: 'rgba(0,0,0,0.7)', overflow: 'auto', width: '100%' }}
+            style={{
+              borderRadius: 20,
+              backgroundColor: 'rgba(0,0,0,0.7)',
+              overflow: 'auto',
+              width: 'calc(100vw - env(safe-area-inset-left) - env(safe-area-inset-right)'
+            }}
           >
             <CustomButton className='cancelButton' label='X' onClick={handleCloseButton} />
             <CustomButton className='poiButton justify-center ml-4' label='Get Direction' onClick={handleDirectionButton} />

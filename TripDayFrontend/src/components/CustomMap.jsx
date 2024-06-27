@@ -33,7 +33,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
 
   const [mapLoaded, setMapLoaded] = useState(false);
   const dispatch = useDispatch();
-  const mapCSSStyle = { width: '100vw', height: '90vh', borderRadius: 10 };
+  const mapCSSStyle = { width: '100%', height: '90vh', borderRadius: 10 };
 
   const handleStyleLoad = (map) => {
     setMapLoaded(true);
