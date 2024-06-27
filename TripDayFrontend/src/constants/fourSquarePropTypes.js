@@ -45,6 +45,6 @@ const ResultPropType = PropTypes.shape({
   timezone: PropTypes.string,
 });
 
-export const FoursquareResponsePropTypes = PropTypes.shape({
+export const FourSquareResponsePropTypes = PropTypes.shape({
   results: PropTypes.arrayOf(ResultPropType),
 });

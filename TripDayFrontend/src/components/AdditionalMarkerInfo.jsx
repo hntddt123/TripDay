@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Popup } from 'react-map-gl';
 import { useDispatch, useSelector } from 'react-redux';
-import { FoursquareResponsePropTypes } from '../constants/fourSqaurePropTypes';
+import { FourSquareResponsePropTypes } from '../constants/fourSquarePropTypes';
 import CustomButton from './CustomButton';
 import { setIsShowingAddtionalPopUp, setIsShowingOnlySelectedPOI, setIsNavigating, setIsShowingSideBar } from '../redux/reducers/mapReducer';
 
@@ -90,5 +90,5 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
 }
 
 ProximityMarkersInfo.propTypes = {
-  data: FoursquareResponsePropTypes,
+  data: FourSquareResponsePropTypes,
 };

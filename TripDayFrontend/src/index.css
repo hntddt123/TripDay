@@ -87,7 +87,7 @@ body {
     text-align: center;
     @apply 
     bg-primary-titleLight dark:bg-primary-titleDark
-    dark:text-black;
+    text-black dark:text-white;
   }
 
   .card {

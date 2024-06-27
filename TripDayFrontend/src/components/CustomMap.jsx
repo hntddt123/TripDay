@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Map, { FullscreenControl, GeolocateControl, NavigationControl } from 'react-map-gl';
-import { FoursquareResponsePropTypes } from '../constants/fourSqaurePropTypes';
+import { FourSquareResponsePropTypes } from '../constants/fourSquarePropTypes';
 import {
   setViewState,
   setMarker,
@@ -31,14 +31,17 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
   const isShowingSideBar = useSelector((state) => state.mapReducer.isShowingSideBar);
   const isNavigating = useSelector((state) => state.mapReducer.isNavigating);
 
-  const mapRef = useRef();
-  const geoControlRef = useRef();
   const [mapLoaded, setMapLoaded] = useState(false);
   const dispatch = useDispatch();
   const mapCSSStyle = { width: '100vw', height: '90vh', borderRadius: 10 };
 
-  const handleStyleLoad = () => {
+  const handleStyleLoad = (map) => {
     setMapLoaded(true);
+    map.target.touchZoomRotate.enable();
+    map.target.touchZoomRotate.disableRotation();
+    map.target.dragRotate.enable();
+    map.target.dragRotate._mousePitch.enable();
+    map.target.dragRotate._mouseRotate.disable();
   };
 
   const onMove = useCallback((event) => {
@@ -78,20 +81,21 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
 
   return (
     <Map
-      ref={mapRef}
       {...viewState}
       onMove={onMove}
       onClick={handleClick}
-      onLoad={handleStyleLoad}
+      onLoad={(map) => handleStyleLoad(map)}
       style={mapCSSStyle}
       mapStyle={mapStyle}
       mapLib={import('mapbox-gl')}
       mapboxAccessToken={MAPBOX_API_KEY}
       projection='mercator'
+      pitchWithRotate={false}
+      dragRotate={false}
+      touchZoomRotate={false}
     >
       <FullscreenControl position='top-right' />
       <GeolocateControl
-        ref={geoControlRef}
         position='top-right'
         positionOptions={{ enableHighAccuracy: true }}
         onGeolocate={handleCurrentLocation}
@@ -135,5 +139,5 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
 }
 
 CustomMap.propTypes = {
-  data: FoursquareResponsePropTypes,
+  data: FourSquareResponsePropTypes,
 };

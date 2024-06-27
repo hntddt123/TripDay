@@ -7,7 +7,7 @@ import {
   setIsShowingOnlySelectedPOI,
   setSelectedPOILonLat
 } from '../redux/reducers/mapReducer';
-import { FoursquareResponsePropTypes } from '../constants/fourSqaurePropTypes';
+import { FourSquareResponsePropTypes } from '../constants/fourSquarePropTypes';
 import CustomButton from './CustomButton';
 
 // eslint-disable-next-line react/prop-types
@@ -78,5 +78,5 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
 }
 
 ProximityMarkers.propTypes = {
-  data: FoursquareResponsePropTypes,
+  data: FourSquareResponsePropTypes,
 };
