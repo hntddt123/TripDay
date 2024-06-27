@@ -149,8 +149,8 @@ function TripsList() {
         <ReactSlider
           className='slider'
           markClassName='sliderMark'
-          thumbClassName='sliderThumb'
-          trackClassName='sliderTrack'
+          thumbClassName='sliderThumbCount'
+          trackClassName='sliderTrackCount'
           defaultValue={20}
           marks={[10, 15, 20, 25, 30, 35, 40, 45, 50]}
           step={5}
@@ -166,8 +166,8 @@ function TripsList() {
         <ReactSlider
           className='slider'
           markClassName='sliderMark'
-          thumbClassName='sliderThumb'
-          trackClassName='sliderTrack'
+          thumbClassName='sliderThumbRadius'
+          trackClassName='sliderTrackRadius'
           defaultValue={500}
           marks={[100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]}
           step={100}
