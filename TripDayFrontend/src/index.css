@@ -377,6 +377,11 @@ body {
     background-color: theme('backgroundColor.amber.100');
   }
 
+  .sliderThumbCount:hover, .sliderThumbCount:focus  {
+    border-width: 0.2rem;
+    border-color: theme('backgroundColor.amber.400');
+  }
+
   .sliderThumbRadius {
     font-size: large;
     align-content: center;
@@ -387,6 +392,11 @@ body {
     border-radius: theme('borderRadius.xl');
     color: theme('backgroundColor.amber.600');
     background-color: theme('backgroundColor.amber.100');
+  }
+
+  .sliderThumbRadius:hover, .sliderThumbRadius:focus  {
+    border-width: 0.2rem;
+    border-color: theme('backgroundColor.amber.400');
   }
 
   .sliderMark {
