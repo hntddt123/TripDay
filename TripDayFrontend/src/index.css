@@ -380,6 +380,7 @@ body {
   .sliderThumbCount:hover, .sliderThumbCount:focus  {
     border-width: 0.2rem;
     border-color: theme('backgroundColor.amber.400');
+    outline: none;
   }
 
   .sliderThumbRadius {
@@ -397,6 +398,7 @@ body {
   .sliderThumbRadius:hover, .sliderThumbRadius:focus  {
     border-width: 0.2rem;
     border-color: theme('backgroundColor.amber.400');
+    outline: none;
   }
 
   .sliderMark {
