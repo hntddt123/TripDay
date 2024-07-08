@@ -47,7 +47,7 @@ function TripsList() {
       dispatch(setViewState({
         longitude: gpsLonLat.longitude,
         latitude: gpsLonLat.latitude,
-        zoom: 15
+        zoom: 16
       }));
       dispatch(setIsShowingOnlySelectedPOI(false));
       dispatch(setSelectedPOI(''));
@@ -66,7 +66,7 @@ function TripsList() {
       dispatch(setViewState({
         longitude: gpsLonLat.longitude,
         latitude: gpsLonLat.latitude,
-        zoom: 15
+        zoom: 16
       }));
       dispatch(setIsShowingOnlySelectedPOI(false));
       dispatch(setSelectedPOI(''));
@@ -85,7 +85,7 @@ function TripsList() {
       dispatch(setViewState({
         longitude: gpsLonLat.longitude,
         latitude: gpsLonLat.latitude,
-        zoom: 15
+        zoom: 16
       }));
       dispatch(setIsShowingOnlySelectedPOI(false));
       dispatch(setSelectedPOI(''));
