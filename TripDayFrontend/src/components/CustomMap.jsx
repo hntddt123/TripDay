@@ -129,7 +129,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
                 <CustomButton className='poiButton justify-center' label='Cancel' onClick={handleCancelDirectionButton} />
               </div>
               <button className='sidebarInstructionsToggle left' onClick={handleSideBarToggle}>
-                &rarr;
+                {(isShowingSideBar) ? String.fromCharCode(0x2190) : String.fromCharCode(0x2192)}
               </button>
             </div>
           </div>
