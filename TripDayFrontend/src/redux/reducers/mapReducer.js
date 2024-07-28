@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialMapState = {
   mapStyle: 'mapbox://styles/mapbox/standard',
+  mapLightPresetMode: 'Day',
   viewState: {
     longitude: 153.4250000,
     latitude: 22.4250000,
@@ -19,13 +20,15 @@ const initialMapState = {
   isShowingOnlySelectedPOI: false,
   isShowingAddtionalPopUp: false,
   isShowingSideBar: false,
-  isNavigating: false
+  isNavigating: false,
+  isDarkMode: true
 };
 
 const mapSlice = createSlice({
   name: 'map',
   initialState: initialMapState,
   reducers: {
+    setMapLightPresetMode: (state, action) => ({ ...state, mapLightPresetMode: action.payload }),
     setViewState: (state, action) => ({ ...state, viewState: action.payload }),
     setMarker: (state, action) => ({ ...state, markers: [action.payload] }),
     setCurrentLocation: (state, action) => ({ ...state, gpsLonLat: action.payload }),
@@ -39,11 +42,13 @@ const mapSlice = createSlice({
     setIsShowingOnlySelectedPOI: (state, action) => ({ ...state, isShowingOnlySelectedPOI: action.payload }),
     setIsShowingAddtionalPopUp: (state, action) => ({ ...state, isShowingAddtionalPopUp: action.payload }),
     setIsNavigating: (state, action) => ({ ...state, isNavigating: action.payload }),
-    setIsShowingSideBar: (state, action) => ({ ...state, isShowingSideBar: action.payload })
+    setIsShowingSideBar: (state, action) => ({ ...state, isShowingSideBar: action.payload }),
+    setDarkMode: (state, action) => ({ ...state, isDarkMode: action.payload })
   }
 });
 
 export const {
+  setMapLightPresetMode,
   setViewState,
   setMarker,
   setCurrentLocation,
@@ -56,7 +61,8 @@ export const {
   setIsShowingOnlySelectedPOI,
   setIsShowingAddtionalPopUp,
   setIsNavigating,
-  setIsShowingSideBar
+  setIsShowingSideBar,
+  setDarkMode
 } = mapSlice.actions;
 
 export const mapReducer = mapSlice.reducer;

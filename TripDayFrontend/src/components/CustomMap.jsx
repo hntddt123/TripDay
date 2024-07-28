@@ -10,7 +10,7 @@ import {
   setCurrentLocation,
   setIsShowingOnlySelectedPOI,
   setIsShowingSideBar,
-  setIsNavigating
+  setIsNavigating,
 } from '../redux/reducers/mapReducer';
 import { MAPBOX_API_KEY } from '../constants/constants';
 import { useLazyGetDirectionsQuery } from '../api/mapboxSliceAPI';
@@ -30,6 +30,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
   const isShowingAddtionalPopUp = useSelector((state) => state.mapReducer.isShowingAddtionalPopUp);
   const isShowingSideBar = useSelector((state) => state.mapReducer.isShowingSideBar);
   const isNavigating = useSelector((state) => state.mapReducer.isNavigating);
+  const isDarkMode = useSelector((state) => state.mapReducer.isDarkMode);
 
   const [mapLoaded, setMapLoaded] = useState(false);
   const dispatch = useDispatch();
@@ -42,6 +43,11 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
     map.target.dragRotate.enable();
     map.target.dragRotate._mousePitch.enable();
     map.target.dragRotate._mouseRotate.disable();
+    if (isDarkMode) {
+      map.target.setConfigProperty('basemap', 'lightPreset', 'night');
+    } else {
+      map.target.setConfigProperty('basemap', 'lightPreset', 'day');
+    }
   };
 
   const onMove = useCallback((event) => {
