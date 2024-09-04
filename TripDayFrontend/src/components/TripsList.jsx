@@ -143,7 +143,21 @@ function TripsList() {
 
   return (
     <div className='mx-auto'>
-      {getPlaceNameToggle()}
+      <div className='text-2xl ml-2'>
+        <div className='m-1'>
+          <CustomButton className='poiButton' label={restaurantIcon} onClick={handleRestaurantButton} disabled={!hasLonLat()} />
+          <CustomButton className='poiButton' label={hotelIcon} onClick={handleHotelButton} disabled={!hasLonLat()} />
+          <CustomButton className='poiButton' label={carIcon} onClick={handleCarButton} disabled={!hasLonLat()} />
+        </div>
+        {getLoadingStatus()}
+      </div>
+      <div ref={mapRef}>
+        <CustomMap
+          data={(poi) || null}
+          getPOIPhotosQueryResult={(getPOIPhotosQueryResult) || null}
+          getPOIPhotosQueryTrigger={getPOIPhotosQueryTrigger}
+        />
+      </div>
       <div className='text-2xl ml-2'>
         Item Count
         <ReactSlider
@@ -177,22 +191,10 @@ function TripsList() {
           renderThumb={(props, state) => <div {...props} key={props.key}>{state.valueNow}</div>}
           onChange={(value) => handleRadiusChange(value)}
         />
-        <div className='m-1'>
-          <CustomButton className='poiButton' label={restaurantIcon} onClick={handleRestaurantButton} disabled={!hasLonLat()} />
-          <CustomButton className='poiButton' label={hotelIcon} onClick={handleHotelButton} disabled={!hasLonLat()} />
-          <CustomButton className='poiButton' label={carIcon} onClick={handleCarButton} disabled={!hasLonLat()} />
-        </div>
-        {getLoadingStatus()}
+        {getPlaceNameToggle()}
+        {getLocation()}
+        {/* <CustomButton label='Save' /> */}
       </div>
-      <div ref={mapRef}>
-        <CustomMap
-          data={(poi) || null}
-          getPOIPhotosQueryResult={(getPOIPhotosQueryResult) || null}
-          getPOIPhotosQueryTrigger={getPOIPhotosQueryTrigger}
-        />
-      </div>
-      {getLocation()}
-      {/* <CustomButton label='Save' /> */}
     </div>
   );
 }
