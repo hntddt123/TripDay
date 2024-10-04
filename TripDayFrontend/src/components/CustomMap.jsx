@@ -1,20 +1,21 @@
 /* eslint-disable react/prop-types */
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Map, { FullscreenControl, GeolocateControl, NavigationControl } from 'react-map-gl';
 import { FourSquareResponsePropTypes } from '../constants/fourSquarePropTypes';
 import {
   setViewState,
   setMarker,
-  setCurrentLocation,
+  setGPSLonLat,
+  setLongPressedLonLat,
   setIsShowingOnlySelectedPOI,
   setIsShowingSideBar,
   setIsNavigating,
 } from '../redux/reducers/mapReducer';
 import { MAPBOX_API_KEY } from '../constants/constants';
 import { useLazyGetDirectionsQuery } from '../api/mapboxSliceAPI';
-// import ClickMarker from './ClickMarker';
+import ClickMarker from './ClickMarker';
 import ProximityMarkers from './ProximityMarkers';
 import AdditionalMarkerInfo from './AdditionalMarkerInfo';
 import DirectionLayer from './DirectionLayer';
@@ -31,10 +32,12 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
   const isShowingSideBar = useSelector((state) => state.mapReducer.isShowingSideBar);
   const isNavigating = useSelector((state) => state.mapReducer.isNavigating);
   const isDarkMode = useSelector((state) => state.mapReducer.isDarkMode);
+  const isLongPress = useSelector((state) => state.mapReducer.isLongPress);
 
   const [mapLoaded, setMapLoaded] = useState(false);
   const dispatch = useDispatch();
   const mapCSSStyle = { width: '100%', height: '90vh', borderRadius: 10 };
+  const pressTimer = useRef(null);
 
   const handleStyleLoad = (map) => {
     setMapLoaded(true);
@@ -55,23 +58,45 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
   }, []);
 
   const handleCurrentLocation = (event) => {
-    dispatch(setCurrentLocation({
+    dispatch(setGPSLonLat({
       longitude: event.coords.longitude,
       latitude: event.coords.latitude,
     }));
   };
 
-  const handleClick = (event) => {
-    const newid = new Date().getTime();
-    const { lng, lat } = event.lngLat;
-    const newMarker = {
-      id: newid,
-      lng: lng,
-      lat: lat
-    };
-    dispatch(setMarker(newMarker));
+  const handleClick = () => {
     if (!isNavigating) {
       dispatch(setIsShowingOnlySelectedPOI(false));
+    }
+  };
+
+  const handleMouseDown = (event) => {
+    if (isLongPress) {
+      if (pressTimer.current) {
+        clearTimeout(pressTimer.current);
+      }
+      pressTimer.current = setTimeout(() => {
+        const { lng, lat } = event.lngLat;
+        const newMarker = {
+          id: new Date().getTime(),
+          lng: lng,
+          lat: lat
+        };
+        dispatch(setLongPressedLonLat({
+          longitude: lng,
+          latitude: lat,
+        }));
+        dispatch(setMarker(newMarker));
+      }, 500); // 500ms delay before considered a 'hold'
+    }
+  };
+
+  const handleMouseUp = () => {
+    if (isLongPress) {
+      if (pressTimer.current) {
+        clearTimeout(pressTimer.current);
+        pressTimer.current = null;
+      }
     }
   };
 
@@ -91,6 +116,10 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
       onMove={onMove}
       onClick={handleClick}
       onLoad={(map) => handleStyleLoad(map)}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onTouchStart={handleMouseDown}
+      onTouchEnd={handleMouseUp}
       style={mapCSSStyle}
       mapStyle={mapStyle}
       mapLib={import('mapbox-gl')}
@@ -112,12 +141,8 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
       <NavigationControl />
       <ProximityMarkers data={data} getPOIPhotosQueryTrigger={getPOIPhotosQueryTrigger} />
       <AdditionalMarkerInfo data={data} getPOIPhotosQueryResult={getPOIPhotosQueryResult} getDirectionsQueryTrigger={getDirectionsQueryTrigger} />
-      {/* {(mapLoaded) ? <ClickMarker /> : null} */}
-      {(mapLoaded) ? (
-        <DirectionLayer
-          getDirectionsQueryResults={getDirectionsQueryResults}
-        />
-      ) : null}
+      {(mapLoaded) ? <ClickMarker /> : null}
+      {(mapLoaded) ? <DirectionLayer getDirectionsQueryResults={getDirectionsQueryResults} /> : null}
       <div className={`bottommenu ${isShowingAddtionalPopUp ? 'blur-sm' : null}`}>
         <NearbyPOIList poi={data} />
       </div>

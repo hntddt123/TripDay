@@ -10,9 +10,11 @@ const initialMapState = {
     zoom: 1.5
   },
   gpsLonLat: { longitude: null, latitude: null },
+  longPressedLonLat: { longitude: null, latitude: null },
   markers: [],
+  selectedPOIIDNumber: '4d4b7105d754a06374d81259',
   selectedPOI: '',
-  selectedPOIIcon: '',
+  selectedPOIIcon: '🍱',
   selectedPOILonLat: { longitude: null, latitude: null },
   selectedPOIRadius: 500, // 100 ~ 1000m
   selectedPOICount: 20, // 5 ~ 50
@@ -21,7 +23,8 @@ const initialMapState = {
   isShowingAddtionalPopUp: false,
   isShowingSideBar: false,
   isNavigating: false,
-  isDarkMode: true
+  isDarkMode: true,
+  isLongPress: false
 };
 
 const mapSlice = createSlice({
@@ -31,8 +34,10 @@ const mapSlice = createSlice({
     setMapLightPresetMode: (state, action) => ({ ...state, mapLightPresetMode: action.payload }),
     setViewState: (state, action) => ({ ...state, viewState: action.payload }),
     setMarker: (state, action) => ({ ...state, markers: [action.payload] }),
-    setCurrentLocation: (state, action) => ({ ...state, gpsLonLat: action.payload }),
+    setGPSLonLat: (state, action) => ({ ...state, gpsLonLat: action.payload }),
+    setLongPressedLonLat: (state, action) => ({ ...state, longPressedLonLat: action.payload }),
     setUserOption: (state, action) => ({ ...state, userOption: { searchCategory: action.payload } }),
+    setSelectedPOIIDNumber: (state, action) => ({ ...state, selectedPOIIDNumber: action.payload }),
     setSelectedPOI: (state, action) => ({ ...state, selectedPOI: action.payload }),
     setSelectedPOIIcon: (state, action) => ({ ...state, selectedPOIIcon: action.payload }),
     setSelectedPOILonLat: (state, action) => ({ ...state, selectedPOILonLat: action.payload }),
@@ -43,7 +48,8 @@ const mapSlice = createSlice({
     setIsShowingAddtionalPopUp: (state, action) => ({ ...state, isShowingAddtionalPopUp: action.payload }),
     setIsNavigating: (state, action) => ({ ...state, isNavigating: action.payload }),
     setIsShowingSideBar: (state, action) => ({ ...state, isShowingSideBar: action.payload }),
-    setDarkMode: (state, action) => ({ ...state, isDarkMode: action.payload })
+    setDarkMode: (state, action) => ({ ...state, isDarkMode: action.payload }),
+    setIsLongPress: (state, action) => ({ ...state, isLongPress: action.payload })
   }
 });
 
@@ -51,7 +57,9 @@ export const {
   setMapLightPresetMode,
   setViewState,
   setMarker,
-  setCurrentLocation,
+  setGPSLonLat,
+  setLongPressedLonLat,
+  setSelectedPOIIDNumber,
   setSelectedPOI,
   setSelectedPOIIcon,
   setSelectedPOILonLat,
@@ -62,7 +70,8 @@ export const {
   setIsShowingAddtionalPopUp,
   setIsNavigating,
   setIsShowingSideBar,
-  setDarkMode
+  setDarkMode,
+  setIsLongPress
 } = mapSlice.actions;
 
 export const mapReducer = mapSlice.reducer;

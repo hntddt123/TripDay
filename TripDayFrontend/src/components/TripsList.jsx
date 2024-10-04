@@ -9,16 +9,20 @@ import {
   setViewState,
   setIsFullPOIname,
   setIsShowingOnlySelectedPOI,
+  setSelectedPOIIDNumber,
   setSelectedPOI,
   setSelectedPOICount,
-  setSelectedPOIRadius
+  setSelectedPOIRadius,
+  setIsLongPress,
 } from '../redux/reducers/mapReducer';
 import CustomMap from './CustomMap';
 import CustomButton from './CustomButton';
+// import fourSquareCategory from '../constants/foursquarePOICategory.json';
 
 const restaurantIcon = '🍱';
 const hotelIcon = '🛌';
 const carIcon = '🚘';
+const GPSIcon = '🛰️';
 
 function TripsList() {
   const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error }] = useLazyGetNearbyPOIQuery();
@@ -26,61 +30,46 @@ function TripsList() {
 
   const mapRef = useRef();
   const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
+  const longPressedLonLat = useSelector((state) => state.mapReducer.longPressedLonLat);
   const isFullPOIname = useSelector((state) => state.mapReducer.isFullPOIname);
+  const isLongPress = useSelector((state) => state.mapReducer.isLongPress);
+  const selectedPOIIDNumber = useSelector((state) => state.mapReducer.selectedPOIIDNumber);
   const selectedPOICount = useSelector((state) => state.mapReducer.selectedPOICount);
   const selectedPOIRadius = useSelector((state) => state.mapReducer.selectedPOIRadius);
+  const selectedPOIIcon = useSelector((state) => state.mapReducer.selectedPOIIcon);
   const dispatch = useDispatch();
 
   const setPOIQuery = (ll, radius, limit, category, icon) => ({ ll, radius, limit, category, icon });
 
-  const hasLonLat = () => (gpsLonLat.longitude !== null && gpsLonLat.latitude !== null);
+  const hasGPSLonLat = () => (gpsLonLat.longitude !== null && gpsLonLat.latitude !== null);
+  const hasLongPressedLonLat = () => (longPressedLonLat.longitude !== null && longPressedLonLat.latitude !== null);
 
-  const handleRestaurantButton = () => {
-    if (hasLonLat()) {
+  const handleDropdownOnChange = (event) => {
+    dispatch(setSelectedPOIIDNumber(event.target.value));
+  };
+
+  const handleLongPressedMarkerButton = () => {
+    if (hasLongPressedLonLat()) {
       getNearbyPOIQueryTrigger(setPOIQuery(
-        `${gpsLonLat.latitude},${gpsLonLat.longitude}`,
+        `${longPressedLonLat.latitude},${longPressedLonLat.longitude}`,
         selectedPOIRadius,
         selectedPOICount,
-        '4d4b7105d754a06374d81259',
-        restaurantIcon
+        selectedPOIIDNumber,
+        selectedPOIIcon
       ));
-      dispatch(setViewState({
-        longitude: gpsLonLat.longitude,
-        latitude: gpsLonLat.latitude,
-        zoom: 16
-      }));
       dispatch(setIsShowingOnlySelectedPOI(false));
       dispatch(setSelectedPOI(''));
     }
   };
 
-  const handleHotelButton = () => {
-    if (hasLonLat()) {
+  const handleGPSButton = () => {
+    if (hasGPSLonLat()) {
       getNearbyPOIQueryTrigger(setPOIQuery(
         `${gpsLonLat.latitude},${gpsLonLat.longitude}`,
         selectedPOIRadius,
         selectedPOICount,
-        '4bf58dd8d48988d1fa931735',
-        hotelIcon
-      ));
-      dispatch(setViewState({
-        longitude: gpsLonLat.longitude,
-        latitude: gpsLonLat.latitude,
-        zoom: 16
-      }));
-      dispatch(setIsShowingOnlySelectedPOI(false));
-      dispatch(setSelectedPOI(''));
-    }
-  };
-
-  const handleCarButton = () => {
-    if (hasLonLat()) {
-      getNearbyPOIQueryTrigger(setPOIQuery(
-        `${gpsLonLat.latitude},${gpsLonLat.longitude}`,
-        selectedPOIRadius,
-        selectedPOICount,
-        '4d4b7105d754a06379d81259',
-        carIcon
+        selectedPOIIDNumber,
+        selectedPOIIcon
       ));
       dispatch(setViewState({
         longitude: gpsLonLat.longitude,
@@ -96,6 +85,10 @@ function TripsList() {
     dispatch(setIsFullPOIname(!isFullPOIname));
   };
 
+  const handleLongPressToggle = () => {
+    dispatch(setIsLongPress(!isLongPress));
+  };
+
   const handleItemCountChange = (count) => {
     dispatch(setSelectedPOICount(count));
   };
@@ -104,21 +97,7 @@ function TripsList() {
     dispatch(setSelectedPOIRadius(radius));
   };
 
-  const getLoadingStatus = () => (
-    <div>
-      <div>
-        {(isLoading ? 'Loading...' : null)}
-      </div>
-      <div>
-        {(isFetching) ? 'Fetching...' : null}
-      </div>
-      <div>
-        {(error) ? `Error: ${error.error}` : null}
-      </div>
-    </div>
-  );
-
-  const getLocation = () => ((hasLonLat()) ? (
+  const getLocation = () => ((hasGPSLonLat()) ? (
     <div className='cardInfo'>
       <div className='text-2xl'>
         {`Longtitude: ${(gpsLonLat.longitude.toFixed(8))}`}
@@ -141,15 +120,45 @@ function TripsList() {
     </div>
   );
 
+  const getIsLongPressToggle = () => (
+    <Toggle
+      className='ml-2 align-middle'
+      icons={false}
+      defaultChecked={isLongPress}
+      onChange={handleLongPressToggle}
+    />
+  );
+
   return (
     <div className='mx-auto'>
-      <div className='text-2xl ml-2'>
+      <div className='text-2xl'>
         <div className='m-1'>
-          <CustomButton className='poiButton' label={restaurantIcon} onClick={handleRestaurantButton} disabled={!hasLonLat()} />
-          <CustomButton className='poiButton' label={hotelIcon} onClick={handleHotelButton} disabled={!hasLonLat()} />
-          <CustomButton className='poiButton' label={carIcon} onClick={handleCarButton} disabled={!hasLonLat()} />
+          <CustomButton
+            className='poiButton'
+            label={GPSIcon}
+            onClick={handleGPSButton}
+            disabled={!hasGPSLonLat()}
+          />
+          <CustomButton
+            className='poiButton'
+            label='📍'
+            onClick={handleLongPressedMarkerButton}
+            disabled={!hasLongPressedLonLat()}
+          />
+          <select
+            className='poiDropdownButton'
+            onChange={(event) => handleDropdownOnChange(event)}
+          >
+            <option value='4d4b7105d754a06374d81259'> {restaurantIcon}</option>
+            <option value='4bf58dd8d48988d1fa931735'> {hotelIcon}</option>
+            <option value='4d4b7105d754a06379d81259'> {carIcon}</option>
+          </select>
+          LongPress?
+          {getIsLongPressToggle()}
+          {(isLoading ? 'Loading...' : null)}
+          {(isFetching) ? 'Fetching...' : null}
+          {(error) ? `Error: ${error.error}` : null}
         </div>
-        {getLoadingStatus()}
       </div>
       <div ref={mapRef}>
         <CustomMap

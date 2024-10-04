@@ -332,6 +332,39 @@ body {
     background-color: theme('backgroundColor.amber.300');
   }
 
+  .poiDropdownButton {
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    align-content: center;
+    border-radius: theme('borderRadius.3xl');
+    margin: theme('spacing.1');
+    padding: theme('spacing.1');
+    box-shadow: theme('boxShadow.sm');
+    border-color: theme('backgroundColor.amber.50');
+    @apply  
+    bg-primary-buttonLight dark:bg-primary-buttonDark
+    text-black dark:text-white
+  }
+
+  .poiDropdownButton:hover {
+    border-color: theme('backgroundColor.amber.50');
+    background-color: theme('backgroundColor.amber.400');
+    @apply  
+    bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover
+  }
+
+  .poiDropdownButton:active {
+    border-color: theme('backgroundColor.amber.50');
+    background-color: theme('backgroundColor.amber.600');
+  }
+
+  .poiDropdownButton:disabled {
+    opacity: 0.25;
+    border-color: theme('backgroundColor.amber.300');
+    background-color: theme('backgroundColor.amber.300');
+  }
+
+
   .darkmodeButton {
       font-size: 1rem;
       line-height: 1rem;
