@@ -153,7 +153,7 @@ function TripsList() {
             <option value='4bf58dd8d48988d1fa931735'> {hotelIcon}</option>
             <option value='4d4b7105d754a06379d81259'> {carIcon}</option>
           </select>
-          LongPress?
+          👇🏻📍
           {getIsLongPressToggle()}
           {(isLoading ? 'Loading...' : null)}
           {(isFetching) ? 'Fetching...' : null}
