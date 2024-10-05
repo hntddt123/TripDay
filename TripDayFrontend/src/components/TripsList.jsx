@@ -2,14 +2,26 @@ import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import Toggle from 'react-toggle';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import ReactSlider from 'react-slider';
 import { useLazyGetNearbyPOIQuery, useLazyGetPOIPhotosQuery } from '../api/foursquareSliceAPI';
-import { setViewState, setIsfullPOIname, setIsShowingOnlySelectedPOI, setSelectedPOI } from '../redux/reducers/mapReducer';
+import {
+  setViewState,
+  setIsFullPOIname,
+  setIsShowingOnlySelectedPOI,
+  setSelectedPOIIDNumber,
+  setSelectedPOI,
+  setSelectedPOICount,
+  setSelectedPOIRadius,
+} from '../redux/reducers/mapReducer';
 import CustomMap from './CustomMap';
 import CustomButton from './CustomButton';
+// import fourSquareCategory from '../constants/foursquarePOICategory.json';
 
 const restaurantIcon = '🍱';
 const hotelIcon = '🛌';
 const carIcon = '🚘';
+const GPSIcon = '🛰️🔎';
 
 function TripsList() {
   const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error }] = useLazyGetNearbyPOIQuery();
@@ -17,46 +29,50 @@ function TripsList() {
 
   const mapRef = useRef();
   const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
-  const isfullPOIname = useSelector((state) => state.mapReducer.isfullPOIname);
+  const longPressedLonLat = useSelector((state) => state.mapReducer.longPressedLonLat);
+  const isFullPOIname = useSelector((state) => state.mapReducer.isFullPOIname);
+  const selectedPOIIDNumber = useSelector((state) => state.mapReducer.selectedPOIIDNumber);
+  const selectedPOICount = useSelector((state) => state.mapReducer.selectedPOICount);
+  const selectedPOIRadius = useSelector((state) => state.mapReducer.selectedPOIRadius);
+  const selectedPOIIcon = useSelector((state) => state.mapReducer.selectedPOIIcon);
   const dispatch = useDispatch();
 
   const setPOIQuery = (ll, radius, limit, category, icon) => ({ ll, radius, limit, category, icon });
 
-  const hasLonLat = () => (gpsLonLat.longitude !== null && gpsLonLat.latitude !== null);
+  const hasGPSLonLat = () => (gpsLonLat.longitude !== null && gpsLonLat.latitude !== null);
+  const hasLongPressedLonLat = () => (longPressedLonLat.longitude !== null && longPressedLonLat.latitude !== null);
 
-  const handleRestaurantButton = () => {
-    if (hasLonLat()) {
-      getNearbyPOIQueryTrigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4d4b7105d754a06374d81259', restaurantIcon));
-      dispatch(setViewState({
-        longitude: gpsLonLat.longitude,
-        latitude: gpsLonLat.latitude,
-        zoom: 15
-      }));
+  const handleDropdownOnChange = (event) => {
+    dispatch(setSelectedPOIIDNumber(event.target.value));
+  };
+
+  const handleLongPressedMarkerButton = () => {
+    if (hasLongPressedLonLat()) {
+      getNearbyPOIQueryTrigger(setPOIQuery(
+        `${longPressedLonLat.latitude},${longPressedLonLat.longitude}`,
+        selectedPOIRadius,
+        selectedPOICount,
+        selectedPOIIDNumber,
+        selectedPOIIcon
+      ));
       dispatch(setIsShowingOnlySelectedPOI(false));
       dispatch(setSelectedPOI(''));
     }
   };
 
-  const handleHotelButton = () => {
-    if (hasLonLat()) {
-      getNearbyPOIQueryTrigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4bf58dd8d48988d1fa931735', hotelIcon));
+  const handleGPSButton = () => {
+    if (hasGPSLonLat()) {
+      getNearbyPOIQueryTrigger(setPOIQuery(
+        `${gpsLonLat.latitude},${gpsLonLat.longitude}`,
+        selectedPOIRadius,
+        selectedPOICount,
+        selectedPOIIDNumber,
+        selectedPOIIcon
+      ));
       dispatch(setViewState({
         longitude: gpsLonLat.longitude,
         latitude: gpsLonLat.latitude,
-        zoom: 15
-      }));
-      dispatch(setIsShowingOnlySelectedPOI(false));
-      dispatch(setSelectedPOI(''));
-    }
-  };
-
-  const handleCarButton = () => {
-    if (hasLonLat()) {
-      getNearbyPOIQueryTrigger(setPOIQuery(`${gpsLonLat.latitude},${gpsLonLat.longitude}`, 500, 20, '4d4b7105d754a06379d81259', carIcon));
-      dispatch(setViewState({
-        longitude: gpsLonLat.longitude,
-        latitude: gpsLonLat.latitude,
-        zoom: 15
+        zoom: 16
       }));
       dispatch(setIsShowingOnlySelectedPOI(false));
       dispatch(setSelectedPOI(''));
@@ -64,24 +80,18 @@ function TripsList() {
   };
 
   const handleFullNameToggle = () => {
-    dispatch(setIsfullPOIname(!isfullPOIname));
+    dispatch(setIsFullPOIname(!isFullPOIname));
   };
 
-  const getLoadingStatus = () => (
-    <div>
-      <div>
-        {(isLoading ? 'Loading...' : null)}
-      </div>
-      <div>
-        {(isFetching) ? 'Fetching...' : null}
-      </div>
-      <div>
-        {(error) ? `Error: ${error.error}` : null}
-      </div>
-    </div>
-  );
+  const handleItemCountChange = (count) => {
+    dispatch(setSelectedPOICount(count));
+  };
 
-  const getLocation = () => ((hasLonLat()) ? (
+  const handleRadiusChange = (radius) => {
+    dispatch(setSelectedPOIRadius(radius));
+  };
+
+  const getLocation = () => ((hasGPSLonLat()) ? (
     <div className='cardInfo'>
       <div className='text-2xl'>
         {`Longtitude: ${(gpsLonLat.longitude.toFixed(8))}`}
@@ -98,7 +108,7 @@ function TripsList() {
       <Toggle
         className='ml-2 align-middle'
         icons={false}
-        defaultChecked={isfullPOIname}
+        defaultChecked={isFullPOIname}
         onChange={handleFullNameToggle}
       />
     </div>
@@ -106,13 +116,33 @@ function TripsList() {
 
   return (
     <div className='mx-auto'>
-      <div className='m-1'>
-        <CustomButton className='poiButton' label={restaurantIcon} onClick={handleRestaurantButton} disabled={!hasLonLat()} />
-        <CustomButton className='poiButton' label={hotelIcon} onClick={handleHotelButton} disabled={!hasLonLat()} />
-        <CustomButton className='poiButton' label={carIcon} onClick={handleCarButton} disabled={!hasLonLat()} />
+      <div className='text-2xl'>
+        <div className='m-1'>
+          <CustomButton
+            className='poiButton'
+            label={GPSIcon}
+            onClick={handleGPSButton}
+            disabled={!hasGPSLonLat()}
+          />
+          <CustomButton
+            className='poiButton'
+            label='📍🔎'
+            onClick={handleLongPressedMarkerButton}
+            disabled={!hasLongPressedLonLat()}
+          />
+          <select
+            className='poiDropdownButton'
+            onChange={(event) => handleDropdownOnChange(event)}
+          >
+            <option value='4d4b7105d754a06374d81259'> {restaurantIcon}</option>
+            <option value='4bf58dd8d48988d1fa931735'> {hotelIcon}</option>
+            <option value='4d4b7105d754a06379d81259'> {carIcon}</option>
+          </select>
+          {(isLoading ? 'Loading...' : null)}
+          {(isFetching) ? 'Fetching...' : null}
+          {(error) ? `Error: ${error.error}` : null}
+        </div>
       </div>
-      {getLoadingStatus()}
-      {getPlaceNameToggle()}
       <div ref={mapRef}>
         <CustomMap
           data={(poi) || null}
@@ -120,8 +150,43 @@ function TripsList() {
           getPOIPhotosQueryTrigger={getPOIPhotosQueryTrigger}
         />
       </div>
-      {getLocation()}
-      {/* <CustomButton label='Save' /> */}
+      <div className='text-2xl ml-2'>
+        Item Count
+        <ReactSlider
+          className='slider'
+          markClassName='sliderMark'
+          thumbClassName='sliderThumbCount'
+          trackClassName='sliderTrackCount'
+          defaultValue={20}
+          marks={[10, 15, 20, 25, 30, 35, 40, 45, 50]}
+          step={5}
+          min={10}
+          max={50}
+          // eslint-disable-next-line react/prop-types
+          renderThumb={(props, state) => <div {...props} key={props.key}>{state.valueNow}</div>}
+          // eslint-disable-next-line react/prop-types
+          renderTrack={(props, state) => <div {...props} key={props.key}>{state.valueNow}</div>}
+          onChange={(value) => handleItemCountChange(value)}
+        />
+        Radius (meter)
+        <ReactSlider
+          className='slider'
+          markClassName='sliderMark'
+          thumbClassName='sliderThumbRadius'
+          trackClassName='sliderTrackRadius'
+          defaultValue={500}
+          marks={[100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]}
+          step={100}
+          min={100}
+          max={1000}
+          // eslint-disable-next-line react/prop-types
+          renderThumb={(props, state) => <div {...props} key={props.key}>{state.valueNow}</div>}
+          onChange={(value) => handleRadiusChange(value)}
+        />
+        {getPlaceNameToggle()}
+        {getLocation()}
+        {/* <CustomButton label='Save' /> */}
+      </div>
     </div>
   );
 }

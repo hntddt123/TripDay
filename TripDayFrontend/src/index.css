@@ -15,7 +15,7 @@ body {
     @apply bg-primary-light dark:bg-primary-dark;
   }
 
-  div {
+  .customdiv {
     @apply dark:text-white;
   }
 
@@ -66,6 +66,7 @@ body {
     border-radius: 50%;
     background-color: theme('backgroundColor.red.600');
     opacity: 0.9;
+    @apply text-black dark:text-white;
   }
 
   .cancelButton:hover {
@@ -86,7 +87,7 @@ body {
     text-align: center;
     @apply 
     bg-primary-titleLight dark:bg-primary-titleDark
-    dark:text-black;
+    text-black dark:text-white;
   }
 
   .card {
@@ -300,8 +301,8 @@ body {
   }
 
   .poiButton {
-    font-size: 1.75rem;
-    line-height: 1.75rem;
+    font-size: 1.5rem;
+    line-height: 1.5rem;
     align-content: center;
     border-radius: theme('borderRadius.lg');
     margin: theme('spacing.1');
@@ -331,6 +332,39 @@ body {
     background-color: theme('backgroundColor.amber.300');
   }
 
+  .poiDropdownButton {
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    align-content: center;
+    border-radius: theme('borderRadius.3xl');
+    margin: theme('spacing.1');
+    padding: theme('spacing.1');
+    box-shadow: theme('boxShadow.sm');
+    border-color: theme('backgroundColor.amber.50');
+    @apply  
+    bg-primary-buttonLight dark:bg-primary-buttonDark
+    text-black dark:text-white
+  }
+
+  .poiDropdownButton:hover {
+    border-color: theme('backgroundColor.amber.50');
+    background-color: theme('backgroundColor.amber.400');
+    @apply  
+    bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover
+  }
+
+  .poiDropdownButton:active {
+    border-color: theme('backgroundColor.amber.50');
+    background-color: theme('backgroundColor.amber.600');
+  }
+
+  .poiDropdownButton:disabled {
+    opacity: 0.25;
+    border-color: theme('backgroundColor.amber.300');
+    background-color: theme('backgroundColor.amber.300');
+  }
+
+
   .darkmodeButton {
       font-size: 1rem;
       line-height: 1rem;
@@ -350,6 +384,86 @@ body {
 
   .darkmodeButton:active {
     border-color: theme('backgroundColor.amber.50');
+    background-color: theme('backgroundColor.amber.600');
+  }
+
+  .slider {
+    cursor: grab;
+    width: 69vw;
+    height: 0.25rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    margin-left: 7.5vw;
+    text-align: center;
+    border-radius: theme('borderRadius.lg');
+  }
+
+  .sliderThumbCount {
+    font-size: large;
+    align-content: center;
+    width: calc(69vw/9);
+    height: 3rem;
+    top: -1.5rem;
+    margin-left: calc((-69vw/9)/2);
+    border-radius: theme('borderRadius.xl');
+    color: theme('backgroundColor.amber.600');
+    background-color: theme('backgroundColor.amber.100');
+  }
+
+  .sliderThumbCount:hover, .sliderThumbCount:focus  {
+    border-width: 0.2rem;
+    border-color: theme('backgroundColor.amber.400');
+    outline: none;
+  }
+
+  .sliderThumbRadius {
+    font-size: large;
+    align-content: center;
+    width: calc(105vw/10);
+    height: 3rem;
+    top: -1.5rem;
+    margin-left: calc((-105vw/10)/2);
+    border-radius: theme('borderRadius.xl');
+    color: theme('backgroundColor.amber.600');
+    background-color: theme('backgroundColor.amber.100');
+  }
+
+  .sliderThumbRadius:hover, .sliderThumbRadius:focus  {
+    border-width: 0.2rem;
+    border-color: theme('backgroundColor.amber.400');
+    outline: none;
+  }
+
+  .sliderMark {
+    width: .15em;
+    height: 0.15em;
+    border-radius: 50%;
+    background-color: theme('backgroundColor.amber.100');
+  }
+
+  .sliderTrackCount {
+    margin-right: calc(69vw/9);
+    height: 0.15em;
+    border-radius: theme('borderRadius.lg');
+    background-color: theme('backgroundColor.amber.950');
+  }
+
+  .sliderTrackRadius {
+    margin-right: calc(105vw/10);
+    height: 0.15em;
+    border-radius: theme('borderRadius.lg');
+    background-color: theme('backgroundColor.amber.950');
+  }
+
+  .sliderTrackCount.sliderTrackCount-0 {
+    height: 0.15em;
+    border-radius: theme('borderRadius.lg');
+    background-color: theme('backgroundColor.amber.600');
+  }
+
+  .sliderTrackRadius.sliderTrackRadius-0 {
+    height: 0.15em;
+    border-radius: theme('borderRadius.lg');
     background-color: theme('backgroundColor.amber.600');
   }
 }

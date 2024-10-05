@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  setDarkMode
+} from '../redux/reducers/mapReducer';
 
 function DarkModeToggle() {
-  const [darkMode, setDarkMode] = useState(true);
+  const darkMode = useSelector((state) => state.mapReducer.isDarkMode);
+  const dispatch = useDispatch();
 
   const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
+    dispatch(setDarkMode(!darkMode));
     document.documentElement.classList.toggle('dark');
   };
 

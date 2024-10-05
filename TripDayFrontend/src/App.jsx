@@ -3,7 +3,6 @@ import TripBoard from './components/TripBoard';
 import TripsList from './components/TripsList';
 import CustomButton from './components/CustomButton';
 import DarkModeToggle from './components/DarkModeToggle';
-
 import { MODE } from './constants/constants';
 
 function App() {
@@ -24,7 +23,7 @@ function App() {
               <div className='grid grid-cols-1 container text-center mx-auto'>
                 <CustomButton label='New Trip' to='/newtrip' />
                 <CustomButton label='View Trips' to='/trips' />
-                <p className='text-2xl'>Version: {MODE}</p>
+                <p className='customdiv text-2xl'>Version: {MODE}</p>
               </div>
             )}
           />

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Popup } from 'react-map-gl';
 import { useDispatch, useSelector } from 'react-redux';
-import { FoursquareResponsePropTypes } from '../constants/fourSqaurePropTypes';
+import { FourSquareResponsePropTypes } from '../constants/fourSquarePropTypes';
 import CustomButton from './CustomButton';
 import { setIsShowingAddtionalPopUp, setIsShowingOnlySelectedPOI, setIsNavigating, setIsShowingSideBar } from '../redux/reducers/mapReducer';
 
@@ -9,6 +9,7 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
   const selectedPOI = useSelector((state) => state.mapReducer.selectedPOI);
   const selectedPOILonLat = useSelector((state) => state.mapReducer.selectedPOILonLat);
   const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
+  const longPressedLonLat = useSelector((state) => state.mapReducer.longPressedLonLat);
   const isShowingAddtionalPopUp = useSelector((state) => state.mapReducer.isShowingAddtionalPopUp);
   const dispatch = useDispatch();
 
@@ -19,12 +20,21 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
   };
 
   const handleDirectionButton = () => {
-    getDirectionsQueryTrigger(setRouteQuery(
-      gpsLonLat.longitude,
-      gpsLonLat.latitude,
-      selectedPOILonLat.longitude,
-      selectedPOILonLat.latitude
-    ));
+    if (gpsLonLat.longitude !== null && gpsLonLat.latitude !== null) {
+      getDirectionsQueryTrigger(setRouteQuery(
+        gpsLonLat.longitude,
+        gpsLonLat.latitude,
+        selectedPOILonLat.longitude,
+        selectedPOILonLat.latitude
+      ));
+    } else {
+      getDirectionsQueryTrigger(setRouteQuery(
+        longPressedLonLat.longitude,
+        longPressedLonLat.latitude,
+        selectedPOILonLat.longitude,
+        selectedPOILonLat.latitude
+      ));
+    }
     dispatch(setIsShowingAddtionalPopUp(false));
     dispatch(setIsShowingOnlySelectedPOI(true));
     dispatch(setIsShowingSideBar(true));
@@ -71,10 +81,15 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
           />
           <div
             className='mapboxgl-popup-content text-xl cardPOIAddInfo'
-            style={{ borderRadius: 20, backgroundColor: 'rgba(0,0,0,0.7)', overflow: 'auto', width: '100%' }}
+            style={{
+              borderRadius: 20,
+              backgroundColor: 'rgba(0,0,0,0.7)',
+              overflow: 'auto',
+              width: 'calc(100vw - env(safe-area-inset-left) - env(safe-area-inset-right)'
+            }}
           >
-            <CustomButton className='cancelButton text-orange-950' label='X' onClick={handleCloseButton} />
-            <CustomButton className='poiButton justify-center' label='Get Direction' onClick={handleDirectionButton} />
+            <CustomButton className='cancelButton' label='X' onClick={handleCloseButton} />
+            <CustomButton className='poiButton justify-center ml-4' label='Get Direction' onClick={handleDirectionButton} />
             <div className='text-2xl'>
               {`${filteredResult.name} (${filteredResult.location.address}) ${filteredResult.distance} m`}
             </div>
@@ -90,5 +105,5 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
 }
 
 ProximityMarkersInfo.propTypes = {
-  data: FoursquareResponsePropTypes,
+  data: FourSquareResponsePropTypes,
 };

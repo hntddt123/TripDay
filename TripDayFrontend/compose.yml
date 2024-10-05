@@ -21,7 +21,7 @@ services:
       SSL_CERTIFICATE_PATH: /app/ssl/cert.pem
       SSL_PRIVATE_KEY_PATH: /app/ssl/key.pem
     ports:
-      - 5173:5173
+      - 5174:5174
     user: "${UID}:${GID}"
 
 
