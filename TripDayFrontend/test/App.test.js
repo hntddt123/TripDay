@@ -6,6 +6,10 @@ jest.mock('../src/constants/constants.js', () => ({
   API_KEY: ''
 }));
 
+jest.mock('@mapbox/mapbox-gl-geocoder', () => ({
+  MapboxGeocoder: ''
+}));
+
 
 test('Canary Test', () => {
   expect(1).toBe(1);
