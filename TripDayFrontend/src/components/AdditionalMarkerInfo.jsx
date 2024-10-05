@@ -9,6 +9,7 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
   const selectedPOI = useSelector((state) => state.mapReducer.selectedPOI);
   const selectedPOILonLat = useSelector((state) => state.mapReducer.selectedPOILonLat);
   const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
+  const longPressedLonLat = useSelector((state) => state.mapReducer.longPressedLonLat);
   const isShowingAddtionalPopUp = useSelector((state) => state.mapReducer.isShowingAddtionalPopUp);
   const dispatch = useDispatch();
 
@@ -19,12 +20,21 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
   };
 
   const handleDirectionButton = () => {
-    getDirectionsQueryTrigger(setRouteQuery(
-      gpsLonLat.longitude,
-      gpsLonLat.latitude,
-      selectedPOILonLat.longitude,
-      selectedPOILonLat.latitude
-    ));
+    if (gpsLonLat.longitude !== null && gpsLonLat.latitude !== null) {
+      getDirectionsQueryTrigger(setRouteQuery(
+        gpsLonLat.longitude,
+        gpsLonLat.latitude,
+        selectedPOILonLat.longitude,
+        selectedPOILonLat.latitude
+      ));
+    } else {
+      getDirectionsQueryTrigger(setRouteQuery(
+        longPressedLonLat.longitude,
+        longPressedLonLat.latitude,
+        selectedPOILonLat.longitude,
+        selectedPOILonLat.latitude
+      ));
+    }
     dispatch(setIsShowingAddtionalPopUp(false));
     dispatch(setIsShowingOnlySelectedPOI(true));
     dispatch(setIsShowingSideBar(true));
