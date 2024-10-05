@@ -21,7 +21,7 @@ import CustomButton from './CustomButton';
 const restaurantIcon = '🍱';
 const hotelIcon = '🛌';
 const carIcon = '🚘';
-const GPSIcon = '🛰️';
+const GPSIcon = '🛰️🔎';
 
 function TripsList() {
   const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error }] = useLazyGetNearbyPOIQuery();
@@ -126,7 +126,7 @@ function TripsList() {
           />
           <CustomButton
             className='poiButton'
-            label='📍'
+            label='📍🔎'
             onClick={handleLongPressedMarkerButton}
             disabled={!hasLongPressedLonLat()}
           />
