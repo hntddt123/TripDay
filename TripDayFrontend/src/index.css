@@ -15,7 +15,7 @@ body {
     @apply bg-primary-light dark:bg-primary-dark;
   }
 
-  div {
+  .customdiv {
     @apply dark:text-white;
   }
 

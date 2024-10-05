@@ -21,6 +21,7 @@ import AdditionalMarkerInfo from './AdditionalMarkerInfo';
 import DirectionLayer from './DirectionLayer';
 import NearbyPOIList from './NearbyPOIList';
 import CustomButton from './CustomButton';
+import GeocoderControl from './GeoCoderControl';
 
 // react-map-gl component
 export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQueryTrigger }) {
@@ -126,6 +127,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
       dragRotate={false}
       touchZoomRotate={false}
     >
+      <GeocoderControl className='poiButton' mapboxAccessToken={MAPBOX_API_KEY} position='top-left' />
       <FullscreenControl position='top-right' />
       <GeolocateControl
         position='top-right'
