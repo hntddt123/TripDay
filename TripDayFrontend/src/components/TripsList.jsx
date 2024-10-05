@@ -13,7 +13,6 @@ import {
   setSelectedPOI,
   setSelectedPOICount,
   setSelectedPOIRadius,
-  setIsLongPress,
 } from '../redux/reducers/mapReducer';
 import CustomMap from './CustomMap';
 import CustomButton from './CustomButton';
@@ -32,7 +31,6 @@ function TripsList() {
   const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
   const longPressedLonLat = useSelector((state) => state.mapReducer.longPressedLonLat);
   const isFullPOIname = useSelector((state) => state.mapReducer.isFullPOIname);
-  const isLongPress = useSelector((state) => state.mapReducer.isLongPress);
   const selectedPOIIDNumber = useSelector((state) => state.mapReducer.selectedPOIIDNumber);
   const selectedPOICount = useSelector((state) => state.mapReducer.selectedPOICount);
   const selectedPOIRadius = useSelector((state) => state.mapReducer.selectedPOIRadius);
@@ -85,10 +83,6 @@ function TripsList() {
     dispatch(setIsFullPOIname(!isFullPOIname));
   };
 
-  const handleLongPressToggle = () => {
-    dispatch(setIsLongPress(!isLongPress));
-  };
-
   const handleItemCountChange = (count) => {
     dispatch(setSelectedPOICount(count));
   };
@@ -120,15 +114,6 @@ function TripsList() {
     </div>
   );
 
-  const getIsLongPressToggle = () => (
-    <Toggle
-      className='ml-2 align-middle'
-      icons={false}
-      defaultChecked={isLongPress}
-      onChange={handleLongPressToggle}
-    />
-  );
-
   return (
     <div className='mx-auto'>
       <div className='text-2xl'>
@@ -153,8 +138,6 @@ function TripsList() {
             <option value='4bf58dd8d48988d1fa931735'> {hotelIcon}</option>
             <option value='4d4b7105d754a06379d81259'> {carIcon}</option>
           </select>
-          👇🏻📍
-          {getIsLongPressToggle()}
           {(isLoading ? 'Loading...' : null)}
           {(isFetching) ? 'Fetching...' : null}
           {(error) ? `Error: ${error.error}` : null}

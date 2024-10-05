@@ -23,8 +23,7 @@ const initialMapState = {
   isShowingAddtionalPopUp: false,
   isShowingSideBar: false,
   isNavigating: false,
-  isDarkMode: true,
-  isLongPress: false
+  isDarkMode: true
 };
 
 const mapSlice = createSlice({
@@ -49,7 +48,6 @@ const mapSlice = createSlice({
     setIsNavigating: (state, action) => ({ ...state, isNavigating: action.payload }),
     setIsShowingSideBar: (state, action) => ({ ...state, isShowingSideBar: action.payload }),
     setDarkMode: (state, action) => ({ ...state, isDarkMode: action.payload }),
-    setIsLongPress: (state, action) => ({ ...state, isLongPress: action.payload })
   }
 });
 
@@ -70,8 +68,7 @@ export const {
   setIsShowingAddtionalPopUp,
   setIsNavigating,
   setIsShowingSideBar,
-  setDarkMode,
-  setIsLongPress
+  setDarkMode
 } = mapSlice.actions;
 
 export const mapReducer = mapSlice.reducer;

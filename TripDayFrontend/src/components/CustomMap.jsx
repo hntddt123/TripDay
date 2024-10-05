@@ -32,7 +32,6 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
   const isShowingSideBar = useSelector((state) => state.mapReducer.isShowingSideBar);
   const isNavigating = useSelector((state) => state.mapReducer.isNavigating);
   const isDarkMode = useSelector((state) => state.mapReducer.isDarkMode);
-  const isLongPress = useSelector((state) => state.mapReducer.isLongPress);
 
   const [mapLoaded, setMapLoaded] = useState(false);
   const dispatch = useDispatch();
@@ -71,32 +70,28 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
   };
 
   const handleMouseDown = (event) => {
-    if (isLongPress) {
-      if (pressTimer.current) {
-        clearTimeout(pressTimer.current);
-      }
-      pressTimer.current = setTimeout(() => {
-        const { lng, lat } = event.lngLat;
-        const newMarker = {
-          id: new Date().getTime(),
-          lng: lng,
-          lat: lat
-        };
-        dispatch(setLongPressedLonLat({
-          longitude: lng,
-          latitude: lat,
-        }));
-        dispatch(setMarker(newMarker));
-      }, 500); // 500ms delay before considered a 'hold'
+    if (pressTimer.current) {
+      clearTimeout(pressTimer.current);
     }
+    pressTimer.current = setTimeout(() => {
+      const { lng, lat } = event.lngLat;
+      const newMarker = {
+        id: new Date().getTime(),
+        lng: lng,
+        lat: lat
+      };
+      dispatch(setLongPressedLonLat({
+        longitude: lng,
+        latitude: lat,
+      }));
+      dispatch(setMarker(newMarker));
+    }, 500); // 500ms delay before considered a 'hold'
   };
 
   const handleMouseUp = () => {
-    if (isLongPress) {
-      if (pressTimer.current) {
-        clearTimeout(pressTimer.current);
-        pressTimer.current = null;
-      }
+    if (pressTimer.current) {
+      clearTimeout(pressTimer.current);
+      pressTimer.current = null;
     }
   };
 
@@ -118,8 +113,10 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
       onLoad={(map) => handleStyleLoad(map)}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
+      onMoveStart={handleMouseUp}
       onTouchStart={handleMouseDown}
       onTouchEnd={handleMouseUp}
+      onTouchMove={handleMouseUp}
       style={mapCSSStyle}
       mapStyle={mapStyle}
       mapLib={import('mapbox-gl')}
