@@ -1,16 +1,22 @@
-import { useState } from 'react';
+import { useState, } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useControl, Marker } from 'react-map-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+import {
+  setViewState
+} from '../redux/reducers/mapReducer';
 
 const noop = () => { };
 
 export default function GeocoderControl({ mapboxAccessToken, position,
-  onLoading = noop, onResult = noop, onResults = noop, onError = noop, marker = true,
-  proximity, render, language, zoom, flyTo, placeholder, countries, types, minLength, limit, filter, origin }) {
+  onLoading = noop, onResult = noop, onResults = noop, onError = noop, marker = true }) {
   const [geocoderMarker, setGeocoderMarker] = useState(true);
 
-  const geocoder = useControl(
+  const viewState = useSelector((state) => state.mapReducer.viewState);
+  const dispatch = useDispatch();
+
+  useControl(
     () => {
       const ctrl = new MapboxGeocoder({
         marker: false,
@@ -22,14 +28,14 @@ export default function GeocoderControl({ mapboxAccessToken, position,
         onResult(event);
 
         const { result } = event;
-        const location = result
-          && (result.center || (result.geometry?.type === 'Point' && result.geometry.coordinates));
+        const location = result && (result.center || (result.geometry?.type === 'Point' && result.geometry.coordinates));
         if (location && marker) {
           const markerProps = typeof marker === 'object' ? marker : {};
           setGeocoderMarker(<Marker {...markerProps} longitude={location[0]} latitude={location[1]} />);
         } else {
           setGeocoderMarker(null);
         }
+        dispatch(setViewState({ latitude: location[1], longitude: location[0], pitch: viewState.pitch, zoom: 16 }));
       });
       ctrl.on('error', onError);
       return ctrl;
@@ -39,43 +45,5 @@ export default function GeocoderControl({ mapboxAccessToken, position,
     }
   );
 
-  if (geocoder._map) {
-    if (geocoder.getProximity() !== proximity && proximity !== undefined) {
-      geocoder.setProximity(proximity);
-    }
-    if (geocoder.getRenderFunction() !== render && render !== undefined) {
-      geocoder.setRenderFunction(render);
-    }
-    if (geocoder.getLanguage() !== language && language !== undefined) {
-      geocoder.setLanguage(language);
-    }
-    if (geocoder.getZoom() !== zoom && zoom !== undefined) {
-      geocoder.setZoom(zoom);
-    }
-    if (geocoder.getFlyTo() !== flyTo && flyTo !== undefined) {
-      geocoder.setFlyTo(flyTo);
-    }
-    if (geocoder.getPlaceholder() !== placeholder && placeholder !== undefined) {
-      geocoder.setPlaceholder(placeholder);
-    }
-    if (geocoder.getCountries() !== countries && countries !== undefined) {
-      geocoder.setCountries(countries);
-    }
-    if (geocoder.getTypes() !== types && types !== undefined) {
-      geocoder.setTypes(types);
-    }
-    if (geocoder.getMinLength() !== minLength && minLength !== undefined) {
-      geocoder.setMinLength(minLength);
-    }
-    if (geocoder.getLimit() !== limit && limit !== undefined) {
-      geocoder.setLimit(limit);
-    }
-    if (geocoder.getFilter() !== filter && filter !== undefined) {
-      geocoder.setFilter(filter);
-    }
-    if (geocoder.getOrigin() !== origin && origin !== undefined) {
-      geocoder.setOrigin(origin);
-    }
-  }
   return geocoderMarker;
 }
