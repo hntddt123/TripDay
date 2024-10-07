@@ -146,9 +146,11 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
       <AdditionalMarkerInfo data={data} getPOIPhotosQueryResult={getPOIPhotosQueryResult} getDirectionsQueryTrigger={getDirectionsQueryTrigger} />
       {(mapLoaded) ? <ClickMarker /> : null}
       {(mapLoaded) ? <DirectionLayer getDirectionsQueryResults={getDirectionsQueryResults} /> : null}
-      <div className={`bottommenu ${isShowingAddtionalPopUp ? 'blur-sm' : null}`}>
-        <NearbyPOIList poi={data} />
-      </div>
+      {(data) ? (
+        <div className={`bottommenu ${isShowingAddtionalPopUp ? 'blur-sm' : null}`}>
+          <NearbyPOIList poi={data} />
+        </div>
+      ) : null}
       {getDirectionsQueryResults.isSuccess && !getDirectionsQueryResults.isUninitialized && isNavigating
         ? (
           <div className={`${isShowingSideBar ? 'sidebarInstructions flex-center left' : 'sidebarInstructions flex-center left collapsed'}`}>

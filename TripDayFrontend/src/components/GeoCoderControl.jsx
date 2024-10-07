@@ -4,7 +4,8 @@ import { useControl, Marker } from 'react-map-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import {
-  setViewState
+  setViewState,
+  setLongPressedLonLat,
 } from '../redux/reducers/mapReducer';
 
 const noop = () => { };
@@ -15,6 +16,14 @@ export default function GeocoderControl({ mapboxAccessToken, position,
 
   const viewState = useSelector((state) => state.mapReducer.viewState);
   const dispatch = useDispatch();
+
+  const getMarker = (longitude, latitude) => (
+    <div>
+      <Marker longitude={longitude} latitude={latitude}>
+        <div className='text-4xl'>📍</div>
+      </Marker>
+    </div>
+  );
 
   useControl(
     () => {
@@ -30,12 +39,12 @@ export default function GeocoderControl({ mapboxAccessToken, position,
         const { result } = event;
         const location = result && (result.center || (result.geometry?.type === 'Point' && result.geometry.coordinates));
         if (location && marker) {
-          const markerProps = typeof marker === 'object' ? marker : {};
-          setGeocoderMarker(<Marker {...markerProps} longitude={location[0]} latitude={location[1]} />);
+          setGeocoderMarker(getMarker(location[0], location[1]));
+          dispatch(setLongPressedLonLat({ longitude: location[0], latitude: location[1] }));
+          dispatch(setViewState({ longitude: location[0], latitude: location[1], pitch: viewState.pitch, zoom: 16 }));
         } else {
           setGeocoderMarker(null);
         }
-        dispatch(setViewState({ latitude: location[1], longitude: location[0], pitch: viewState.pitch, zoom: 16 }));
       });
       ctrl.on('error', onError);
       return ctrl;
