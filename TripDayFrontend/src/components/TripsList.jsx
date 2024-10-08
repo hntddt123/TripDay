@@ -22,6 +22,7 @@ const restaurantIcon = '🍱';
 const hotelIcon = '🛌';
 const carIcon = '🚘';
 const GPSIcon = '🛰️🔎';
+const pinIcon = '📍🔎';
 
 function TripsList() {
   const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error }] = useLazyGetNearbyPOIQuery();
@@ -114,6 +115,21 @@ function TripsList() {
     </div>
   );
 
+  const getAPIStatus = () => {
+    if (isLoading) {
+      return 'Loading...';
+    }
+    if (isFetching) {
+      return 'Fetching...';
+    }
+
+    if (error) {
+      return `Error: ${error.error}`;
+    }
+
+    return '';
+  };
+
   return (
     <div className='mx-auto'>
       <div className='text-2xl'>
@@ -126,7 +142,7 @@ function TripsList() {
           />
           <CustomButton
             className='poiButton'
-            label='📍🔎'
+            label={pinIcon}
             onClick={handleLongPressedMarkerButton}
             disabled={!hasLongPressedLonLat()}
           />
@@ -138,9 +154,7 @@ function TripsList() {
             <option value='4bf58dd8d48988d1fa931735'> {hotelIcon}</option>
             <option value='4d4b7105d754a06379d81259'> {carIcon}</option>
           </select>
-          {(isLoading ? 'Loading...' : null)}
-          {(isFetching) ? 'Fetching...' : null}
-          {(error) ? `Error: ${error.error}` : null}
+          {getAPIStatus()}
         </div>
       </div>
       <div ref={mapRef}>

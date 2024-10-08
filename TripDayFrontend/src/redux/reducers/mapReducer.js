@@ -12,7 +12,7 @@ const initialMapState = {
   gpsLonLat: { longitude: null, latitude: null },
   longPressedLonLat: { longitude: null, latitude: null },
   markers: [],
-  selectedPOIIDNumber: '4d4b7105d754a06374d81259',
+  selectedPOIIDNumber: '4d4b7105d754a06374d81259', // default to restaurants
   selectedPOI: '',
   selectedPOIIcon: '🍱',
   selectedPOILonLat: { longitude: null, latitude: null },
