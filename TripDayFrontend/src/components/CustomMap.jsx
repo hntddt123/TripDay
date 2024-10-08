@@ -107,9 +107,9 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
   };
 
   const renderBottomMenu = () => {
-    if (data) {
+    if (data && data.results.length > 0) {
       return (
-        <div className={`bottommenu ${isShowingAddtionalPopUp ? 'blur-sm' : null}`}>
+        <div className={`bottommenu ${isShowingAddtionalPopUp ? 'blur-sm' : ''}`}>
           <NearbyPOIList poi={data} />
         </div>
       );
