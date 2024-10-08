@@ -1,4 +1,5 @@
 import { Marker } from 'react-map-gl';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setSelectedPOI,
@@ -22,6 +23,14 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
   const dispatch = useDispatch();
   const setPOIPhotosQuery = (fsqId) => ({ fsqId });
 
+  const [randomNumber, setRandomNumber] = useState(0);
+
+  useEffect(() => {
+    if (data && data.results.length > 0) {
+      setRandomNumber(Math.floor(Math.random() * data.results.length));
+    }
+  }, [data]);
+
   const handlePOIMarkerClick = (marker) => {
     getPOIPhotosQueryTrigger(setPOIPhotosQuery(marker.fsq_id));
     dispatch(setSelectedPOI(marker.fsq_id));
@@ -34,7 +43,7 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
     dispatch(setIsShowingOnlySelectedPOI(true));
   };
 
-  if ((data && data.results.length > 0 && !isShowingOnlySelectedPOI)) {
+  if ((data && data.results.length > 0 && !isShowingOnlySelectedPOI && !isThrowingDice)) {
     return data.results.map((marker, i) => (
       <div key={marker.fsq_id}>
         <Marker longitude={marker.geocodes.main.longitude} latitude={marker.geocodes.main.latitude}>
@@ -57,7 +66,7 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
   if (data && data.results.length > 0 && isShowingOnlySelectedPOI) {
     let filteredResult;
     if (isThrowingDice) {
-      filteredResult = data.results[Math.floor(Math.random() * data.results.length)];
+      filteredResult = data.results[randomNumber];
     } else {
       [filteredResult] = data.results.filter((marker) => marker.fsq_id === selectedPOI);
     }

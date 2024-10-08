@@ -11,11 +11,15 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
   const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
   const longPressedLonLat = useSelector((state) => state.mapReducer.longPressedLonLat);
   const isShowingAddtionalPopUp = useSelector((state) => state.mapReducer.isShowingAddtionalPopUp);
+  const isThrowingDice = useSelector((state) => state.mapReducer.isThrowingDice);
   const dispatch = useDispatch();
 
   const setRouteQuery = (lonStart, latStart, lonEnd, latEnd) => ({ lonStart, latStart, lonEnd, latEnd });
 
   const handleCloseButton = () => {
+    if (isThrowingDice) {
+      dispatch(setIsShowingOnlySelectedPOI(true));
+    }
     dispatch(setIsShowingAddtionalPopUp(false));
   };
 

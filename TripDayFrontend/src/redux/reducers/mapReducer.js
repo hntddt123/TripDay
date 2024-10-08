@@ -49,7 +49,7 @@ const mapSlice = createSlice({
     setIsNavigating: (state, action) => ({ ...state, isNavigating: action.payload }),
     setIsShowingSideBar: (state, action) => ({ ...state, isShowingSideBar: action.payload }),
     setIsThrowingDice: (state, action) => ({ ...state, isThrowingDice: action.payload }),
-    setDarkMode: (state, action) => ({ ...state, isDarkMode: action.payload }),
+    setDarkMode: (state, action) => ({ ...state, isDarkMode: action.payload })
   }
 });
 

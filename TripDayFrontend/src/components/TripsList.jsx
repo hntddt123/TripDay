@@ -13,7 +13,8 @@ import {
   setSelectedPOI,
   setSelectedPOICount,
   setSelectedPOIRadius,
-  setIsThrowingDice
+  setIsThrowingDice,
+  setIsShowingAddtionalPopUp
 } from '../redux/reducers/mapReducer';
 import CustomMap from './CustomMap';
 import CustomButton from './CustomButton';
@@ -35,6 +36,8 @@ function TripsList() {
   const longPressedLonLat = useSelector((state) => state.mapReducer.longPressedLonLat);
   const isFullPOIname = useSelector((state) => state.mapReducer.isFullPOIname);
   const isThrowingDice = useSelector((state) => state.mapReducer.isThrowingDice);
+  const isShowingOnlySelectedPOI = useSelector((state) => state.mapReducer.isShowingOnlySelectedPOI);
+  const isNavigating = useSelector((state) => state.mapReducer.isNavigating);
   const selectedPOIIDNumber = useSelector((state) => state.mapReducer.selectedPOIIDNumber);
   const selectedPOICount = useSelector((state) => state.mapReducer.selectedPOICount);
   const selectedPOIRadius = useSelector((state) => state.mapReducer.selectedPOIRadius);
@@ -43,8 +46,8 @@ function TripsList() {
 
   const setPOIQuery = (ll, radius, limit, category, icon) => ({ ll, radius, limit, category, icon });
 
-  const hasGPSLonLat = () => (gpsLonLat.longitude !== null && gpsLonLat.latitude !== null);
-  const hasLongPressedLonLat = () => (longPressedLonLat.longitude !== null && longPressedLonLat.latitude !== null);
+  const hasGPSLonLat = () => (gpsLonLat.longitude !== null && gpsLonLat.latitude !== null && !isNavigating);
+  const hasLongPressedLonLat = () => (longPressedLonLat.longitude !== null && longPressedLonLat.latitude !== null && !isNavigating);
 
   const handleDropdownOnChange = (event) => {
     dispatch(setSelectedPOIIDNumber(event.target.value));
@@ -65,6 +68,7 @@ function TripsList() {
         dispatch(setIsShowingOnlySelectedPOI(false));
         dispatch(setSelectedPOI(''));
       }
+      dispatch(setIsShowingAddtionalPopUp(false));
     }
   };
 
@@ -89,10 +93,12 @@ function TripsList() {
         dispatch(setIsShowingOnlySelectedPOI(false));
         dispatch(setSelectedPOI(''));
       }
+      dispatch(setIsShowingAddtionalPopUp(false));
     }
   };
 
   const handleDiceToggle = () => {
+    dispatch(setIsShowingOnlySelectedPOI(!isShowingOnlySelectedPOI));
     dispatch(setIsThrowingDice(!isThrowingDice));
   };
 
