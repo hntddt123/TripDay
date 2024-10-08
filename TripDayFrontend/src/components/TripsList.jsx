@@ -24,7 +24,7 @@ const hotelIcon = '🛌';
 const carIcon = '🚘';
 const GPSIcon = '🛰️🔎';
 const pinIcon = '📍🔎';
-const diceIcon = '🎲🔎';
+const diceIcon = '🎲';
 
 function TripsList() {
   const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error }] = useLazyGetNearbyPOIQuery();
@@ -34,6 +34,7 @@ function TripsList() {
   const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
   const longPressedLonLat = useSelector((state) => state.mapReducer.longPressedLonLat);
   const isFullPOIname = useSelector((state) => state.mapReducer.isFullPOIname);
+  const isThrowingDice = useSelector((state) => state.mapReducer.isThrowingDice);
   const selectedPOIIDNumber = useSelector((state) => state.mapReducer.selectedPOIIDNumber);
   const selectedPOICount = useSelector((state) => state.mapReducer.selectedPOICount);
   const selectedPOIRadius = useSelector((state) => state.mapReducer.selectedPOIRadius);
@@ -58,9 +59,12 @@ function TripsList() {
         selectedPOIIDNumber,
         selectedPOIIcon
       ), true);
-      dispatch(setIsThrowingDice(false));
-      dispatch(setIsShowingOnlySelectedPOI(false));
-      dispatch(setSelectedPOI(''));
+      if (isThrowingDice) {
+        dispatch(setIsShowingOnlySelectedPOI(true));
+      } else {
+        dispatch(setIsShowingOnlySelectedPOI(false));
+        dispatch(setSelectedPOI(''));
+      }
     }
   };
 
@@ -78,30 +82,18 @@ function TripsList() {
         latitude: gpsLonLat.latitude,
         zoom: 16
       }));
-      dispatch(setIsThrowingDice(false));
-      dispatch(setIsShowingOnlySelectedPOI(false));
-      dispatch(setSelectedPOI(''));
+
+      if (isThrowingDice) {
+        dispatch(setIsShowingOnlySelectedPOI(true));
+      } else {
+        dispatch(setIsShowingOnlySelectedPOI(false));
+        dispatch(setSelectedPOI(''));
+      }
     }
   };
 
-  const handleDiceButton = () => {
-    if (hasGPSLonLat()) {
-      getNearbyPOIQueryTrigger(setPOIQuery(
-        `${gpsLonLat.latitude},${gpsLonLat.longitude}`,
-        selectedPOIRadius,
-        selectedPOICount,
-        selectedPOIIDNumber,
-        selectedPOIIcon
-      ), true);
-      dispatch(setViewState({
-        longitude: gpsLonLat.longitude,
-        latitude: gpsLonLat.latitude,
-        zoom: 16
-      }));
-      dispatch(setIsShowingOnlySelectedPOI(true));
-      dispatch(setIsThrowingDice(true));
-      dispatch(setSelectedPOI(''));
-    }
+  const handleDiceToggle = () => {
+    dispatch(setIsThrowingDice(!isThrowingDice));
   };
 
   const handleFullNameToggle = () => {
@@ -139,6 +131,15 @@ function TripsList() {
     </div>
   );
 
+  const getDiceToggle = () => (
+    <Toggle
+      className='ml-2 align-middle'
+      icons={false}
+      defaultChecked={isThrowingDice}
+      onChange={handleDiceToggle}
+    />
+  );
+
   const getAPIStatus = () => {
     if (isLoading) {
       return 'Loading...';
@@ -170,12 +171,8 @@ function TripsList() {
             onClick={handleLongPressedMarkerButton}
             disabled={!hasLongPressedLonLat()}
           />
-          <CustomButton
-            className='poiButton'
-            label={diceIcon}
-            onClick={handleDiceButton}
-            disabled={!hasGPSLonLat()}
-          />
+          {diceIcon}
+          {getDiceToggle()}
           <select
             className='poiDropdownButton'
             onChange={(event) => handleDropdownOnChange(event)}
