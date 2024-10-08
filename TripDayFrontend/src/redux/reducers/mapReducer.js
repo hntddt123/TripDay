@@ -23,6 +23,7 @@ const initialMapState = {
   isShowingAddtionalPopUp: false,
   isShowingSideBar: false,
   isNavigating: false,
+  isThrowingDice: false,
   isDarkMode: true
 };
 
@@ -47,6 +48,7 @@ const mapSlice = createSlice({
     setIsShowingAddtionalPopUp: (state, action) => ({ ...state, isShowingAddtionalPopUp: action.payload }),
     setIsNavigating: (state, action) => ({ ...state, isNavigating: action.payload }),
     setIsShowingSideBar: (state, action) => ({ ...state, isShowingSideBar: action.payload }),
+    setIsThrowingDice: (state, action) => ({ ...state, isThrowingDice: action.payload }),
     setDarkMode: (state, action) => ({ ...state, isDarkMode: action.payload }),
   }
 });
@@ -68,6 +70,7 @@ export const {
   setIsShowingAddtionalPopUp,
   setIsNavigating,
   setIsShowingSideBar,
+  setIsThrowingDice,
   setDarkMode
 } = mapSlice.actions;
 

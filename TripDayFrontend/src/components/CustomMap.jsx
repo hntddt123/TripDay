@@ -32,6 +32,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
   const isShowingAddtionalPopUp = useSelector((state) => state.mapReducer.isShowingAddtionalPopUp);
   const isShowingSideBar = useSelector((state) => state.mapReducer.isShowingSideBar);
   const isNavigating = useSelector((state) => state.mapReducer.isNavigating);
+  const isThrowingDice = useSelector((state) => state.mapReducer.isThrowingDice);
   const isDarkMode = useSelector((state) => state.mapReducer.isDarkMode);
 
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -107,7 +108,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
   };
 
   const renderBottomMenu = () => {
-    if (data && data.results.length > 0) {
+    if (data && data.results.length > 0 && !isThrowingDice) {
       return (
         <div className={`bottommenu ${isShowingAddtionalPopUp ? 'blur-sm' : ''}`}>
           <NearbyPOIList poi={data} />

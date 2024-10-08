@@ -13,6 +13,7 @@ import {
   setSelectedPOI,
   setSelectedPOICount,
   setSelectedPOIRadius,
+  setIsThrowingDice
 } from '../redux/reducers/mapReducer';
 import CustomMap from './CustomMap';
 import CustomButton from './CustomButton';
@@ -23,6 +24,7 @@ const hotelIcon = '🛌';
 const carIcon = '🚘';
 const GPSIcon = '🛰️🔎';
 const pinIcon = '📍🔎';
+const diceIcon = '🎲🔎';
 
 function TripsList() {
   const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error }] = useLazyGetNearbyPOIQuery();
@@ -55,7 +57,8 @@ function TripsList() {
         selectedPOICount,
         selectedPOIIDNumber,
         selectedPOIIcon
-      ));
+      ), true);
+      dispatch(setIsThrowingDice(false));
       dispatch(setIsShowingOnlySelectedPOI(false));
       dispatch(setSelectedPOI(''));
     }
@@ -69,13 +72,34 @@ function TripsList() {
         selectedPOICount,
         selectedPOIIDNumber,
         selectedPOIIcon
-      ));
+      ), true);
       dispatch(setViewState({
         longitude: gpsLonLat.longitude,
         latitude: gpsLonLat.latitude,
         zoom: 16
       }));
+      dispatch(setIsThrowingDice(false));
       dispatch(setIsShowingOnlySelectedPOI(false));
+      dispatch(setSelectedPOI(''));
+    }
+  };
+
+  const handleDiceButton = () => {
+    if (hasGPSLonLat()) {
+      getNearbyPOIQueryTrigger(setPOIQuery(
+        `${gpsLonLat.latitude},${gpsLonLat.longitude}`,
+        selectedPOIRadius,
+        selectedPOICount,
+        selectedPOIIDNumber,
+        selectedPOIIcon
+      ), true);
+      dispatch(setViewState({
+        longitude: gpsLonLat.longitude,
+        latitude: gpsLonLat.latitude,
+        zoom: 16
+      }));
+      dispatch(setIsShowingOnlySelectedPOI(true));
+      dispatch(setIsThrowingDice(true));
       dispatch(setSelectedPOI(''));
     }
   };
@@ -145,6 +169,12 @@ function TripsList() {
             label={pinIcon}
             onClick={handleLongPressedMarkerButton}
             disabled={!hasLongPressedLonLat()}
+          />
+          <CustomButton
+            className='poiButton'
+            label={diceIcon}
+            onClick={handleDiceButton}
+            disabled={!hasGPSLonLat()}
           />
           <select
             className='poiDropdownButton'

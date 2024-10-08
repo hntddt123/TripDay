@@ -17,6 +17,7 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
   const isFullPOIname = useSelector((state) => state.mapReducer.isFullPOIname);
   const isShowingOnlySelectedPOI = useSelector((state) => state.mapReducer.isShowingOnlySelectedPOI);
   const isShowingAddtionalPopUp = useSelector((state) => state.mapReducer.isShowingAddtionalPopUp);
+  const isThrowingDice = useSelector((state) => state.mapReducer.isThrowingDice);
   const viewState = useSelector((state) => state.mapReducer.viewState);
   const dispatch = useDispatch();
   const setPOIPhotosQuery = (fsqId) => ({ fsqId });
@@ -54,7 +55,12 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
     ));
   }
   if (data && data.results.length > 0 && isShowingOnlySelectedPOI) {
-    const filteredResult = data.results.filter((marker) => marker.fsq_id === selectedPOI)[0];
+    let filteredResult;
+    if (isThrowingDice) {
+      filteredResult = data.results[Math.floor(Math.random() * data.results.length)];
+    } else {
+      [filteredResult] = data.results.filter((marker) => marker.fsq_id === selectedPOI);
+    }
     if (filteredResult) {
       const filterText = (isFullPOIname) ? `${filteredResult.name} ${filteredResult.distance}m` : `${filteredResult.distance}m`;
 
