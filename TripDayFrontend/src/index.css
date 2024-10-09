@@ -245,9 +245,9 @@ body {
   .sidebarInstructionsContent {
     flex-wrap: wrap;
     overflow-y: scroll;
+    padding: 0.5rem;
     width: 15rem;
-    height: 18rem;
-    top: 6rem;
+    height: 16rem;
     border-radius: theme('borderRadius.lg');
     @apply  bg-amber-50 dark:bg-primary-buttonDarkTransparent
   }
@@ -331,6 +331,30 @@ body {
     opacity: 0.25;
     border-color: theme('backgroundColor.amber.300');
     background-color: theme('backgroundColor.amber.300');
+  }
+
+  .poiCancelButton {
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    align-content: center;
+    border-radius: theme('borderRadius.lg');
+    margin: theme('spacing.1');
+    padding: theme('spacing.2');
+    box-shadow: theme('boxShadow.sm');
+    border-color: theme('backgroundColor.amber.50');
+    background-color: theme('backgroundColor.red.600');
+    @apply  
+    text-black dark:text-white
+  }
+
+  .poiCancelButton:hover {
+    border-color: theme('backgroundColor.amber.50');
+    background-color: theme('backgroundColor.red.700');
+  }
+
+  .poiCancelButton:active {
+    border-color: theme('backgroundColor.amber.50');
+    background-color: theme('backgroundColor.red.800');
   }
 
   .poiDropdownButton {
