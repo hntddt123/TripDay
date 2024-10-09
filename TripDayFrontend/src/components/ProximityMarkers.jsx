@@ -43,27 +43,26 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
     dispatch(setIsShowingOnlySelectedPOI(true));
   };
 
-  if ((data && data.results.length > 0 && !isShowingOnlySelectedPOI && !isThrowingDice)) {
-    return data.results.map((marker, i) => (
-      <div key={marker.fsq_id}>
-        <Marker longitude={marker.geocodes.main.longitude} latitude={marker.geocodes.main.latitude}>
-          <div className='text-4xl'>{selectedPOIIcon}</div>
-        </Marker>
-        <Marker
-          onClick={() => handlePOIMarkerClick(marker)}
-          longitude={marker.geocodes.main.longitude}
-          latitude={marker.geocodes.main.latitude}
-          offset={[0, 40]}
-        >
-          <CustomButton
-            className={`cardPOIMarker text-xl ${isShowingAddtionalPopUp ? 'blur-sm' : null}`}
-            label={`${i + 1} ${isFullPOIname ? `${marker.name} ${marker.distance}m` : ''}`}
-          />
-        </Marker>
-      </div>
-    ));
-  }
-  if (data && data.results.length > 0 && isShowingOnlySelectedPOI) {
+  const renderPOIMarkers = () => data.results.map((marker, i) => (
+    <div key={marker.fsq_id}>
+      <Marker longitude={marker.geocodes.main.longitude} latitude={marker.geocodes.main.latitude}>
+        <div className='text-4xl'>{selectedPOIIcon}</div>
+      </Marker>
+      <Marker
+        onClick={() => handlePOIMarkerClick(marker)}
+        longitude={marker.geocodes.main.longitude}
+        latitude={marker.geocodes.main.latitude}
+        offset={[0, 40]}
+      >
+        <CustomButton
+          className={`cardPOIMarker text-xl ${isShowingAddtionalPopUp ? 'blur-sm' : null}`}
+          label={`${i + 1} ${isFullPOIname ? `${marker.name} ${marker.distance}m` : ''}`}
+        />
+      </Marker>
+    </div>
+  ));
+
+  const renderSelectedPOIMarker = () => {
     let filteredResult;
     if (isThrowingDice) {
       filteredResult = data.results[randomNumber];
@@ -89,6 +88,14 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
         </div>
       );
     }
+    return null;
+  };
+
+  if ((data && data.results.length > 0 && !isShowingOnlySelectedPOI && !isThrowingDice)) {
+    return renderPOIMarkers();
+  }
+  if (data && data.results.length > 0 && isShowingOnlySelectedPOI) {
+    return renderSelectedPOIMarker();
   }
 }
 

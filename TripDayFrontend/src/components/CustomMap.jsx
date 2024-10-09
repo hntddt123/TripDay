@@ -69,6 +69,10 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
     if (!isNavigating) {
       dispatch(setIsShowingOnlySelectedPOI(false));
     }
+
+    if (isThrowingDice) {
+      dispatch(setIsShowingOnlySelectedPOI(true));
+    }
   };
 
   const handleMouseDown = (event) => {
@@ -102,9 +106,13 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
   };
 
   const handleCancelDirectionButton = () => {
+    if (isThrowingDice) {
+      dispatch(setIsShowingOnlySelectedPOI(true));
+    } else {
+      dispatch(setIsShowingOnlySelectedPOI(false));
+    }
     dispatch(setIsNavigating(false));
     dispatch(setIsShowingSideBar(false));
-    dispatch(setIsShowingOnlySelectedPOI(false));
   };
 
   const renderBottomMenu = () => {
