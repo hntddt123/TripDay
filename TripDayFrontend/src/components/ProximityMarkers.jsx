@@ -1,4 +1,5 @@
 import { Marker } from 'react-map-gl';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setSelectedPOI,
@@ -17,9 +18,18 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
   const isFullPOIname = useSelector((state) => state.mapReducer.isFullPOIname);
   const isShowingOnlySelectedPOI = useSelector((state) => state.mapReducer.isShowingOnlySelectedPOI);
   const isShowingAddtionalPopUp = useSelector((state) => state.mapReducer.isShowingAddtionalPopUp);
+  const isThrowingDice = useSelector((state) => state.mapReducer.isThrowingDice);
   const viewState = useSelector((state) => state.mapReducer.viewState);
   const dispatch = useDispatch();
   const setPOIPhotosQuery = (fsqId) => ({ fsqId });
+
+  const [randomNumber, setRandomNumber] = useState(0);
+
+  useEffect(() => {
+    if (data && data.results.length > 0) {
+      setRandomNumber(Math.floor(Math.random() * data.results.length));
+    }
+  }, [data]);
 
   const handlePOIMarkerClick = (marker) => {
     getPOIPhotosQueryTrigger(setPOIPhotosQuery(marker.fsq_id));
@@ -33,28 +43,32 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
     dispatch(setIsShowingOnlySelectedPOI(true));
   };
 
-  if ((data && data.results.length > 0 && !isShowingOnlySelectedPOI)) {
-    return data.results.map((marker, i) => (
-      <div key={marker.fsq_id}>
-        <Marker longitude={marker.geocodes.main.longitude} latitude={marker.geocodes.main.latitude}>
-          <div className='text-4xl'>{selectedPOIIcon}</div>
-        </Marker>
-        <Marker
-          onClick={() => handlePOIMarkerClick(marker)}
-          longitude={marker.geocodes.main.longitude}
-          latitude={marker.geocodes.main.latitude}
-          offset={[0, 40]}
-        >
-          <CustomButton
-            className={`cardPOIMarker text-xl ${isShowingAddtionalPopUp ? 'blur-sm' : null}`}
-            label={`${i + 1} ${isFullPOIname ? `${marker.name} ${marker.distance}m` : ''}`}
-          />
-        </Marker>
-      </div>
-    ));
-  }
-  if (data && data.results.length > 0 && isShowingOnlySelectedPOI) {
-    const filteredResult = data.results.filter((marker) => marker.fsq_id === selectedPOI)[0];
+  const renderPOIMarkers = () => data.results.map((marker, i) => (
+    <div key={marker.fsq_id}>
+      <Marker longitude={marker.geocodes.main.longitude} latitude={marker.geocodes.main.latitude}>
+        <div className='text-4xl'>{selectedPOIIcon}</div>
+      </Marker>
+      <Marker
+        onClick={() => handlePOIMarkerClick(marker)}
+        longitude={marker.geocodes.main.longitude}
+        latitude={marker.geocodes.main.latitude}
+        offset={[0, 40]}
+      >
+        <CustomButton
+          className={`cardPOIMarker text-xl ${isShowingAddtionalPopUp ? 'blur-sm' : null}`}
+          label={`${i + 1} ${isFullPOIname ? `${marker.name} ${marker.distance}m` : ''}`}
+        />
+      </Marker>
+    </div>
+  ));
+
+  const renderSelectedPOIMarker = () => {
+    let filteredResult;
+    if (isThrowingDice) {
+      filteredResult = data.results[randomNumber];
+    } else {
+      [filteredResult] = data.results.filter((marker) => marker.fsq_id === selectedPOI);
+    }
     if (filteredResult) {
       const filterText = (isFullPOIname) ? `${filteredResult.name} ${filteredResult.distance}m` : `${filteredResult.distance}m`;
 
@@ -74,6 +88,14 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
         </div>
       );
     }
+    return null;
+  };
+
+  if ((data && data.results.length > 0 && !isShowingOnlySelectedPOI && !isThrowingDice)) {
+    return renderPOIMarkers();
+  }
+  if (data && data.results.length > 0 && isShowingOnlySelectedPOI) {
+    return renderSelectedPOIMarker();
   }
 }
 

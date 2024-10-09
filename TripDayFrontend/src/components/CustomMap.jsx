@@ -32,6 +32,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
   const isShowingAddtionalPopUp = useSelector((state) => state.mapReducer.isShowingAddtionalPopUp);
   const isShowingSideBar = useSelector((state) => state.mapReducer.isShowingSideBar);
   const isNavigating = useSelector((state) => state.mapReducer.isNavigating);
+  const isThrowingDice = useSelector((state) => state.mapReducer.isThrowingDice);
   const isDarkMode = useSelector((state) => state.mapReducer.isDarkMode);
 
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -68,6 +69,10 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
     if (!isNavigating) {
       dispatch(setIsShowingOnlySelectedPOI(false));
     }
+
+    if (isThrowingDice) {
+      dispatch(setIsShowingOnlySelectedPOI(true));
+    }
   };
 
   const handleMouseDown = (event) => {
@@ -101,9 +106,48 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
   };
 
   const handleCancelDirectionButton = () => {
+    if (isThrowingDice) {
+      dispatch(setIsShowingOnlySelectedPOI(true));
+    } else {
+      dispatch(setIsShowingOnlySelectedPOI(false));
+    }
     dispatch(setIsNavigating(false));
     dispatch(setIsShowingSideBar(false));
-    dispatch(setIsShowingOnlySelectedPOI(false));
+  };
+
+  const renderBottomMenu = () => {
+    if (data && data.results.length > 0 && !isThrowingDice) {
+      return (
+        <div className={`bottommenu ${isShowingAddtionalPopUp ? 'blur-sm' : ''}`}>
+          <NearbyPOIList poi={data} />
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const renderDirectionMenu = () => {
+    if (getDirectionsQueryResults.isSuccess && !getDirectionsQueryResults.isUninitialized && isNavigating) {
+      return (
+        <div className={`${isShowingSideBar ? 'sidebarInstructions flex-center left' : 'sidebarInstructions flex-center left collapsed'}`}>
+          <div className='sidebarInstructionsContent flex-center text-lg'>
+            <div>
+              {getDirectionsQueryResults.data.routes[0].legs[0].steps.map((step, i) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <div key={getDirectionsQueryResults.data.uuid + i}>
+                  {i + 1} {step.maneuver.instruction}
+                </div>
+              ))}
+              <CustomButton className='poiButton justify-center' label='Cancel' onClick={handleCancelDirectionButton} />
+            </div>
+            <button className='sidebarInstructionsToggle left' onClick={handleSideBarToggle}>
+              {(isShowingSideBar) ? String.fromCharCode(0x2190) : String.fromCharCode(0x2192)}
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return null;
   };
 
   return (
@@ -127,7 +171,11 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
       dragRotate={false}
       touchZoomRotate={false}
     >
-      <GeocoderControl className='poiButton' mapboxAccessToken={MAPBOX_API_KEY} position='top-left' />
+      <GeocoderControl
+        className='poiButton'
+        mapboxAccessToken={MAPBOX_API_KEY}
+        position='top-left'
+      />
       <FullscreenControl position='top-right' />
       <GeolocateControl
         position='top-right'
@@ -142,28 +190,8 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
       <AdditionalMarkerInfo data={data} getPOIPhotosQueryResult={getPOIPhotosQueryResult} getDirectionsQueryTrigger={getDirectionsQueryTrigger} />
       {(mapLoaded) ? <ClickMarker /> : null}
       {(mapLoaded) ? <DirectionLayer getDirectionsQueryResults={getDirectionsQueryResults} /> : null}
-      <div className={`bottommenu ${isShowingAddtionalPopUp ? 'blur-sm' : null}`}>
-        <NearbyPOIList poi={data} />
-      </div>
-      {getDirectionsQueryResults.isSuccess && !getDirectionsQueryResults.isUninitialized && isNavigating
-        ? (
-          <div className={`${isShowingSideBar ? 'sidebarInstructions flex-center left' : 'sidebarInstructions flex-center left collapsed'}`}>
-            <div className='sidebarInstructionsContent flex-center text-lg'>
-              <div>
-                {getDirectionsQueryResults.data.routes[0].legs[0].steps.map((step, i) => (
-                  // eslint-disable-next-line react/no-array-index-key
-                  <div key={getDirectionsQueryResults.data.uuid + i}>
-                    {i + 1} {step.maneuver.instruction}
-                  </div>
-                ))}
-                <CustomButton className='poiButton justify-center' label='Cancel' onClick={handleCancelDirectionButton} />
-              </div>
-              <button className='sidebarInstructionsToggle left' onClick={handleSideBarToggle}>
-                {(isShowingSideBar) ? String.fromCharCode(0x2190) : String.fromCharCode(0x2192)}
-              </button>
-            </div>
-          </div>
-        ) : null}
+      {renderBottomMenu()}
+      {renderDirectionMenu()}
     </Map>
   );
 }
