@@ -243,19 +243,20 @@ body {
   }
 
   .sidebarInstructionsContent {
+    flex-wrap: wrap;
+    overflow-y: scroll;
     width: 15rem;
-    height: 26rem;
-    top: 0rem;
-    padding: theme(spacing.1);
+    height: 18rem;
+    top: 6rem;
     border-radius: theme('borderRadius.lg');
     @apply  bg-amber-50 dark:bg-primary-buttonDarkTransparent
   }
 
   .sidebarInstructionsToggle {
-    border-radius: theme('borderRadius.xl');
+    border-radius: theme('borderRadius.lg');
     position: absolute;
-    width: 1.5rem;
-    height: 2.427rem;
+    width: 1.618rem;
+    height: 2.4rem;
     overflow: visible;
     display: flex;
     justify-content: center;
