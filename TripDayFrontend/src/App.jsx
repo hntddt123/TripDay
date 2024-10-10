@@ -23,7 +23,7 @@ function App() {
               <div className='grid grid-cols-1 container text-center mx-auto'>
                 <CustomButton label='New Trip' to='/newtrip' />
                 <CustomButton label='View Trips' to='/trips' />
-                <p className='customdiv text-2xl'>Version: {MODE}</p>
+                <p className='customdiv text-2xl'>Version: 1.1.1{MODE}</p>
               </div>
             )}
           />

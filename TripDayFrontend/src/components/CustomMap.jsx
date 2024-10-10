@@ -130,15 +130,15 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
     if (getDirectionsQueryResults.isSuccess && !getDirectionsQueryResults.isUninitialized && isNavigating) {
       return (
         <div className={`${isShowingSideBar ? 'sidebarInstructions flex-center left' : 'sidebarInstructions flex-center left collapsed'}`}>
-          <div className='sidebarInstructionsContent flex-center text-lg'>
-            <div>
+          <div className=' flex-center text-lg top-20'>
+            <div className='sidebarInstructionsContent'>
               {getDirectionsQueryResults.data.routes[0].legs[0].steps.map((step, i) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <div key={getDirectionsQueryResults.data.uuid + i}>
                   {i + 1} {step.maneuver.instruction}
                 </div>
               ))}
-              <CustomButton className='poiButton justify-center' label='Cancel' onClick={handleCancelDirectionButton} />
+              <CustomButton className='poiCancelButton justify-center' label='Cancel Navigation' onClick={handleCancelDirectionButton} />
             </div>
             <button className='sidebarInstructionsToggle left' onClick={handleSideBarToggle}>
               {(isShowingSideBar) ? String.fromCharCode(0x2190) : String.fromCharCode(0x2192)}
