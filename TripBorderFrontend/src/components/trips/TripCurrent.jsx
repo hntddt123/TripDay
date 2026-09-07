@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { json2csv } from 'json-2-csv';
-import ExcelJS from 'exceljs';
 import { useCheckAuthStatusQuery } from '../../api/authAPI';
 import {
   setTripUUID,
@@ -149,6 +147,7 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
   };
 
   const generateXLSXFile = async () => {
+    const ExcelJS = await import('exceljs');
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(`${title}`);
 
@@ -215,7 +214,9 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
     URL.revokeObjectURL(url);
   };
 
-  const handleCSVButton = () => {
+  const handleCSVButton = async () => {
+    const { json2csv } = await import('json-2-csv');
+
     const dateGroupedPOIs = getDateFillGroupedPOIs(poisData, startDate, endDate)
       .map((dateGroupedPOI) => dateGroupedPOI.poisForDate);
     const dateGroupedMeals = getDateFillGroupedMeals(mealsData, startDate, endDate)
