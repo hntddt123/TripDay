@@ -307,6 +307,10 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
               </div>
             </>
           )}
+        <div>{getDateTimeDifferencesAsDays(startDate, endDate) + 1 > 1
+          ? `${getDateTimeDifferencesAsDays(startDate, endDate) + 1} days`
+          : `${getDateTimeDifferencesAsDays(startDate, endDate) + 1} day`}
+        </div>
       </div>
       {isLoadTripPublic || isLoadTripShared || isLoadTripOthersShared
         ? (
